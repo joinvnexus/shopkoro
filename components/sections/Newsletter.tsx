@@ -23,7 +23,7 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10">
+    <section className="py-16 bg-gradient-to-br from-primary/15 via-secondary/15 to-accent/15">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -31,10 +31,13 @@ const Newsletter = () => {
           viewport={{ once: true }}
           className="max-w-3xl mx-auto text-center"
         >
-          <div className="inline-flex items-center space-x-2 bg-accent/20 px-4 py-2 rounded-full mb-4">
-            <Gift className="text-accent" size={20} />
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-accent/30 to-accent/20 px-5 py-2.5 rounded-full mb-4 border-2 border-accent/50 shadow-lg"
+          >
+            <Gift className="text-accent-dark" size={20} />
             <span className="font-bold text-dark">বিশেষ অফার</span>
-          </div>
+          </motion.div>
           <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">
             নিউজলেটার সাবস্ক্রাইব করুন
           </h2>
@@ -57,15 +60,15 @@ const Newsletter = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="আপনার ইমেইল ঠিকানা"
                   required
-                  className="w-full pl-12 pr-4 py-4 rounded-lg border-2 border-gray-medium focus:border-primary focus:outline-none text-dark"
+                  className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-gray-medium focus:border-primary focus:outline-none text-dark transition-all duration-300 focus:shadow-lg focus:shadow-primary/20"
                 />
               </div>
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.08, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 disabled={isSubmitting}
-                className="bg-primary text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary-dark transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+                className="bg-gradient-to-r from-primary via-primary-light to-primary text-white px-8 py-4 rounded-xl font-semibold hover:from-primary-dark hover:via-primary hover:to-primary-light transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 shadow-lg hover:shadow-xl hover:shadow-primary/50"
               >
                 {isSubmitting ? (
                   <>

@@ -24,8 +24,8 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      whileHover={{ y: -5 }}
-      className="bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer"
+      whileHover={{ y: -8, scale: 1.02 }}
+      className="bg-white rounded-xl shadow-md hover:shadow-2xl overflow-hidden group cursor-pointer border border-gray-light hover:border-primary/30 transition-all duration-300"
     >
       <Link href={`/products/${product._id || product.name}`}>
         <div className="relative aspect-square overflow-hidden bg-gray-light">
@@ -37,23 +37,31 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
           />
           {discountPercentage > 0 && (
-            <div className="absolute top-2 left-2 bg-primary text-white px-2 py-1 rounded-md text-xs font-bold">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="absolute top-2 left-2 bg-gradient-to-r from-primary to-primary-dark text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg pulse-glow"
+            >
               -{discountPercentage}%
-            </div>
+            </motion.div>
           )}
           {product.isFlashSale && (
-            <div className="absolute top-2 right-2 bg-accent text-dark px-2 py-1 rounded-md text-xs font-bold">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="absolute top-2 right-2 bg-gradient-to-r from-accent to-accent-dark text-dark px-3 py-1.5 rounded-full text-xs font-bold shadow-lg pulse-glow"
+            >
               Flash Sale
-            </div>
+            </motion.div>
           )}
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
             <motion.button
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.15, rotate: 5 }}
               whileTap={{ scale: 0.9 }}
-              className="bg-white p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-colors"
+              className="bg-white p-2.5 rounded-full shadow-xl hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark hover:text-white transition-all duration-300 border-2 border-transparent hover:border-primary/50"
               aria-label="Add to wishlist"
             >
-              <Heart size={18} />
+              <Heart size={18} className="group-hover:fill-white transition-all" />
             </motion.button>
           </div>
         </div>
@@ -102,11 +110,11 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 
         {/* Add to Cart Button */}
         <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full bg-primary text-white py-2 rounded-lg font-medium hover:bg-primary-dark transition-colors flex items-center justify-center space-x-2"
+          whileHover={{ scale: 1.03, y: -2 }}
+          whileTap={{ scale: 0.97 }}
+          className="w-full bg-gradient-to-r from-primary via-primary-light to-primary text-white py-3 rounded-lg font-semibold hover:from-primary-dark hover:via-primary hover:to-primary-light transition-all duration-300 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg hover:shadow-primary/50"
         >
-          <ShoppingCart size={18} />
+          <ShoppingCart size={18} className="group-hover:animate-bounce" />
           <span>কার্টে যোগ করুন</span>
         </motion.button>
 

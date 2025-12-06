@@ -63,15 +63,17 @@ const WhyChooseUs = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -10 }}
-              className="bg-white rounded-xl shadow-lg p-6 text-center group cursor-pointer"
+              whileHover={{ y: -12, scale: 1.02 }}
+              className="bg-white rounded-xl shadow-lg hover:shadow-2xl p-6 text-center group cursor-pointer border border-gray-light hover:border-primary/30 transition-all duration-300"
             >
               <div className="flex justify-center mb-4">
-                <div
-                  className={`bg-gradient-to-br ${feature.color} p-4 rounded-full group-hover:scale-110 transition-transform`}
+                <motion.div
+                  whileHover={{ rotate: 360, scale: 1.15 }}
+                  transition={{ duration: 0.6 }}
+                  className={`bg-gradient-to-br ${feature.color} p-5 rounded-full group-hover:shadow-xl transition-all duration-300`}
                 >
                   <feature.icon className="text-white" size={32} />
-                </div>
+                </motion.div>
               </div>
               <h3 className="text-xl font-bold text-dark mb-2">
                 {feature.title}

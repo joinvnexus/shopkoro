@@ -2,8 +2,21 @@ import axios from "axios";
 import { Product, Testimonial, ApiResponse } from "@/types";
 
 // Backend API base URL - Update this with your backend URL
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+// Fix: If env var is set to port 3000 (wrong), use port 5000 instead
+let envUrl = process.env.NEXT_PUBLIC_API_URL;
+if (envUrl && envUrl.includes(":3000")) {
+  console.warn(
+    "⚠️ NEXT_PUBLIC_API_URL is set to port 3000, but backend runs on port 5000. Using port 5000 instead."
+  );
+  envUrl = envUrl.replace(":3000", ":5000");
+}
+
+const API_BASE_URL = envUrl || "http://localhost:5000/api";
+
+// Log the API URL for debugging (remove in production)
+if (typeof window !== "undefined") {
+  console.log("API Base URL:", API_BASE_URL);
+}
 
 const api = axios.create({
   baseURL: API_BASE_URL,

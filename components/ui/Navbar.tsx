@@ -37,8 +37,8 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white shadow-lg py-2"
-          : "bg-white/95 backdrop-blur-sm py-4"
+          ? "bg-white shadow-xl border-b-2 border-primary/20 py-2"
+          : "bg-white/95 backdrop-blur-md py-4"
       }`}
     >
       <div className="container mx-auto px-4">
@@ -60,9 +60,10 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-dark hover:text-primary transition-colors font-medium"
+                className="text-dark hover:text-primary transition-all duration-300 font-medium relative group"
               >
                 {link.name}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all duration-300"></span>
               </Link>
             ))}
           </div>
@@ -81,28 +82,36 @@ const Navbar = () => {
 
             {/* Wishlist Icon */}
             <motion.button
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.15, rotate: -5 }}
               whileTap={{ scale: 0.9 }}
-              className="hidden md:block p-2 text-dark hover:text-primary transition-colors relative"
+              className="hidden md:block p-2 text-dark hover:text-primary transition-all duration-300 relative group"
               aria-label="Wishlist"
             >
-              <Heart size={20} />
-              <span className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <Heart size={20} className="group-hover:fill-primary group-hover:stroke-primary" />
+              <motion.span
+                initial={{ scale: 1 }}
+                whileHover={{ scale: 1.2 }}
+                className="absolute -top-1 -right-1 bg-gradient-to-br from-secondary to-secondary-dark text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-lg"
+              >
                 0
-              </span>
+              </motion.span>
             </motion.button>
 
             {/* Cart Icon */}
             <motion.button
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.15, rotate: 5 }}
               whileTap={{ scale: 0.9 }}
-              className="p-2 text-dark hover:text-primary transition-colors relative"
+              className="p-2 text-dark hover:text-primary transition-all duration-300 relative group"
               aria-label="Cart"
             >
-              <ShoppingCart size={20} />
-              <span className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <ShoppingCart size={20} className="group-hover:stroke-[2.5]" />
+              <motion.span
+                initial={{ scale: 1 }}
+                whileHover={{ scale: 1.2 }}
+                className="absolute -top-1 -right-1 bg-gradient-to-br from-primary to-primary-dark text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-lg"
+              >
                 0
-              </span>
+              </motion.span>
             </motion.button>
 
             {/* User Icon */}

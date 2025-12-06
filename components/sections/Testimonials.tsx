@@ -58,7 +58,8 @@ const Testimonials = ({ testimonials }: TestimonialsProps) => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="bg-white rounded-xl shadow-lg p-6 h-full"
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="bg-white rounded-xl shadow-lg hover:shadow-2xl p-6 h-full border border-gray-light hover:border-primary/30 transition-all duration-300"
                 >
                   <Quote className="text-primary mb-4" size={32} />
                   <div className="flex items-center mb-4">
@@ -79,13 +80,13 @@ const Testimonials = ({ testimonials }: TestimonialsProps) => {
                   </p>
                   <div className="flex items-center space-x-3">
                     {testimonial.image ? (
-                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center border-2 border-primary/50">
                         <span className="text-primary font-bold">
                           {testimonial.name.charAt(0)}
                         </span>
                       </div>
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center border-2 border-primary/50">
                         <span className="text-primary font-bold">
                           {testimonial.name.charAt(0)}
                         </span>
@@ -102,7 +103,7 @@ const Testimonials = ({ testimonials }: TestimonialsProps) => {
                       )}
                     </div>
                     {testimonial.verified && (
-                      <span className="ml-auto bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                      <span className="ml-auto bg-gradient-to-r from-primary/20 to-secondary/20 text-primary text-xs px-3 py-1 rounded-full font-semibold border border-primary/30">
                         Verified
                       </span>
                     )}

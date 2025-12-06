@@ -11,7 +11,7 @@ const Hero = () => {
   flashSaleEndDate.setHours(flashSaleEndDate.getHours() + 24);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 overflow-hidden">
+    <section className="relative min-h-[90vh] flex items-center bg-gradient-to-br from-primary/15 via-secondary/15 to-accent/15 overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -85,19 +85,19 @@ const Hero = () => {
             >
               <Link href="/products">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.08, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-primary text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center space-x-2 shadow-lg hover:shadow-xl transition-shadow"
+                  className="bg-gradient-to-r from-primary via-primary-light to-primary text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center space-x-2 shadow-xl hover:shadow-2xl hover:shadow-primary/50 transition-all duration-300 glow-primary"
                 >
                   <span>শপিং শুরু করুন</span>
-                  <ArrowRight size={20} />
+                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </motion.button>
               </Link>
               <Link href="/flash-sale">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.08, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-white text-primary border-2 border-primary px-8 py-4 rounded-lg font-bold text-lg hover:bg-primary hover:text-white transition-colors"
+                  className="bg-white text-primary border-2 border-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-gradient-to-r hover:from-primary hover:via-primary-light hover:to-primary hover:text-white hover:border-transparent transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/30"
                 >
                   ফ্ল্যাশ সেল দেখুন
                 </motion.button>

@@ -22,10 +22,13 @@ const FlashSale = ({ products }: FlashSaleProps) => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center space-x-2 bg-accent/20 px-4 py-2 rounded-full mb-4">
-            <Zap className="text-accent" size={20} />
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-accent/30 to-accent/20 px-5 py-2.5 rounded-full mb-4 border-2 border-accent/50 shadow-lg"
+          >
+            <Zap className="text-accent-dark" size={20} />
             <span className="font-bold text-dark">ফ্ল্যাশ সেল</span>
-          </div>
+          </motion.div>
           <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">
             আজকের বিশেষ অফার
           </h2>
@@ -56,9 +59,9 @@ const FlashSale = ({ products }: FlashSaleProps) => {
         >
           <motion.a
             href="/flash-sale"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-block bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-colors"
+            className="inline-block bg-gradient-to-r from-primary via-primary-light to-primary text-white px-8 py-3.5 rounded-xl font-semibold hover:from-primary-dark hover:via-primary hover:to-primary-light transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary/50"
           >
             সব ফ্ল্যাশ সেল দেখুন
           </motion.a>

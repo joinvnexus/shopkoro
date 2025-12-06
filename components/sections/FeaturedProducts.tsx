@@ -26,10 +26,13 @@ const FeaturedProducts = ({ products }: FeaturedProductsProps) => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center space-x-2 bg-primary/20 px-4 py-2 rounded-full mb-4">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary/30 to-secondary/20 px-5 py-2.5 rounded-full mb-4 border-2 border-primary/50 shadow-lg"
+          >
             <Star className="text-primary fill-primary" size={20} />
             <span className="font-bold text-dark">ফিচার্ড</span>
-          </div>
+          </motion.div>
           <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">
             জনপ্রিয় প্রোডাক্ট
           </h2>
