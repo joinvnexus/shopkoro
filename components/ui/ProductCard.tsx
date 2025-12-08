@@ -5,6 +5,7 @@ import { Heart, ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types";
+import useCartStore from "@/stores/cartStore";
 
 interface ProductCardProps {
   product: Product;
@@ -97,16 +98,16 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           <div className="flex items-center gap-2">
             <div className="flex">
               {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={16}
-                  className={
-                    i < Math.floor(product.rating)
-                      ? "fill-amber-500 text-amber-500"
-                      : "text-gray-300 dark:text-gray-600"
-                  }
-                />
-              ))}
+                  <Star
+                    key={i}
+                    size={16}
+                    className={
+                      i < Math.floor(product.rating || 0)
+                        ? "fill-amber-500 text-amber-500"
+                        : "text-gray-300 dark:text-gray-600"
+                    }
+                  />
+                ))}
             </div>
             <span className="text-sm text-gray-600 dark:text-gray-400">
               ({product.reviews || 0})
@@ -127,15 +128,35 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
         </div>
 
         {/* Add to Cart Button */}
+{/* দুটো বাটন — বিস্তারিত + কার্ট */}
+      <div className="flex gap-3 mt-4">
+        <Link
+          href={`/products/${product._id}`}
+          className="flex-1 text-center py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
+        >
+          বিস্তারিত দেখুন
+        </Link>
+
         <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full bg-gradient-to-r from-rose-600 to-pink-600 text-white py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 shadow-lg hover:shadow-pink-500/30 transition-all duration-300"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const addItem = useCartStore.getState().addItem;
+            addItem({
+              productId: product._id,
+              name: product.name,
+              price: product.price,
+              image: product.image,
+              quantity: 1,
+            });
+          }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all"
         >
           <ShoppingCart size={20} />
-          <span>কার্টে যোগ করুন</span>
         </motion.button>
-
+      </div>
         {/* Low Stock Alert */}
         {product.stock !== undefined && product.stock < 10 && product.stock > 0 && (
           <p className="text-center text-xs font-bold text-orange-600 animate-pulse pt-1">

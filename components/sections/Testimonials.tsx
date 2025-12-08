@@ -109,7 +109,7 @@ const Testimonials = ({ testimonials }: TestimonialsProps) => {
 
                   {/* Comment */}
                   <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 mb-8 italic">
-                    "{testimonial.commentBn || testimonial.comment}"
+                    &quot;{testimonial.commentBn || testimonial.comment}&quot;
                   </p>
 
                   {/* User Info */}

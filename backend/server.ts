@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import connectDB from "./config/database";
 import productRoutes from "./routes/productRoutes";
 import testimonialRoutes from "./routes/testimonialRoutes";
+import authRoutes from "./routes/authRoutes";
+import { notFound, errorHandler } from "./middleware/errorMiddleware";
 
 // Load environment variables
 dotenv.config();
@@ -31,26 +33,25 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
+import userRoutes from "./routes/userRoutes";
+import cartRoutes from "./routes/cartRoutes";
+
+// ... (existing imports)
+
 // API Routes
 app.use("/api/products", productRoutes);
 app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/cart", cartRoutes);
+
+// ... (rest of the file)
 
 // 404 handler
-app.use((req: Request, res: Response) => {
-  res.status(404).json({
-    success: false,
-    message: "Route not found",
-  });
-});
+app.use(notFound);
 
 // Error handler
-app.use((err: any, req: Request, res: Response, next: any) => {
-  console.error(err.stack);
-  res.status(err.status || 500).json({
-    success: false,
-    message: err.message || "Internal server error",
-  });
-});
+app.use(errorHandler);
 
 // Start server
 const PORT = process.env.PORT || 5000;

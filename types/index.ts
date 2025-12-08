@@ -1,3 +1,13 @@
+// User Types
+export interface UserCredentials {
+  email: string;
+  password?: string;
+}
+
+export interface UserRegistrationInfo extends UserCredentials {
+  name: string;
+}
+
 // Product Types
 export interface Product {
   _id?: string;
@@ -23,6 +33,7 @@ export interface Product {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
 
 // Category Types
 export interface Category {

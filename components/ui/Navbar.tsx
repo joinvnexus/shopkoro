@@ -1,4 +1,3 @@
-// components/ui/Navbar.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -10,249 +9,300 @@ import {
   Search,
   User,
   Heart,
-  Moon,
-  Sun,
-  Globe,
   Phone,
+  LogOut,
+  Settings,
+  Package,
 } from "lucide-react";
 import Link from "next/link";
+import useAuthStore from "@/stores/authStore";
+import useCartStore from "@/stores/cartStore";
+import { useRouter } from "next/navigation";
 
-export default function Navbar() {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const [language, setLanguage] = useState<"bn" | "en">("bn");
-  const [cartCount] = useState(3);
-  const [wishlist] = useState(7);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  const { userInfo, logout } = useAuthStore();
+  const { items } = useCartStore();
+  const router = useRouter();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
-    { name: "হোম", nameEn: "Home", href: "/" },
-    { name: "প্রোডাক্ট", nameEn: "Products", href: "/products" },
-    { name: "ক্যাটেগরি", nameEn: "Categories", href: "/categories" },
-    { name: "স্পেশাল অফার", nameEn: "Offers", href: "/offers" },
-    { name: "যোগাযোগ", nameEn: "Contact", href: "/contact" },
+    { name: "হোম", href: "/" },
+    { name: "প্রোডাক্ট", href: "/products" },
+    { name: "ক্যাটেগরি", href: "/categories" },
+    { name: "অফার", href: "/offers" },
+    { name: "যোগাযোগ", href: "/contact" },
   ];
+
+  const handleLogout = () => {
+    logout();
+    setIsUserMenuOpen(false);
+    setIsOpen(false);
+    router.push("/");
+  };
 
   return (
     <>
       {/* Background Glow */}
       <div className="fixed inset-0 -z-10 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-pink-500/10 to-orange-500/20 blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 via-pink-600/5 to-orange-600/5 blur-3xl" />
       </div>
 
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl shadow-2xl border-b border-white/20 dark:border-gray-800"
-            : "bg-white/60 dark:bg-gray-900/70 backdrop-blur-xl"
+            ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl shadow-lg py-2 border-b border-gray-200/30 dark:border-gray-800"
+            : "bg-white/90 dark:bg-gray-900/90 backdrop-blur-md py-4"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="relative group">
+            <Link href="/" className="group relative z-10">
               <motion.div
-                whileHover={{ scale: 1.08 }}
-                className="text-3xl font-black bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500 bg-clip-text text-transparent"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-3xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent"
               >
                 ShopKoro
               </motion.div>
               <motion.div
-                className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-30 group-hover:opacity-60 transition duration-1000"
+                className="absolute -inset-3 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                 layoutId="logoGlow"
               />
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-1">
-              {navLinks.map((link, i) => (
-                <motion.div
+            {/* Desktop Links */}
+            <div className="hidden md:flex items-center space-x-10">
+              {navLinks.map((link) => (
+                <Link
                   key={link.href}
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: i * 0.1 }}
+                  href={link.href}
+                  className="relative text-lg font-medium text-gray-700 dark:text-gray-200 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 transition-all duration-300 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-purple-600 after:to-pink-600 after:transition-all after:duration-300 hover:after:w-full"
                 >
-                  <Link
-                    href={link.href}
-                    className="relative px-5 py-3 text-gray-700 dark:text-gray-200 font-medium rounded-2xl overflow-hidden group block"
-                  >
-                    <span className="relative z-10">
-                      {language === "bn" ? link.name : link.nameEn}
-                    </span>
-                    <motion.span
-                      className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl"
-                      initial={{ scale: 0 }}
-                      whileHover={{ scale: 1 }}
-                      transition={{ duration: 0.4 }}
-                    />
-                    <motion.div
-                      className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
-                      initial={{ width: 0 }}
-                      whileHover={{ width: "100%" }}
-                      transition={{ duration: 0.4 }}
-                    />
-                  </Link>
-                </motion.div>
+                  {link.name}
+                </Link>
               ))}
-
-              {/* Language Switcher */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setLanguage(language === "bn" ? "en" : "bn")}
-                className="ml-4 p-3 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
-              >
-                <Globe size={20} className="text-gray-700 dark:text-gray-300" />
-              </motion.button>
-
-              {/* Theme Toggle */}
-              <motion.button
-                whileHover={{ scale: 1.1, rotate: 180 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setIsDark(!isDark)}
-                className="ml-3 p-3 rounded-full bg-gray-100 dark:bg-gray-800"
-              >
-                <AnimatePresence mode="wait">
-                  {isDark ? (
-                    <motion.div
-                      key="sun"
-                      initial={{ rotate: -180, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 180, opacity: 0 }}
-                    >
-                      <Sun size={20} className="text-yellow-500" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="moon"
-                      initial={{ rotate: 180, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -180, opacity: 0 }}
-                    >
-                      <Moon size={20} className="text-gray-700" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.button>
             </div>
 
-            {/* Right Icons */}
-            <div className="flex items-center space-x-3">
+            {/* Right Icons + Auth */}
+            <div className="flex items-center space-x-4">
               {/* Search */}
               <motion.button
                 whileHover={{ scale: 1.15 }}
-                className="p-3 rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20 transition-all"
+                whileTap={{ scale: 0.9 }}
+                className="hidden md:block p-3 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 hover:shadow-lg hover:shadow-purple-500/20 transition-all"
               >
                 <Search size={20} className="text-gray-700 dark:text-gray-300" />
               </motion.button>
 
               {/* Wishlist */}
-              <motion.div className="relative">
+              <motion.div className="relative hidden md:block">
                 <motion.button
-                  whileHover={{ scale: 1.2, rotate: [0, -10, 10, -10, 0] }}
-                  className="p-3 rounded-2xl bg-red-500/10 hover:bg-red-500/20 transition-all"
+                  whileHover={{ scale: 1.15 }}
+                  className="p-3 rounded-full bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 hover:shadow-lg hover:shadow-pink-500/20 transition-all"
                 >
-                  <Heart size={20} className="text-red-500 fill-red-500/30" />
+                  <Heart size={20} className="text-pink-600 dark:text-pink-400" />
                 </motion.button>
-                {wishlist > 0 && (
-                  <motion.span
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-lg"
-                  >
-                    {wishlist}
-                  </motion.span>
-                )}
+                <span className="absolute -top-1 -right-1 bg-gradient-to-br from-pink-600 to-rose-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg">
+                  7
+                </span>
               </motion.div>
 
               {/* Cart */}
               <motion.div className="relative">
-                <motion.button
-                  whileHover={{ scale: 1.2, rotate: [0, 10, -10, 10, 0] }}
-                  className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-pink-500/20 hover:from-orange-500/30 hover:to-pink-500/30 transition-all"
-                >
-                  <ShoppingCart size={22} className="text-orange-600" />
-                </motion.button>
-                {cartCount > 0 && (
-                  <motion.span
-                    layoutId="cartCount"
-                    className="absolute -top-2 -right-2 bg-gradient-to-br from-orange-500 to-pink-600 text-white text-xs font-bold rounded-full min-w-[24px] h-6 flex items-center justify-center shadow-2xl px-2"
+                <Link href="/cart">
+                  <motion.button
+                    whileHover={{ scale: 1.15 }}
+                    className="p-3 rounded-full bg-gradient-to-br from-orange-100 to-pink-100 dark:from-orange-900/30 dark:to-pink-900/30 hover:shadow-lg hover:shadow-orange-500/20 transition-all"
+                    aria-label="Cart"
                   >
-                    {cartCount}
-                  </motion.span>
-                )}
+                    <ShoppingCart size={22} className="text-orange-600 dark:text-orange-400" />
+                  </motion.button>
+                </Link>
+                <span className="absolute -top-1 -right-1 bg-gradient-to-br from-orange-600 to-pink-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-xl">
+                  {items.reduce((s, it) => s + it.quantity, 0)}
+                </span>
               </motion.div>
 
-              {/* User */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                className="hidden md:block p-3 rounded-2xl bg-gray-100 dark:bg-gray-800"
-              >
-                <User size={20} />
-              </motion.button>
+              {/* User Auth */}
+              {userInfo ? (
+                <div className="relative">
+
+ {/* User Icon */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              // className="hidden md:block p-2 text-dark hover:text-primary transition-colors"
+               className="flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-2xl hover:from-purple-600/20 hover:to-pink-600/20 transition-all"
+              aria-label="Account"
+              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+            >
+              <User size={20} />
+                    {/* <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 p-0.5">
+                      <div className="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center font-bold text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-pink-600">
+                        {userInfo.name.charAt(0).toUpperCase()}
+                      </div>
+                    </div> */}
+                    <span className="hidden lg:block font-medium text-gray-800 dark:text-white">
+                      {userInfo.name.split(" ")[0]}
+                    </span>
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {isUserMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute right-0 top-16 w-56 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700"
+                      >
+                        <Link href="/profile" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all">
+                          <User size={18} />
+                          <span>প্রোফাইল</span>
+                        </Link>
+                        <Link href="/orders" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all">
+                          <Package size={18} />
+                          <span>অর্ডার</span>
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex items-center gap-3 px-5 py-4 hover:bg-red-50 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 transition-all text-left"
+                        >
+                          <LogOut size={18} />
+                          <span>লগআউট</span>
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <div className="hidden md:flex items-center gap-3">
+                  <Link
+                    href="/login"
+                    className="px-6 py-3 text-gray-700 dark:text-gray-300 font-medium rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                  >
+                    লগইন
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:from-purple-700 hover:to-pink-700 shadow-lg transition-all"
+                  >
+                    রেজিস্টার
+                  </Link>
+                </div>
+              )}
 
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="lg:hidden p-3 rounded-2xl bg-gray-100 dark:bg-gray-800"
+                className="md:hidden p-3 rounded-xl bg-gray-100 dark:bg-gray-800"
               >
-                {isOpen ? <X size={24} /> : <Menu size={24} />}
+                {isOpen ? <X size={26} /> : <Menu size={26} />}
               </button>
             </div>
           </div>
-        </div>
 
-        {/* Mobile Full Screen Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -100 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -100 }}
-              className="fixed inset-0 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-600 z-40 pt-24 px-8"
-            >
-              <div className="flex flex-col space-y-8 text-white">
-                {navLinks.map((link, i) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ x: -100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: i * 0.1 }}
-                  >
-                    <Link
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="text-3xl font-bold hover:text-yellow-300 transition-colors block"
+          {/* Mobile Menu */}
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="md:hidden mt-6 pb-6 border-t border-gray-200 dark:border-gray-700"
+              >
+                <div className="space-y-6 pt-6">
+                  {navLinks.map((link, i) => (
+                    <motion.div
+                      key={link.href}
+                      initial={{ x: -30, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ delay: i * 0.08 }}
                     >
-                      {language === "bn" ? link.name : link.nameEn}
-                    </Link>
-                  </motion.div>
-                ))}
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="block text-xl font-medium text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-pink-400 transition-colors py-2"
+                      >
+                        {link.name}
+                      </Link>
+                    </motion.div>
+                  ))}
 
-                <div className="pt-8 border-t border-white/30 space-y-6">
-                  <button className="flex items-center space-x-4 text-xl">
-                    <Phone size={28} />
-                    <span>হেল্পলাইন: ০১৯০০-০০০০০০</span>
-                  </button>
-                  <button className="flex items-center space-x-4 text-xl">
-                    <Search size={28} />
-                    <span>প্রোডাক্ট খুঁজুন</span>
-                  </button>
+                  {/* Mobile Auth */}
+                  {!userInfo && (
+                    <div className="space-y-4 pt-4">
+                      <Link
+                        href="/login"
+                        onClick={() => setIsOpen(false)}
+                        className="block w-full text-center py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl"
+                      >
+                        লগইন করুন
+                      </Link>
+                      <Link
+                        href="/register"
+                        onClick={() => setIsOpen(false)}
+                        className="block w-full text-center py-4 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white font-bold rounded-xl"
+                      >
+                        রেজিস্টার করুন
+                      </Link>
+                    </div>
+                  )}
+
+                  {userInfo && (
+                    <div className="space-y-4 pt-6 border-t border-gray-300">
+                      <div className="flex items-center gap-4 bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 p-0.5">
+                          <div className="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center font-bold text-xl">
+                            {userInfo.name.charAt(0).toUpperCase()}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="font-bold text-lg">{userInfo.name}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{userInfo.email}</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl"
+                      >
+                        লগআউট করুন
+                      </button>
+                    </div>
+                  )}
+
+                  <div className="pt-6 border-t border-gray-200 dark:border-gray-700 space-y-4">
+                    <button className="w-full flex items-center justify-center gap-3 py-3 text-gray-700 dark:text-gray-300">
+                      <Search size={22} />
+                      <span>প্রোডাক্ট খুঁজুন</span>
+                    </button>
+                    <button className="w-full flex items-center justify-center gap-3 py-3 text-gray-700 dark:text-gray-300">
+                      <Phone size={22} />
+                      <span>যোগাযোগ: 01900-000000</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </nav>
 
       {/* Spacer */}
-      <div className="h-20" />
+      <div className={`h-16 md:h-20 ${isScrolled ? "md:h-16" : "md:h-20"} transition-all duration-500`} />
     </>
   );
-}
+};
+
+export default Navbar;
