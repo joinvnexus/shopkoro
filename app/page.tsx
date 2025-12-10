@@ -18,28 +18,38 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       try {
-        // Fetch all products
-        const allProducts = await productApi.getAll();
-        setProducts(allProducts);
+        const [allProducts, allTestimonials] = await Promise.all([
+          productApi.getAll(),
+          testimonialApi.getAll(),
+        ]);
 
-        // Fetch testimonials
-        const allTestimonials = await testimonialApi.getAll();
+        if (!isMounted) return;
+        setProducts(allProducts);
         setTestimonials(allTestimonials);
+        setError(null);
       } catch (error) {
         console.error("Error fetching data:", error);
-        // If API fails, use dummy data (will be set up in step 7)
+        if (!isMounted) return;
+        setError("ডেটা লোড করতে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।");
         setProducts([]);
         setTestimonials([]);
       } finally {
+        if (!isMounted) return;
         setLoading(false);
       }
     };
 
     fetchData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (loading) {
@@ -57,6 +67,11 @@ export default function Home() {
     <main className="min-h-screen">
       <Navbar />
       <div className="pt-16">
+        {error && (
+          <div className="max-w-5xl mx-auto mb-6 rounded-xl bg-red-50 text-red-700 border border-red-200 px-6 py-4">
+            {error}
+          </div>
+        )}
         <Hero />
         <FlashSale products={products} />
         <CategoryGrid />

@@ -13,9 +13,18 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
+  const price = product.price ?? 0;
+  const originalPrice = product.originalPrice ?? null;
+  const productId = product._id || product.name || String(index);
+  const fallbackImage =
+    "data:image/svg+xml;utf8," +
+    encodeURIComponent(
+      `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%' height='100%' fill='%23f4f4f5'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%239ca3af' font-family='Arial' font-size='28'>ShopKoro</text></svg>`
+    );
+  const imageSrc = product.image || product.images?.[0] || fallbackImage;
   const discountPercentage = product.originalPrice
     ? Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100
+        ((product.originalPrice - price) / product.originalPrice) * 100
       )
     : product.discount || 0;
 
@@ -28,11 +37,11 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       whileHover={{ y: -10, scale: 1.03 }}
       className="group relative bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-800"
     >
-      <Link href={`/products/${product._id || product.name}`}>
+      <Link href={`/products/${productId}`}>
         {/* Image Section */}
         <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
           <Image
-            src={product.image}
+            src={imageSrc}
             alt={product.name}
             fill
             className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
@@ -87,7 +96,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 
       {/* Content */}
       <div className="p-5 space-y-3">
-        <Link href={`/products/${product._id || product.name}`}>
+        <Link href={`/products/${productId}`}>
           <h3 className="font-bold text-lg text-gray-800 dark:text-white line-clamp-2 group-hover:text-rose-600 dark:group-hover:text-pink-500 transition-colors duration-300">
             {product.name}
           </h3>
@@ -118,45 +127,44 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
         {/* Price */}
         <div className="flex items-center gap-3">
           <span className="text-2xl font-black text-rose-600 dark:text-pink-500">
-            ৳{product.price.toLocaleString("bn-BD")}
+            ৳{price.toLocaleString("bn-BD")}
           </span>
-          {product.originalPrice && product.originalPrice > product.price && (
+          {originalPrice !== null && originalPrice > price && (
             <span className="text-sm text-gray-500 line-through">
-              ৳{product.originalPrice.toLocaleString("bn-BD")}
+              ৳{originalPrice.toLocaleString("bn-BD")}
             </span>
           )}
         </div>
 
         {/* Add to Cart Button */}
-{/* দুটো বাটন — বিস্তারিত + কার্ট */}
-      <div className="flex gap-3 mt-4">
-        <Link
-          href={`/products/${product._id}`}
-          className="flex-1 text-center py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
-        >
-          বিস্তারিত দেখুন
-        </Link>
+        <div className="flex gap-3 mt-4">
+          <Link
+            href={`/products/${productId}`}
+            className="flex-1 text-center py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
+          >
+            বিস্তারিত দেখুন
+          </Link>
 
-        <motion.button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const addItem = useCartStore.getState().addItem;
-            addItem({
-              productId: product._id,
-              name: product.name,
-              price: product.price,
-              image: product.image,
-              quantity: 1,
-            });
-          }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all"
-        >
-          <ShoppingCart size={20} />
-        </motion.button>
-      </div>
+          <motion.button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const addItem = useCartStore.getState().addItem;
+              addItem({
+                productId,
+                name: product.name,
+                price,
+                image: imageSrc,
+                quantity: 1,
+              });
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all"
+          >
+            <ShoppingCart size={20} />
+          </motion.button>
+        </div>
         {/* Low Stock Alert */}
         {product.stock !== undefined && product.stock < 10 && product.stock > 0 && (
           <p className="text-center text-xs font-bold text-orange-600 animate-pulse pt-1">

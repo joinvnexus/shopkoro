@@ -1,23 +1,28 @@
-import axios from 'axios';
-import { Product, Testimonial, ApiResponse, UserCredentials, UserRegistrationInfo, } from '@/types';
-import useAuthStore from '@/stores/authStore';
+import axios, { AxiosResponse } from 'axios';
+import {
+  ApiResponse,
+  Product,
+  Testimonial,
+  UserCredentials,
+  UserRegistrationInfo,
+} from '@/types';
 
-// Backend API base URL - Update this with your backend URL
-// Fix: If env var is set to port 3000 (wrong), use port 5000 instead
-let envUrl = process.env.NEXT_PUBLIC_API_URL;
-if (envUrl && envUrl.includes(':3000')) {
-  console.warn(
-    '⚠️ NEXT_PUBLIC_API_URL is set to port 3000, but backend runs on port 5000. Using port 5000 instead.'
-  );
-  envUrl = envUrl.replace(':3000', ':5000');
-}
+const resolveApiBaseUrl = () => {
+  let envUrl = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
-const API_BASE_URL = envUrl || 'http://localhost:5000/api';
+  if (envUrl && envUrl.includes(':3000')) {
+    console.warn(
+      '⚠️ NEXT_PUBLIC_API_URL is set to port 3000, but backend runs on port 5000. Using port 5000 instead.'
+    );
+    envUrl = envUrl.replace(':3000', ':5000');
+  }
 
-// Log the API URL for debugging (remove in production)
-if (typeof window !== 'undefined') {
-  console.log('API Base URL:', API_BASE_URL);
-}
+  return envUrl || 'http://localhost:5000/api';
+};
+
+const API_BASE_URL = resolveApiBaseUrl();
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -26,25 +31,36 @@ const api = axios.create({
   },
 });
 
-// Add a request interceptor to include the token in headers
+// Include auth token when available.
 api.interceptors.request.use(
   (config) => {
-    // Check if localStorage is available
     if (typeof window !== 'undefined') {
       const authStorage = localStorage.getItem('auth-storage');
       if (authStorage) {
         const { state } = JSON.parse(authStorage);
-        if (state.userInfo && state.userInfo.token) {
+        if (state.userInfo?.token) {
           config.headers['Authorization'] = `Bearer ${state.userInfo.token}`;
         }
       }
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
+
+const safeRequest = async <T>(
+  request: () => Promise<AxiosResponse<ApiResponse<T>>>,
+  fallback: T,
+  label: string
+): Promise<T> => {
+  try {
+    const response = await request();
+    return response.data.data;
+  } catch (error) {
+    console.error(`Error fetching ${label}:`, error);
+    return fallback;
+  }
+};
 
 export const authApi = {
   login: async (credentials: UserCredentials) => {
@@ -64,85 +80,36 @@ export const userApi = {
   },
 };
 
-// Product API functions
 export const productApi = {
-  // Get all products
-  getAll: async (): Promise<Product[]> => {
-    try {
-      const response = await api.get<ApiResponse<Product[]>>('/products');
-      return response.data.data;
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      return [];
-    }
-  },
+  getAll: (): Promise<Product[]> =>
+    safeRequest(() => api.get('/products'), [], 'products'),
 
-  // Get featured products
-  getFeatured: async (): Promise<Product[]> => {
-    try {
-      const response = await api.get<ApiResponse<Product[]>>(
-        '/products/featured'
-      );
-      return response.data.data;
-    } catch (error) {
-      console.error('Error fetching featured products:', error);
-      return [];
-    }
-  },
+  getFeatured: (): Promise<Product[]> =>
+    safeRequest(() => api.get('/products/featured'), [], 'featured products'),
 
-  // Get flash sale products
-  getFlashSale: async (): Promise<Product[]> => {
-    try {
-      const response = await api.get<ApiResponse<Product[]>>(
-        '/products/flash-sale'
-      );
-      return response.data.data;
-    } catch (error) {
-      console.error('Error fetching flash sale products:', error);
-      return [];
-    }
-  },
+  getFlashSale: (): Promise<Product[]> =>
+    safeRequest(
+      () => api.get('/products/flash-sale'),
+      [],
+      'flash sale products'
+    ),
 
-  // Get trending products
-  getTrending: async (): Promise<Product[]> => {
-    try {
-      const response = await api.get<ApiResponse<Product[]>>(
-        '/products/trending'
-      );
-      return response.data.data;
-    } catch (error) {
-      console.error('Error fetching trending products:', error);
-      return [];
-    }
-  },
+  getTrending: (): Promise<Product[]> =>
+    safeRequest(() => api.get('/products/trending'), [], 'trending products'),
 
-  // Get product by ID
-  getById: async (id: string): Promise<Product | null> => {
-    try {
-      const response = await api.get<ApiResponse<Product>>(`/products/${id}`);
-      return response.data.data;
-    } catch (error) {
-      console.error('Error fetching product:', error);
-      return null;
-    }
-  },
+  getById: (id: string): Promise<Product | null> =>
+    safeRequest(
+      () => api.get(`/products/${id}`),
+      null,
+      `product details for ${id}`
+    ),
 };
 
-// Testimonial API functions
 export const testimonialApi = {
-  getAll: async (): Promise<Testimonial[]> => {
-    try {
-      const response =
-        await api.get<ApiResponse<Testimonial[]>>('/testimonials');
-      return response.data.data;
-    } catch (error) {
-      console.error('Error fetching testimonials:', error);
-      return [];
-    }
-  },
+  getAll: (): Promise<Testimonial[]> =>
+    safeRequest(() => api.get('/testimonials'), [], 'testimonials'),
 };
 
-// Cart API functions
 export const cartApi = {
   getCart: async () => {
     const { data } = await api.get('/cart');
@@ -167,5 +134,3 @@ export const cartApi = {
 };
 
 export default api;
-
-

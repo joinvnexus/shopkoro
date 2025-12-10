@@ -2,15 +2,15 @@
 
 "use client";
 
-import { use } from "react";
-import { useState, useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { productApi } from "@/lib/api";
 import useCartStore from "@/stores/cartStore";
+import { Product } from "@/types";
 import {
   ShoppingCart,
   Heart,
@@ -50,41 +50,54 @@ const TrustBadges = () => (
 );
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params); // Next.js 15+ এর জন্য
+  const { id } = use(params);
+  const router = useRouter();
 
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedImg, setSelectedImg] = useState(0);
   const [adding, setAdding] = useState(false);
   const [wished, setWished] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const { addItem } = useCartStore();
 
   useEffect(() => {
+    let isMounted = true;
     const load = async () => {
       try {
         const data = await productApi.getById(id);
-        if (!data) return notFound();
+        if (!isMounted) return;
+        if (!data) {
+          setError("প্রোডাক্ট পাওয়া যায়নি।");
+          return;
+        }
         setProduct(data);
+        setError(null);
       } catch (err) {
-        toast.error("প্রোডাক্ট লোড করতে সমস্যা হয়েছে");
-        notFound();
+        console.error(err);
+        if (!isMounted) return;
+        setError("প্রোডাক্ট লোড করতে সমস্যা হয়েছে।");
       } finally {
+        if (!isMounted) return;
         setLoading(false);
       }
     };
     load();
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   const handleAddToCart = () => {
     if (!product) return;
     setAdding(true);
     addItem({
-      productId: product._id,
+      productId: product._id || product.name,
       name: product.name,
-      price: product.price,
+      price: product.price ?? 0,
       image: product.images?.[0] || product.image,
       quantity,
     });
@@ -120,7 +133,28 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     );
   }
 
-  if (!product) return notFound();
+  if (!product) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-purple-50 to-pink-50 px-6">
+        <p className="text-2xl font-bold text-gray-800">প্রোডাক্ট পাওয়া যায়নি</p>
+        <div className="flex gap-3">
+          <button
+            onClick={() => router.push("/products")}
+            className="px-5 py-3 rounded-xl bg-purple-600 text-white font-semibold shadow"
+          >
+            সব প্রোডাক্ট দেখুন
+          </button>
+          <button
+            onClick={() => router.refresh()}
+            className="px-5 py-3 rounded-xl bg-white text-purple-700 border border-purple-200 font-semibold shadow-sm"
+          >
+            আবার চেষ্টা করুন
+          </button>
+        </div>
+        {error && <p className="text-sm text-gray-600">{error}</p>}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 dark:from-gray-950 dark:via-purple-950/40 pt-20 px-4 pb-20">

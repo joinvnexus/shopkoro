@@ -103,7 +103,10 @@ const Navbar = () => {
                 whileTap={{ scale: 0.9 }}
                 className="hidden md:block p-3 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 hover:shadow-lg hover:shadow-purple-500/20 transition-all"
               >
-                <Search size={20} className="text-gray-700 dark:text-gray-300" />
+                <Search
+                  size={20}
+                  className="text-gray-700 dark:text-gray-300"
+                />
               </motion.button>
 
               {/* Wishlist */}
@@ -112,7 +115,10 @@ const Navbar = () => {
                   whileHover={{ scale: 1.15 }}
                   className="p-3 rounded-full bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 hover:shadow-lg hover:shadow-pink-500/20 transition-all"
                 >
-                  <Heart size={20} className="text-pink-600 dark:text-pink-400" />
+                  <Heart
+                    size={20}
+                    className="text-pink-600 dark:text-pink-400"
+                  />
                 </motion.button>
                 <span className="absolute -top-1 -right-1 bg-gradient-to-br from-pink-600 to-rose-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg">
                   7
@@ -127,7 +133,10 @@ const Navbar = () => {
                     className="p-3 rounded-full bg-gradient-to-br from-orange-100 to-pink-100 dark:from-orange-900/30 dark:to-pink-900/30 hover:shadow-lg hover:shadow-orange-500/20 transition-all"
                     aria-label="Cart"
                   >
-                    <ShoppingCart size={22} className="text-orange-600 dark:text-orange-400" />
+                    <ShoppingCart
+                      size={22}
+                      className="text-orange-600 dark:text-orange-400"
+                    />
                   </motion.button>
                 </Link>
                 <span className="absolute -top-1 -right-1 bg-gradient-to-br from-orange-600 to-pink-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-xl">
@@ -138,17 +147,16 @@ const Navbar = () => {
               {/* User Auth */}
               {userInfo ? (
                 <div className="relative">
-
- {/* User Icon */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              // className="hidden md:block p-2 text-dark hover:text-primary transition-colors"
-               className="flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-2xl hover:from-purple-600/20 hover:to-pink-600/20 transition-all"
-              aria-label="Account"
-              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-            >
-              <User size={20} />
+                  {/* User Icon */}
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    // className="hidden md:block p-2 text-dark hover:text-primary transition-colors"
+                    className="flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-2xl hover:from-purple-600/20 hover:to-pink-600/20 transition-all"
+                    aria-label="Account"
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  >
+                    <User size={20} />
                     {/* <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 p-0.5">
                       <div className="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center font-bold text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-pink-600">
                         {userInfo.name.charAt(0).toUpperCase()}
@@ -167,11 +175,19 @@ const Navbar = () => {
                         exit={{ opacity: 0, y: -10 }}
                         className="absolute right-0 top-16 w-56 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700"
                       >
-                        <Link href="/profile" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all">
+                        <Link
+                          href="/profile"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all"
+                        >
                           <User size={18} />
                           <span>প্রোফাইল</span>
                         </Link>
-                        <Link href="/orders" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all">
+                        <Link
+                          href="/orders"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all"
+                        >
                           <Package size={18} />
                           <span>অর্ডার</span>
                         </Link>
@@ -270,7 +286,9 @@ const Navbar = () => {
                         </div>
                         <div>
                           <p className="font-bold text-lg">{userInfo.name}</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{userInfo.email}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            {userInfo.email}
+                          </p>
                         </div>
                       </div>
                       <button
@@ -300,7 +318,11 @@ const Navbar = () => {
       </nav>
 
       {/* Spacer */}
-      <div className={`h-16 md:h-20 ${isScrolled ? "md:h-16" : "md:h-20"} transition-all duration-500`} />
+      <div
+        className={`h-16 md:h-20 ${
+          isScrolled ? "md:h-16" : "md:h-20"
+        } transition-all duration-500`}
+      />
     </>
   );
 };
