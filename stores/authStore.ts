@@ -1,5 +1,7 @@
-import create from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { create } from "zustand";
+// If you were using zustand/vanilla, update to:
+// import { create } from 'zustand/vanilla';
+import { devtools, persist, createJSONStorage } from "zustand/middleware";
 
 interface UserInfo {
   _id: string;
@@ -24,23 +26,22 @@ const useAuthStore = create<AuthState>()(
         logout: () => set({ userInfo: null }),
       }),
       {
-        name: 'auth-storage', // name of the item in the storage (must be unique)
-        getStorage: () => localStorage, // specify localStorage
+        name: "auth-storage", // name of the item in the storage (must be unique)
+        storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used}
       }
     )
   )
 );
 
-// Initialize state from localStorage on load
-if (typeof window !== 'undefined') {
-  const storedState = localStorage.getItem('auth-storage');
-  if (storedState) {
-    const { state } = JSON.parse(storedState);
-    if (state.userInfo) {
-      useAuthStore.setState({ userInfo: state.userInfo });
-    }
-  }
-}
+// // Initialize state from localStorage on load
+// if (typeof window !== "undefined") {
+//   const storedState = localStorage.getItem("auth-storage");
+//   if (storedState) {
+//     const { state } = JSON.parse(storedState);
+//     if (state.userInfo) {
+//       useAuthStore.setState({ userInfo: state.userInfo });
+//     }
+//   }
+// }
 
 export default useAuthStore;
-

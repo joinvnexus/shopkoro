@@ -90,8 +90,10 @@ NODE_ENV=development
 MONGODB_URI=mongodb://localhost:27017/shopkoro
 # Or use MongoDB Atlas:
 # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/shopkoro?retryWrites=true&w=majority
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-JWT_EXPIRE=7d
+ACCESS_TOKEN_SECRET=your-access-secret
+REFRESH_TOKEN_SECRET=your-refresh-secret
+ACCESS_TOKEN_EXPIRES_IN=15m
+REFRESH_TOKEN_EXPIRES_IN=7d
 FRONTEND_URL=http://localhost:3000
 ```
 

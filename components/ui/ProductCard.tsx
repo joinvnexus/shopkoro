@@ -12,7 +12,7 @@ interface ProductCardProps {
   index?: number;
 }
 
-const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
+const ProductCard = ({ product,index = 0 }: ProductCardProps) => {
   const price = product.price ?? 0;
   const originalPrice = product.originalPrice ?? null;
   const productId = product._id || product.name || String(index);

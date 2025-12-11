@@ -1,11 +1,12 @@
 "use client";
 
-import create from "zustand";
+import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { cartApi } from "@/lib/api";
+import useAuthStore from "@/stores/authStore";
 
 export interface CartItem {
-  image: any;
+  image?: string;
   productId: string;
   name?: string;
   price?: number;
@@ -24,7 +25,12 @@ interface CartState {
 }
 
 interface CartApiItem {
-  product: { _id: string; name?: string; price?: number } | null;
+  product: {
+    _id: string;
+    name?: string;
+    price?: number;
+    image?: string;
+  } | null;
   quantity: number;
 }
 
@@ -32,12 +38,21 @@ const useCartStore = create<CartState>()(
   devtools((set, get) => ({
     items: [],
     setItems: (items) => set({ items }),
+
+
     getTotalPrice: () => {
       return get().items.reduce((total, item) => {
         return total + (item.price || 0) * item.quantity;
       }, 0);
     },
     addItem: (item) => {
+      const token = useAuthStore.getState().userInfo?.token;
+      console.log("Adding item to cart:", item);
+      if (!token) {
+        alert("Please log in to add items to the cart.");
+        console.warn("User not logged in, cannot add to cart");
+        return; // Stop here if not logged in
+      }
       // Optimistic update
       const existing = get().items.find((i) => i.productId === item.productId);
       if (existing) {
