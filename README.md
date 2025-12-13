@@ -8,6 +8,7 @@
 - **Next.js 14** (App Router)
 - **TypeScript**
 - **Tailwind CSS**
+- **Zustand** (State Management)
 - **Framer Motion** (Animations)
 - **Swiper.js** (Carousels)
 - **Lucide React** (Icons)
@@ -18,6 +19,8 @@
 - **MongoDB**
 - **Mongoose**
 - **JWT** (Authentication)
+- **SSLCommerz** (BD Payment Gateway)
+- **Stripe** (International Payment Gateway)
 - **TypeScript**
 
 ## 📁 Project Structure
@@ -43,7 +46,7 @@ shopkoro/
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
-- Node.js 18+ 
+- Node.js 18+
 - MongoDB (Local or Atlas)
 - npm or yarn
 
@@ -93,6 +96,12 @@ MONGODB_URI=mongodb://localhost:27017/shopkoro
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 JWT_EXPIRE=7d
 FRONTEND_URL=http://localhost:3000
+
+# Payment Gateway Keys (for production)
+SSLCOMMERZ_STORE_ID=your_store_id
+SSLCOMMERZ_STORE_PASSWORD=your_store_password
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
 ```
 
 4. Seed the database with dummy data:
@@ -121,7 +130,21 @@ Backend will run on `http://localhost:5000`
 9. ✅ Responsive Navbar
 10. ✅ Footer
 
+### E-commerce Features
+11. ✅ **User Authentication** - Login/Register/Profile management
+12. ✅ **Shopping Cart** - Add, update, remove items with Zustand state
+13. ✅ **Product Catalog** - Browse products with filtering and search
+14. ✅ **Checkout System** - Complete order flow with shipping details
+15. ✅ **Payment Integration** - SSLCommerz (BDT) + Stripe (USD)
+16. ✅ **Order Management** - Order history and status tracking
+
 ### Backend API Routes
+
+#### Authentication
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+- `GET /api/auth/me` - Get current user info
+- `POST /api/auth/logout` - User logout
 
 #### Products
 - `GET /api/products` - Get all products
@@ -132,6 +155,28 @@ Backend will run on `http://localhost:5000`
 - `POST /api/products` - Create product (Admin)
 - `PUT /api/products/:id` - Update product (Admin)
 - `DELETE /api/products/:id` - Delete product (Admin)
+
+#### Cart Management
+- `GET /api/cart` - Get user's cart
+- `POST /api/cart` - Add item to cart
+- `PUT /api/cart/:itemId` - Update cart item
+- `DELETE /api/cart/:itemId` - Remove item from cart
+- `DELETE /api/cart` - Clear cart
+
+#### Orders & Checkout
+- `POST /api/orders` - Create new order
+- `GET /api/orders` - Get user's orders
+- `GET /api/orders/:id` - Get single order
+- `PUT /api/orders/:id` - Update order status (Admin)
+
+#### Payment Integration
+- `POST /api/payment/sslcommerz/init` - Initialize SSLCommerz payment
+- `POST /api/payment/sslcommerz/success` - Handle SSLCommerz success
+- `POST /api/payment/sslcommerz/fail` - Handle SSLCommerz failure
+- `POST /api/payment/sslcommerz/cancel` - Handle SSLCommerz cancellation
+- `POST /api/payment/sslcommerz/ipn` - Handle SSLCommerz IPN
+- `POST /api/payment/stripe/create-intent` - Create Stripe payment intent
+- `POST /api/payment/stripe/webhook` - Handle Stripe webhooks
 
 #### Testimonials
 - `GET /api/testimonials` - Get all testimonials
