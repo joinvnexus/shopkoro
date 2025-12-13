@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Navbar from "@/components/ui/Navbar";
-import Footer from "@/components/ui/Footer";
+// import Navbar from "@/components/ui/Navbar";
+// import Footer from "@/components/ui/Footer";
 import Hero from "@/components/sections/Hero";
 import FlashSale from "@/components/sections/FlashSale";
 import CategoryGrid from "@/components/sections/CategoryGrid";
@@ -65,7 +65,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="pt-16">
         {error && (
           <div className="max-w-5xl mx-auto mb-6 rounded-xl bg-red-50 text-red-700 border border-red-200 px-6 py-4">
@@ -81,7 +81,7 @@ export default function Home() {
         <Testimonials testimonials={testimonials} />
         <Newsletter />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }

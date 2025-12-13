@@ -107,6 +107,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   const handleShare = (type: string) => {
     const url = window.location.href;
+    if (!product) return;
     const text = `${product.name} - ShopKoro`;
 
     if (type === "copy") {
@@ -186,9 +187,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               )}
             </motion.div>
 
-            {product.images?.length > 1 && (
+            {product.images && product.images.length > 1 && (
               <div className="grid grid-cols-4 gap-4">
-                {product.images.map((img: string, i: number) => (
+                {product.images!.map((img: string, i: number) => (
                   <motion.button
                     key={i}
                     whileHover={{ scale: 1.05 }}
@@ -232,13 +233,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
                   ৳{product.price.toLocaleString("bn-BD")}
                 </span>
-                {product.originalPrice > product.price && (
+                {product.originalPrice && product.originalPrice > product.price && (
                   <div>
                     <span className="text-2xl text-gray-500 line-through">
-                      ৳{product.originalPrice.toLocaleString("bn-BD")}
+                      ৳{product.originalPrice!.toLocaleString("bn-BD")}
                     </span>
                     <span className="ml-3 text-xl font-bold text-green-600">
-                      -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                      -{Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100)}%
                     </span>
                   </div>
                 )}

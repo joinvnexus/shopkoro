@@ -9,8 +9,6 @@ import {
 
 const resolveApiBaseUrl = () => {
   let envUrl = process.env.NEXT_PUBLIC_API_URL;
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
   if (envUrl && envUrl.includes(':3000')) {
     console.warn(
@@ -129,6 +127,32 @@ export const cartApi = {
   },
   clear: async () => {
     const { data } = await api.delete('/cart');
+    return data;
+  },
+};
+
+export const orderApi = {
+  createOrder: async (orderData: any) => {
+    const { data } = await api.post('/orders', orderData);
+    return data;
+  },
+  getUserOrders: async () => {
+    const { data } = await api.get('/orders/myorders');
+    return data;
+  },
+  getOrderById: async (id: string) => {
+    const { data } = await api.get(`/orders/${id}`);
+    return data;
+  },
+};
+
+export const paymentApi = {
+  createStripeIntent: async (paymentData: { amount: number; currency?: string; orderId: string }) => {
+    const { data } = await api.post('/payment/create-stripe-intent', paymentData);
+    return data;
+  },
+  createSSLCommerzSession: async (sessionData: any) => {
+    const { data } = await api.post('/payment/create-sslcommerz-session', sessionData);
     return data;
   },
 };

@@ -24,7 +24,7 @@ interface CartState {
 }
 
 interface CartApiItem {
-  product: { _id: string; name?: string; price?: number } | null;
+  product: { _id: string; name?: string; price?: number; image?: string } | null;
   quantity: number;
 }
 

@@ -1,11 +1,12 @@
 import asyncHandler from "express-async-handler";
 import Stripe from "stripe";
-const SSLCommerzPayment = require("sslcommerz-lts");
+// @ts-ignore
+import SSLCommerzPayment from "sslcommerz-lts";
 import Order from "../models/Order";
 import { Request, Response } from "express";
 // Initialize payment gateways
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-04-10",
+
 });
 
 const sslcommerz = new SSLCommerzPayment(

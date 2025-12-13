@@ -19,7 +19,7 @@ export const generateAccessToken = (userId: string): string => {
   const payload: TokenPayload = { userId };
 
   const options: SignOptions = {
-    expiresIn: accessTtl,
+    expiresIn: accessTtl as any,
     algorithm: "HS256" as Algorithm,
   };
 
@@ -30,7 +30,7 @@ export const signRefreshToken = (userId: string): string => {
   const payload: TokenPayload = { userId };
 
   const options: SignOptions = {
-    expiresIn: refreshTtl,
+    expiresIn: refreshTtl as any,
     algorithm: "HS256" as Algorithm,
   };
 

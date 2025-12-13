@@ -1,10 +1,10 @@
-import jwt from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import User, { IUser } from '../models/User';
 import { Request, Response, NextFunction } from 'express';
 
 interface IDecoded {
-  id: string;
+  userId: string;
   iat: number;
   exp: number;
 }
@@ -27,13 +27,15 @@ const protect = asyncHandler(
     ) {
       try {
         token = req.headers.authorization.split(' ')[1];
+        console.log('Verifying token:', token);
+        console.log('Using secret:', process.env.ACCESS_TOKEN_SECRET);
 
-        const decoded = jwt.verify(
+        const decoded = verify(
           token,
-          process.env.JWT_SECRET || 'your_jwt_secret'
+          process.env.ACCESS_TOKEN_SECRET!
         ) as IDecoded;
 
-        req.user = await User.findById(decoded.id).select('-password');
+        req.user = await User.findById(decoded.userId).select('-password');
 
         if (!req.user) {
           res.status(401);
