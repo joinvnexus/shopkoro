@@ -31,9 +31,7 @@ export default function ProductListingPage() {
             new Date(a.createdAt || 0).getTime()
         );
       default:
-        return copy.sort((a, b) =>
-          Number(b.isFeatured) - Number(a.isFeatured)
-        );
+        return copy.sort((a, b) => Number(b.isFeatured) - Number(a.isFeatured));
     }
   }, [products, sortBy]);
 
@@ -63,7 +61,11 @@ export default function ProductListingPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity }} className="w-20 h-20 border-8 border-purple-200 rounded-full border-t-purple-600" />
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className="w-20 h-20 border-8 border-purple-200 rounded-full border-t-purple-600"
+        />
       </div>
     );
   }
@@ -72,7 +74,11 @@ export default function ProductListingPage() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 dark:from-gray-950 pt-20 px-4 pb-20">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-12"
+        >
           <h1 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent mb-4">
             সব প্রোডাক্ট
           </h1>
@@ -97,7 +103,9 @@ export default function ProductListingPage() {
 
         {sortedProducts.length === 0 ? (
           <div className="text-center py-24 bg-white/70 dark:bg-gray-900/50 rounded-3xl shadow-lg">
-            <p className="text-2xl font-bold text-gray-700 dark:text-gray-200">কোন প্রোডাক্ট পাওয়া যায়নি</p>
+            <p className="text-2xl font-bold text-gray-700 dark:text-gray-200">
+              কোন প্রোডাক্ট পাওয়া যায়নি
+            </p>
             <p className="text-gray-500 mt-2">দয়া করে পরে আবার চেষ্টা করুন।</p>
           </div>
         ) : (

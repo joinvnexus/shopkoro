@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Order, { IOrder } from "../models/Order";
+import Product from "../models/Product";
 import { Request, Response } from "express";
 
 // Extend Request interface to include user
@@ -24,21 +25,41 @@ export const createOrder = asyncHandler(async (req: Request, res: Response) => {
   }
 
   // Validate required fields
-  if (
-    !items ||
-    !shippingInfo ||
-    !paymentMethod ||
-    !subtotal ||
-    !shipping ||
-    !total
-  ) {
-    res.status(400);
-    throw new Error("All order fields are required");
-  }
+if (
+  !items ||
+  !shippingInfo ||
+  !paymentMethod ||
+  subtotal === undefined ||
+  shipping === undefined ||
+  total === undefined
+) {
+  res.status(400);
+  throw new Error("All order fields are required");
+}
+
 
   if (items.length === 0) {
     res.status(400);
     throw new Error("No order items");
+  }
+
+  // Validate stock availability for all items
+  for (const item of items) {
+    const product = await Product.findById(item.productId);
+    if (!product) {
+      res.status(400);
+      throw new Error(`Product ${item.name} not found`);
+    }
+
+    if (!product.inStock) {
+      res.status(400);
+      throw new Error(`Product ${product.name} is out of stock`);
+    }
+
+    if (product.stock !== undefined && item.quantity > product.stock) {
+      res.status(400);
+      throw new Error(`Insufficient stock for ${product.name}. Available: ${product.stock}, Requested: ${item.quantity}`);
+    }
   }
 
   // Create order

@@ -50,7 +50,9 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 // @route   POST /api/auth/login
 // @access  Public
 const loginUser = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password } = authSchema.pick({ email: true, password: true }).parse(req.body);
+  const { email, password } = authSchema
+    .pick({ email: true, password: true })
+    .parse(req.body);
 
   const user = await User.findOne({ email }).select("+password");
 

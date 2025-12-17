@@ -24,7 +24,12 @@ interface CartState {
 }
 
 interface CartApiItem {
-  product: { _id: string; name?: string; price?: number; image?: string } | null;
+  product: {
+    _id: string;
+    name?: string;
+    price?: number;
+    image?: string;
+  } | null;
   quantity: number;
 }
 
@@ -55,6 +60,9 @@ const useCartStore = create<CartState>()(
       // Persist to server (best-effort)
       (async () => {
         try {
+          console.log("Attempting to add to cart, checking auth...");
+          const authState = JSON.parse(localStorage.getItem("auth-storage") || "{}");
+          console.log("Auth state:", authState.state?.userInfo ? "Logged in" : "Not logged in");
           await cartApi.addToCart(item.productId, item.quantity);
           // sync back server state to be safe
           const payload = await cartApi.getCart();

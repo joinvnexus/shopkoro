@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import useAuthStore from "@/stores/authStore";
 import { useRouter } from "next/navigation";
-import { userApi } from "@/lib/api";
+import { userApi, orderApi } from "@/lib/api";
 import { User, Mail, Shield, LogOut, Settings } from "lucide-react";
-import { ShoppingCart, Heart, Eye } from "lucide-react";
+import { ShoppingCart, Heart, Eye, Package, Clock } from "lucide-react";
 interface UserProfile {
   _id: string;
   name: string;
@@ -18,6 +18,7 @@ const ProfilePage = () => {
   const { userInfo, logout } = useAuthStore();
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

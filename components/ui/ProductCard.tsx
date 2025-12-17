@@ -107,16 +107,16 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           <div className="flex items-center gap-2">
             <div className="flex">
               {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={16}
-                    className={
-                      i < Math.floor(product.rating || 0)
-                        ? "fill-amber-500 text-amber-500"
-                        : "text-gray-300 dark:text-gray-600"
-                    }
-                  />
-                ))}
+                <Star
+                  key={i}
+                  size={16}
+                  className={
+                    i < Math.floor(product.rating || 0)
+                      ? "fill-amber-500 text-amber-500"
+                      : "text-gray-300 dark:text-gray-600"
+                  }
+                />
+              ))}
             </div>
             <span className="text-sm text-gray-600 dark:text-gray-400">
               ({product.reviews || 0})
@@ -166,11 +166,13 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           </motion.button>
         </div>
         {/* Low Stock Alert */}
-        {product.stock !== undefined && product.stock < 10 && product.stock > 0 && (
-          <p className="text-center text-xs font-bold text-orange-600 animate-pulse pt-1">
-            মাত্র {product.stock} টি বাকি!
-          </p>
-        )}
+        {product.stock !== undefined &&
+          product.stock < 10 &&
+          product.stock > 0 && (
+            <p className="text-center text-xs font-bold text-orange-600 animate-pulse pt-1">
+              মাত্র {product.stock} টি বাকি!
+            </p>
+          )}
         {!product.inStock && (
           <div className="text-center">
             <p className="text-red-600 font-bold bg-red-50 dark:bg-red-900/30 py-2 rounded-xl">

@@ -1,12 +1,12 @@
 import asyncHandler from "express-async-handler";
-import Stripe from "stripe";
+import { Stripe } from 'stripe';
 // @ts-ignore
 import SSLCommerzPayment from "sslcommerz-lts";
 import Order from "../models/Order";
+import Cart from "../models/Cart";
 import { Request, Response } from "express";
 // Initialize payment gateways
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY! , {
 });
 
 const sslcommerz = new SSLCommerzPayment(
@@ -27,7 +27,7 @@ export const createStripePaymentIntent = asyncHandler(
       currency,
       metadata: {
         orderId,
-        userId: req.user?._id?.toString() || "" ,
+        userId: req.user?._id?.toString() || "",
       },
     });
 
@@ -90,7 +90,7 @@ export const createSSLCommerzSession = asyncHandler(
       });
     } else {
       res.status(400).json({
-        success: false,
+        success: true,
         message: "Failed to create SSLCommerz payment session",
       });
     }
@@ -210,6 +210,7 @@ async function handlePaymentSuccess(
       order.transactionId = transactionId;
       order.paymentGatewayResponse = { gateway, transactionId };
       await order.save();
+
     }
   } catch (error) {
     console.error("Error updating order payment status:", error);

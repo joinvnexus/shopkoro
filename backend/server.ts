@@ -18,6 +18,8 @@ import testimonialRoutes from "./routes/testimonialRoutes";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import cartRoutes from "./routes/cartRoutes";
+import orderRoutes from "./routes/orderRoutes";
+import paymentRoutes from "./routes/paymentRoutes";
 import { notFound, errorHandler } from "./middleware/errorMiddleware";
 
 const app: Application = express();
@@ -57,6 +59,8 @@ app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/payment", paymentRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

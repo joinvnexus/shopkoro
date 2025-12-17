@@ -23,10 +23,15 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false); // To check if running on client side
 
   const { userInfo, logout } = useAuthStore();
   const { items } = useCartStore();
   const router = useRouter();
+
+  useEffect(() => {
+    setIsClient(true); // Set to true when component mounts on client side
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -145,7 +150,7 @@ const Navbar = () => {
               </motion.div>
 
               {/* User Auth */}
-              {userInfo ? (
+              {isClient && userInfo ? (
                 <div className="relative">
                   {/* User Icon */}
                   <motion.button
@@ -203,7 +208,7 @@ const Navbar = () => {
                   </AnimatePresence>
                 </div>
               ) : (
-                <div className="hidden md:flex items-center gap-3">
+                <div className=" hidden md:flex items-center gap-3">
                   <Link
                     href="/login"
                     className="px-6 py-3 text-gray-700 dark:text-gray-300 font-medium rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
@@ -257,7 +262,7 @@ const Navbar = () => {
                   ))}
 
                   {/* Mobile Auth */}
-                  {!userInfo && (
+                  {isClient && !userInfo && (
                     <div className="space-y-4 pt-4">
                       <Link
                         href="/login"
@@ -276,7 +281,7 @@ const Navbar = () => {
                     </div>
                   )}
 
-                  {userInfo && (
+                  {isClient && userInfo && (
                     <div className="space-y-4 pt-6 border-t border-gray-300">
                       <div className="flex items-center gap-4 bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
                         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 p-0.5">

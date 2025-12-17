@@ -1,23 +1,23 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from "axios";
 import {
   ApiResponse,
   Product,
   Testimonial,
   UserCredentials,
   UserRegistrationInfo,
-} from '@/types';
+} from "@/types";
 
 const resolveApiBaseUrl = () => {
   let envUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  if (envUrl && envUrl.includes(':3000')) {
+  if (envUrl && envUrl.includes(":3000")) {
     console.warn(
-      '⚠️ NEXT_PUBLIC_API_URL is set to port 3000, but backend runs on port 5000. Using port 5000 instead.'
+      "⚠️ NEXT_PUBLIC_API_URL is set to port 3000, but backend runs on port 5000. Using port 5000 instead."
     );
-    envUrl = envUrl.replace(':3000', ':5000');
+    envUrl = envUrl.replace(":3000", ":5000");
   }
 
-  return envUrl || 'http://localhost:5000/api';
+  return envUrl || "http://localhost:5000/api";
 };
 
 const API_BASE_URL = resolveApiBaseUrl();
@@ -25,19 +25,20 @@ const API_BASE_URL = resolveApiBaseUrl();
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // Include auth token when available.
 api.interceptors.request.use(
   (config) => {
-    if (typeof window !== 'undefined') {
-      const authStorage = localStorage.getItem('auth-storage');
+    if (typeof window !== "undefined") {
+      const authStorage = localStorage.getItem("auth-storage");
       if (authStorage) {
         const { state } = JSON.parse(authStorage);
         if (state.userInfo?.token) {
-          config.headers['Authorization'] = `Bearer ${state.userInfo.token}`;
+          config.headers["Authorization"] = `Bearer ${state.userInfo.token}`;
+          console.log("Auth token added to request:", config.url);
         }
       }
     }
@@ -62,38 +63,38 @@ const safeRequest = async <T>(
 
 export const authApi = {
   login: async (credentials: UserCredentials) => {
-    const { data } = await api.post('/auth/login', credentials);
+    const { data } = await api.post("/auth/login", credentials);
     return data;
   },
   register: async (userInfo: UserRegistrationInfo) => {
-    const { data } = await api.post('/auth/register', userInfo);
+    const { data } = await api.post("/auth/register", userInfo);
     return data;
   },
 };
 
 export const userApi = {
   getProfile: async () => {
-    const { data } = await api.get('/users/profile');
+    const { data } = await api.get("/users/profile");
     return data;
   },
 };
 
 export const productApi = {
   getAll: (): Promise<Product[]> =>
-    safeRequest(() => api.get('/products'), [], 'products'),
+    safeRequest(() => api.get("/products"), [], "products"),
 
   getFeatured: (): Promise<Product[]> =>
-    safeRequest(() => api.get('/products/featured'), [], 'featured products'),
+    safeRequest(() => api.get("/products/featured"), [], "featured products"),
 
   getFlashSale: (): Promise<Product[]> =>
     safeRequest(
-      () => api.get('/products/flash-sale'),
+      () => api.get("/products/flash-sale"),
       [],
-      'flash sale products'
+      "flash sale products"
     ),
 
   getTrending: (): Promise<Product[]> =>
-    safeRequest(() => api.get('/products/trending'), [], 'trending products'),
+    safeRequest(() => api.get("/products/trending"), [], "trending products"),
 
   getById: (id: string): Promise<Product | null> =>
     safeRequest(
@@ -105,20 +106,20 @@ export const productApi = {
 
 export const testimonialApi = {
   getAll: (): Promise<Testimonial[]> =>
-    safeRequest(() => api.get('/testimonials'), [], 'testimonials'),
+    safeRequest(() => api.get("/testimonials"), [], "testimonials"),
 };
 
 export const cartApi = {
   getCart: async () => {
-    const { data } = await api.get('/cart');
+    const { data } = await api.get("/cart");
     return data;
   },
   addToCart: async (productId: string, quantity = 1) => {
-    const { data } = await api.post('/cart', { productId, quantity });
+    const { data } = await api.post("/cart", { productId, quantity });
     return data;
   },
   updateItem: async (productId: string, quantity: number) => {
-    const { data } = await api.put('/cart/item', { productId, quantity });
+    const { data } = await api.put("/cart/item", { productId, quantity });
     return data;
   },
   removeItem: async (productId: string) => {
@@ -126,18 +127,18 @@ export const cartApi = {
     return data;
   },
   clear: async () => {
-    const { data } = await api.delete('/cart');
+    const { data } = await api.delete("/cart");
     return data;
   },
 };
 
 export const orderApi = {
   createOrder: async (orderData: any) => {
-    const { data } = await api.post('/orders', orderData);
+    const { data } = await api.post("/orders", orderData);
     return data;
   },
   getUserOrders: async () => {
-    const { data } = await api.get('/orders/myorders');
+    const { data } = await api.get("/orders/myorders");
     return data;
   },
   getOrderById: async (id: string) => {
@@ -147,12 +148,22 @@ export const orderApi = {
 };
 
 export const paymentApi = {
-  createStripeIntent: async (paymentData: { amount: number; currency?: string; orderId: string }) => {
-    const { data } = await api.post('/payment/create-stripe-intent', paymentData);
+  createStripeIntent: async (paymentData: {
+    amount: number;
+    currency?: string;
+    orderId: string;
+  }) => {
+    const { data } = await api.post(
+      "/payment/create-stripe-intent",
+      paymentData
+    );
     return data;
   },
   createSSLCommerzSession: async (sessionData: any) => {
-    const { data } = await api.post('/payment/create-sslcommerz-session', sessionData);
+    const { data } = await api.post(
+      "/payment/create-sslcommerz-session",
+      sessionData
+    );
     return data;
   },
 };
