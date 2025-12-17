@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import useAuthStore from "@/stores/authStore";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { userApi, orderApi } from "@/lib/api";
 import { User, Mail, Shield, LogOut, Settings } from "lucide-react";
-import { ShoppingCart, Heart, Eye, Package, Clock } from "lucide-react";
+import { ShoppingCart, Heart, Eye, Package, Clock, Calendar, CreditCard } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 interface UserProfile {
   _id: string;
   name: string;
@@ -17,10 +19,14 @@ interface UserProfile {
 const ProfilePage = () => {
   const { userInfo, logout } = useAuthStore();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get("order");
   const [user, setUser] = useState<UserProfile | null>(null);
   const [orders, setOrders] = useState<any[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("orders");
 
   useEffect(() => {
     if (!userInfo) {
@@ -28,25 +34,93 @@ const ProfilePage = () => {
       return;
     }
 
-    const fetchUserProfile = async () => {
+    const fetchUserData = async () => {
       try {
-        const data = await userApi.getProfile();
-        setUser(data);
+        // Fetch user profile
+        const userData = await userApi.getProfile();
+        setUser(userData);
+        
+        // Fetch user orders
+        const ordersData = await orderApi.getUserOrders();
+        setOrders(ordersData.orders || []);
+        
+        // If orderId is provided in URL, fetch that order
+        if (orderId) {
+          setActiveTab("orders");
+          try {
+            const orderData = await orderApi.getOrderById(orderId);
+            setSelectedOrder(orderData.order);
+          } catch (err: any) {
+            setError(
+              err.response?.data?.message || "অর্ডার লোড করতে সমস্যা হয়েছে"
+            );
+          }
+        }
       } catch (err: any) {
         setError(
-          err.response?.data?.message || "প্রোফাইল লোড করতে সমস্যা হয়েছে"
+          err.response?.data?.message || "ডেটা লোড করতে সমস্যা হয়েছে"
         );
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUserProfile();
-  }, [userInfo, router]);
+    fetchUserData();
+  }, [userInfo, router, orderId]);
 
   const handleLogout = () => {
     logout();
     router.push("/");
+  };
+  
+  // Helper functions
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("bn-BD", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+  
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("bn-BD", {
+      style: "currency",
+      currency: "BDT",
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+  
+  const getOrderStatusText = (status: string) => {
+    switch (status) {
+      case "pending":
+        return "পেন্ডিং";
+      case "processing":
+        return "প্রসেসিং";
+      case "shipped":
+        return "শিপড";
+      case "delivered":
+        return "ডেলিভারড";
+      case "cancelled":
+        return "বাতিল";
+      default:
+        return status;
+    }
+  };
+  
+  const getOrderStatusColor = (status: string) => {
+    switch (status) {
+      case "delivered":
+        return "text-green-600";
+      case "processing":
+        return "text-blue-600";
+      case "shipped":
+        return "text-purple-600";
+      case "cancelled":
+        return "text-red-600";
+      default:
+        return "text-yellow-600";
+    }
   };
 
   // Loading State
@@ -207,32 +281,209 @@ const ProfilePage = () => {
               ))}
             </div>
 
-            {/* Quick Actions */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20"
-            >
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
-                দ্রুত অ্যাকশন
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {["অর্ডার হিস্ট্রি", "উইশলিস্ট", "ঠিকানা", "পেমেন্ট মেথড"].map(
-                  (item, i) => (
-                    <motion.button
-                      key={i}
-                      whileHover={{ x: 10 }}
-                      className="text-left py-4 px-6 bg-gray-50 dark:bg-gray-800/50 rounded-2xl hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all group"
+            {/* Tabs */}
+            <div className="bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 mb-6 overflow-hidden">
+              <div className="flex border-b border-gray-200 dark:border-gray-700">
+                {[
+                  { id: "orders", label: "অর্ডার হিস্ট্রি", icon: Package },
+                  { id: "wishlist", label: "উইশলিস্ট", icon: Heart },
+                  { id: "address", label: "ঠিকানা", icon: User },
+                  { id: "payment", label: "পেমেন্ট মেথড", icon: CreditCard },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex-1 py-4 px-4 font-medium transition-all flex items-center justify-center gap-2 ${
+                      activeTab === tab.id
+                        ? "text-purple-600 border-b-2 border-purple-600 bg-purple-50 dark:bg-purple-900/20"
+                        : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white"
+                    }`}
+                  >
+                    <tab.icon size={18} />
+                    <span>{tab.label}</span>
+                  </button>
+                ))}
+              </div>
+              
+              {/* Tab Content */}
+              <div className="p-6">
+                {activeTab === "orders" && (
+                  <div className="space-y-4">
+                    {selectedOrder ? (
+                      // Selected Order Details
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-center mb-4">
+                          <h3 className="text-xl font-bold text-gray-800 dark:text-white">অর্ডার #{selectedOrder._id}</h3>
+                          <button
+                            onClick={() => setSelectedOrder(null)}
+                            className="text-purple-600 hover:text-purple-800 font-medium"
+                          >
+                            ← সব অর্ডার দেখুন
+                          </button>
+                        </div>
+                        
+                        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 space-y-3">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600 dark:text-gray-400">অর্ডার তারিখ</span>
+                            <span className="font-medium">{formatDate(selectedOrder.createdAt)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600 dark:text-gray-400">পেমেন্ট মেথড</span>
+                            <span className="font-medium">{selectedOrder.paymentMethod === "sslcommerz" ? "এসএসএল কমার্জ" : "স্ট্রাইপ"}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600 dark:text-gray-400">অর্ডার স্ট্যাটাস</span>
+                            <span className={`font-medium ${getOrderStatusColor(selectedOrder.orderStatus)}`}>
+                              {getOrderStatusText(selectedOrder.orderStatus)}
+                            </span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600 dark:text-gray-400">পেমেন্ট স্ট্যাটাস</span>
+                            <span className={`font-medium ${
+                              selectedOrder.paymentStatus === "paid" ? "text-green-600" : 
+                              selectedOrder.paymentStatus === "pending" ? "text-yellow-600" : 
+                              "text-red-600"
+                            }`}>
+                              {selectedOrder.paymentStatus === "paid" ? "পেমেন্ট সম্পন্ন" : 
+                               selectedOrder.paymentStatus === "pending" ? "পেমেন্ট পেন্ডিং" : 
+                               "পেমেন্ট ব্যর্থ"}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-3">
+                          <h4 className="font-medium text-gray-800 dark:text-white">অর্ডারকৃত পণ্য</h4>
+                          {selectedOrder.items.map((item: any, index: number) => (
+                            <div key={index} className="flex items-center gap-4 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                              {item.image && (
+                                <img
+                                  src={item.image}
+                                  alt={item.name}
+                                  className="w-16 h-16 object-cover rounded-lg"
+                                />
+                              )}
+                              <div className="flex-1">
+                                <h5 className="font-medium text-gray-800 dark:text-white">{item.name}</h5>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
+                                  {formatPrice(item.price)} × {item.quantity}
+                                </p>
+                              </div>
+                              <div className="text-right">
+                                <p className="font-medium text-gray-800 dark:text-white">
+                                  {formatPrice(item.price * item.quantity)}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        <div className="border-t border-gray-200 dark:border-gray-700 pt-3 space-y-2">
+                          <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                            <span>সাবটোটাল</span>
+                            <span>{formatPrice(selectedOrder.subtotal)}</span>
+                          </div>
+                          <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                            <span>ডেলিভারি চার্জ</span>
+                            <span>{formatPrice(selectedOrder.shipping)}</span>
+                          </div>
+                          <div className="flex justify-between text-lg font-bold text-gray-800 dark:text-white pt-2 border-t border-gray-200 dark:border-gray-700">
+                            <span>মোট</span>
+                            <span>{formatPrice(selectedOrder.total)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      // Order List
+                      <>
+                        {orders.length === 0 ? (
+                          <div className="text-center py-12">
+                            <Package className="mx-auto text-gray-400 mb-4" size={48} />
+                            <p className="text-gray-600 dark:text-gray-400">আপনার কোনো অর্ডার নেই</p>
+                            <Link
+                              href="/products"
+                              className="inline-block mt-4 px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors"
+                            >
+                              শপিং করুন
+                            </Link>
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            {orders.map((order: any) => (
+                              <div
+                                key={order._id}
+                                className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800/70 transition-colors cursor-pointer"
+                                onClick={() => setSelectedOrder(order)}
+                              >
+                                <div className="flex justify-between items-start mb-2">
+                                  <div>
+                                    <h4 className="font-medium text-gray-800 dark:text-white">অর্ডার #{order._id}</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400">{formatDate(order.createdAt)}</p>
+                                  </div>
+                                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getOrderStatusColor(order.orderStatus)} bg-opacity-10`}>
+                                    {getOrderStatusText(order.orderStatus)}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                                    {order.items.length} {order.items.length === 1 ? "পণ্য" : "টি পণ্য"}
+                                  </p>
+                                  <p className="font-medium text-gray-800 dark:text-white">{formatPrice(order.total)}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+                
+                {activeTab === "wishlist" && (
+                  <div className="text-center py-12">
+                    <Heart className="mx-auto text-gray-400 mb-4" size={48} />
+                    <p className="text-gray-600 dark:text-gray-400">আপনার উইশলিস্ট খালি</p>
+                    <Link
+                      href="/products"
+                      className="inline-block mt-4 px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors"
                     >
-                      <span className="font-semibold text-gray-800 dark:text-white group-hover:text-purple-600 dark:group-hover:text-pink-400">
-                        {item}
-                      </span>
-                    </motion.button>
-                  )
+                      পণ্য দেখুন
+                    </Link>
+                  </div>
+                )}
+                
+                {activeTab === "address" && (
+                  <div className="text-center py-12">
+                    <User className="mx-auto text-gray-400 mb-4" size={48} />
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">আপনার কোনো সেভ করা ঠিকানা নেই</p>
+                    <button className="px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors">
+                      ঠিকানা যোগ করুন
+                    </button>
+                  </div>
+                )}
+                
+                {activeTab === "payment" && (
+                  <div className="text-center py-12">
+                    <CreditCard className="mx-auto text-gray-400 mb-4" size={48} />
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">আপনার কোনো সেভ করা পেমেন্ট মেথড নেই</p>
+                    <button className="px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors">
+                      পেমেন্ট মেথড যোগ করুন
+                    </button>
+                  </div>
+                )}
+
+
+                
+                {activeTab === "payment" && (
+                  <div className="text-center py-12">
+                    <CreditCard className="mx-auto text-gray-400 mb-4" size={48} />
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">আপনার কোনো সেভ করা পেমেন্ট মেথড নেই</p>
+                    <button className="px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors">
+                      পেমেন্ট মেথড যোগ করুন
+                    </button>
+                  </div>
                 )}
               </div>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
       </div>
