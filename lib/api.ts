@@ -61,6 +61,7 @@ const safeRequest = async <T>(
   }
 };
 
+// Auth API
 export const authApi = {
   login: async (credentials: UserCredentials) => {
     const { data } = await api.post("/auth/login", credentials);
@@ -72,13 +73,19 @@ export const authApi = {
   },
 };
 
+// User API
 export const userApi = {
   getProfile: async () => {
     const { data } = await api.get("/users/profile");
     return data;
   },
+  getAllUsers: async () => {
+    const { data } = await api.get("/users");
+    return data;
+  },
 };
 
+// Product API
 export const productApi = {
   getAll: (): Promise<Product[]> =>
     safeRequest(() => api.get("/products"), [], "products"),
@@ -104,11 +111,13 @@ export const productApi = {
     ),
 };
 
+// Testimonial API
 export const testimonialApi = {
   getAll: (): Promise<Testimonial[]> =>
     safeRequest(() => api.get("/testimonials"), [], "testimonials"),
 };
 
+// Cart API
 export const cartApi = {
   getCart: async () => {
     const { data } = await api.get("/cart");
@@ -132,6 +141,7 @@ export const cartApi = {
   },
 };
 
+// Order API
 export const orderApi = {
   createOrder: async (orderData: any) => {
     const { data } = await api.post("/orders", orderData);
@@ -145,8 +155,13 @@ export const orderApi = {
     const { data } = await api.get(`/orders/${id}`);
     return data;
   },
+  getAllOrders: async () => {
+    const { data } = await api.get("/orders");
+    return data;
+  },
 };
 
+// Payment API
 export const paymentApi = {
   createStripeIntent: async (paymentData: {
     amount: number;
