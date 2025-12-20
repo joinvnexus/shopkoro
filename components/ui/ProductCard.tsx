@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types";
 import useCartStore from "@/stores/cartStore";
+import useWishlistStore from "@/stores/wishlistStore";
 
 interface ProductCardProps {
   product: Product;
