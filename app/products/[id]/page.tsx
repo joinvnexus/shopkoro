@@ -8,10 +8,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { productApi } from "@/lib/api";
+import { ApiClientError, productApi } from "@/lib/api";
 import useCartStore from "@/stores/cartStore";
 import useAuthStore from "@/stores/authStore";
 import { Product, ProductReview } from "@/types";
+
 import {
   ShoppingCart,
   Heart,
@@ -136,16 +137,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     setSubmittingReview(true);
     try {
       const updated = await productApi.upsertReview(id, { rating, comment });
-      if (!updated) {
-        toast.error("রিভিউ সাবমিট করা যায়নি");
-        return;
-      }
       setProduct(updated);
       setReviews(updated.reviewsList || []);
       toast.success("রিভিউ সেভ হয়েছে!");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      toast.error(err?.response?.data?.message || "রিভিউ সাবমিট করা যায়নি");
+      if (err instanceof ApiClientError) {
+        if (err.code === "UNAUTHORIZED") {
+          router.push(`/login?redirect=/products/${id}`);
+          return;
+        }
+        toast.error(err.message || "রিভিউ সাবমিট করা যায়নি");
+        return;
+      }
+      toast.error("রিভিউ সাবমিট করা যায়নি");
     } finally {
       setSubmittingReview(false);
     }

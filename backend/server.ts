@@ -40,6 +40,18 @@ app.use(
     limit: 200,
     standardHeaders: "draft-7",
     legacyHeaders: false,
+    handler: (_req, res) => {
+      res.status(429).json({
+        success: false,
+        data: null,
+        message: "Too many requests",
+        error: {
+          code: "RATE_LIMITED",
+          message: "Too many requests",
+        },
+        stack: process.env.NODE_ENV === "production" ? null : undefined,
+      });
+    },
   })
 );
 app.use(express.json());

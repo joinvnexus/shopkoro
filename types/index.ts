@@ -98,7 +98,24 @@ export interface ApiResponse<T> {
   success: boolean;
   data: T;
   message?: string;
-  error?: string;
+  error?: ApiErrorPayload;
+}
+
+export type ApiErrorCode =
+  | "VALIDATION_ERROR"
+  | "UNAUTHORIZED"
+  | "FORBIDDEN"
+  | "NOT_FOUND"
+  | "CONFLICT"
+  | "RATE_LIMITED"
+  | "INTERNAL_SERVER_ERROR"
+  | "NETWORK_ERROR"
+  | "UNKNOWN_ERROR";
+
+export interface ApiErrorPayload {
+  code: ApiErrorCode;
+  message: string;
+  details?: unknown;
 }
 
 // Filter Types
