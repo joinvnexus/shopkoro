@@ -1,7 +1,10 @@
+// ./lib/api.ts
+
 import axios, { AxiosResponse } from "axios";
 import {
   ApiResponse,
   Product,
+  ProductReview,
   Testimonial,
   UserCredentials,
   UserRegistrationInfo,
@@ -108,6 +111,23 @@ export const productApi = {
       () => api.get(`/products/${id}`),
       null,
       `product details for ${id}`
+    ),
+
+  getReviews: (id: string): Promise<ProductReview[]> =>
+    safeRequest(
+      () => api.get(`/products/${id}/reviews`),
+      [],
+      `product reviews for ${id}`
+    ),
+
+  upsertReview: (
+    id: string,
+    payload: { rating: number; comment: string }
+  ): Promise<Product | null> =>
+    safeRequest(
+      () => api.post(`/products/${id}/reviews`, payload),
+      null,
+      `submit review for ${id}`
     ),
 };
 

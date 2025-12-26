@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import useAuthStore from "@/stores/authStore";
 import useCartStore from "@/stores/cartStore";
+import useWishlistStore from "@/stores/wishlistStore";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
@@ -27,6 +28,8 @@ const Navbar = () => {
 
   const { userInfo, logout } = useAuthStore();
   const { items } = useCartStore();
+  const { getWishlistCount } = useWishlistStore();
+  const wishlistCount = getWishlistCount();
   const router = useRouter();
 
   useEffect(() => {
@@ -103,32 +106,40 @@ const Navbar = () => {
             {/* Right Icons + Auth */}
             <div className="flex items-center space-x-4">
               {/* Search */}
-              <motion.button
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.9 }}
-                className="hidden md:block p-3 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 hover:shadow-lg hover:shadow-purple-500/20 transition-all"
-              >
-                <Search
-                  size={20}
-                  className="text-gray-700 dark:text-gray-300"
-                />
-              </motion.button>
-
-              {/* Wishlist */}
-              <motion.div className="relative hidden md:block">
+              <Link href="/search">
                 <motion.button
                   whileHover={{ scale: 1.15 }}
-                  className="p-3 rounded-full bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 hover:shadow-lg hover:shadow-pink-500/20 transition-all"
+                  whileTap={{ scale: 0.9 }}
+                  className="hidden md:block p-3 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 hover:shadow-lg hover:shadow-purple-500/20 transition-all"
+                  aria-label="Search products"
                 >
-                  <Heart
+                  <Search
                     size={20}
-                    className="text-pink-600 dark:text-pink-400"
+                    className="text-gray-700 dark:text-gray-300"
                   />
                 </motion.button>
-                <span className="absolute -top-1 -right-1 bg-gradient-to-br from-pink-600 to-rose-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg">
-                  7
-                </span>
-              </motion.div>
+              </Link>
+
+              {/* Wishlist */}
+              <Link href="/wishlist">
+                <motion.div className="relative hidden md:block">
+                  <motion.button
+                    whileHover={{ scale: 1.15 }}
+                    className="p-3 rounded-full bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 hover:shadow-lg hover:shadow-pink-500/20 transition-all"
+                    aria-label="Wishlist"
+                  >
+                    <Heart
+                      size={20}
+                      className="text-pink-600 dark:text-pink-400"
+                    />
+                  </motion.button>
+                  {isClient && (
+                    <span className="absolute -top-1 -right-1 bg-gradient-to-br from-pink-600 to-rose-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-lg">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </motion.div>
+              </Link>
 
               {/* Cart */}
               <motion.div className="relative">
@@ -144,9 +155,11 @@ const Navbar = () => {
                     />
                   </motion.button>
                 </Link>
-                <span className="absolute -top-1 -right-1 bg-gradient-to-br from-orange-600 to-pink-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-xl">
-                  {items.reduce((s, it) => s + it.quantity, 0)}
-                </span>
+                {isClient && (
+                  <span className="absolute -top-1 -right-1 bg-gradient-to-br from-orange-600 to-pink-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-xl">
+                    {items.reduce((s, it) => s + it.quantity, 0)}
+                  </span>
+                )}
               </motion.div>
 
               {/* User Auth */}

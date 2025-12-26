@@ -10,7 +10,8 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { productApi } from "@/lib/api";
 import useCartStore from "@/stores/cartStore";
-import { Product } from "@/types";
+import useAuthStore from "@/stores/authStore";
+import { Product, ProductReview } from "@/types";
 import {
   ShoppingCart,
   Heart,
@@ -62,13 +63,21 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [showShare, setShowShare] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [reviews, setReviews] = useState<ProductReview[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewComment, setReviewComment] = useState("");
+  const [submittingReview, setSubmittingReview] = useState(false);
+
   const { addItem } = useCartStore();
+  const { userInfo } = useAuthStore();
 
   useEffect(() => {
     let isMounted = true;
     const load = async () => {
       try {
         const data = await productApi.getById(id);
+
         if (!isMounted) return;
         if (!data) {
           setError("প্রোডাক্ট পাওয়া যায়নি।");
@@ -76,12 +85,23 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         }
         setProduct(data);
         setError(null);
+
+        setReviewsLoading(true);
+        const list = await productApi.getReviews(id);
+        if (!isMounted) return;
+        setReviews(list);
+        const mine = userInfo?._id
+          ? list.find((r) => String(r.user) === String(userInfo._id))
+          : undefined;
+        setReviewRating(mine?.rating ?? 0);
+        setReviewComment(mine?.comment ?? "");
       } catch (err) {
         console.error(err);
         if (!isMounted) return;
         setError("প্রোডাক্ট লোড করতে সমস্যা হয়েছে।");
       } finally {
         if (!isMounted) return;
+        setReviewsLoading(false);
         setLoading(false);
       }
     };
@@ -89,7 +109,47 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     return () => {
       isMounted = false;
     };
-  }, [id]);
+  }, [id, userInfo?._id]);
+
+  const handleSubmitReview = async () => {
+    if (!userInfo) {
+      router.push(`/login?redirect=/products/${id}`);
+      return;
+    }
+
+    const rating = Number(reviewRating);
+    const comment = String(reviewComment || "").trim();
+
+    if (!Number.isFinite(rating) || rating < 1 || rating > 5) {
+      toast.error("রেটিং ১ থেকে ৫ এর মধ্যে দিন");
+      return;
+    }
+    if (!comment) {
+      toast.error("কমেন্ট লিখুন");
+      return;
+    }
+    if (comment.length > 1000) {
+      toast.error("কমেন্ট ১০০০ অক্ষরের মধ্যে লিখুন");
+      return;
+    }
+
+    setSubmittingReview(true);
+    try {
+      const updated = await productApi.upsertReview(id, { rating, comment });
+      if (!updated) {
+        toast.error("রিভিউ সাবমিট করা যায়নি");
+        return;
+      }
+      setProduct(updated);
+      setReviews(updated.reviewsList || []);
+      toast.success("রিভিউ সেভ হয়েছে!");
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err?.response?.data?.message || "রিভিউ সাবমিট করা যায়নি");
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -337,7 +397,161 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         </div>
 
         {/* Reviews + Related + Recently Viewed */}
-        {/* তোমার আগের ReviewsSection, Related Products, Recently Viewed কোড এখানে রাখো */}
+        <div className="mt-16">
+          <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white/30 dark:border-gray-800 p-6 md:p-10">
+            <div className="flex items-center justify-between gap-6 flex-wrap mb-8">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-black text-gray-800 dark:text-white">
+                  রিভিউ
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 mt-2">
+                  মোট {product.reviews || 0} টি রিভিউ
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      size={18}
+                      className={
+                        i < Math.floor(product.rating || 0)
+                          ? "fill-yellow-500 text-yellow-500"
+                          : "text-gray-300"
+                      }
+                    />
+                  ))}
+                </div>
+                <span className="font-bold text-gray-700 dark:text-gray-300">
+                  {(product.rating || 0).toFixed(1)}
+                </span>
+              </div>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-10">
+              <div className="space-y-5">
+                {reviewsLoading ? (
+                  <div className="text-gray-600 dark:text-gray-400">লোড হচ্ছে...</div>
+                ) : reviews.length === 0 ? (
+                  <div className="text-gray-600 dark:text-gray-400">
+                    এখনো কোনো রিভিউ নেই।
+                  </div>
+                ) : (
+                  reviews
+                    .slice()
+                    .sort(
+                      (a, b) =>
+                        new Date(b.createdAt || 0).getTime() -
+                        new Date(a.createdAt || 0).getTime()
+                    )
+                    .map((r, idx) => (
+                      <div
+                        key={`${r.user}-${idx}`}
+                        className="bg-white/70 dark:bg-gray-800/70 rounded-2xl border border-gray-200 dark:border-gray-700 p-5"
+                      >
+                        <div className="flex items-center justify-between gap-4">
+                          <div>
+                            <p className="font-bold text-gray-800 dark:text-white">
+                              {r.name}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {r.createdAt
+                                ? new Date(r.createdAt).toLocaleDateString("bn-BD")
+                                : ""}
+                            </p>
+                          </div>
+                          <div className="flex gap-1">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                size={16}
+                                className={
+                                  i < Math.floor(r.rating || 0)
+                                    ? "fill-yellow-500 text-yellow-500"
+                                    : "text-gray-300"
+                                }
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        <p className="text-gray-700 dark:text-gray-300 mt-4 whitespace-pre-line">
+                          {r.comment}
+                        </p>
+                      </div>
+                    ))
+                )}
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-50/80 via-pink-50/80 to-orange-50/80 dark:from-gray-900 dark:via-purple-950/40 dark:to-pink-950/30 rounded-3xl border border-gray-200 dark:border-gray-800 p-6 md:p-8">
+                <h3 className="text-xl font-black text-gray-800 dark:text-white mb-4">
+                  আপনার রিভিউ লিখুন
+                </h3>
+
+                {!userInfo ? (
+                  <button
+                    onClick={() => router.push(`/login?redirect=/products/${id}`)}
+                    className="w-full py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 text-white font-bold rounded-2xl shadow-xl"
+                  >
+                    লগইন করে রিভিউ দিন
+                  </button>
+                ) : (
+                  <div className="space-y-5">
+                    <div>
+                      <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                        রেটিং
+                      </p>
+                      <div className="flex gap-2">
+                        {[1, 2, 3, 4, 5].map((v) => (
+                          <button
+                            key={v}
+                            type="button"
+                            onClick={() => setReviewRating(v)}
+                            className="p-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700"
+                            aria-label={`Rate ${v}`}
+                          >
+                            <Star
+                              size={22}
+                              className={
+                                v <= reviewRating
+                                  ? "fill-yellow-500 text-yellow-500"
+                                  : "text-gray-300"
+                              }
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                        কমেন্ট
+                      </p>
+                      <textarea
+                        value={reviewComment}
+                        onChange={(e) => setReviewComment(e.target.value)}
+                        rows={5}
+                        className="w-full px-4 py-4 bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-purple-500/30"
+                        placeholder="আপনার অভিজ্ঞতা লিখুন..."
+                      />
+                      <div className="text-right text-xs text-gray-500 mt-2">
+                        {reviewComment.length}/1000
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleSubmitReview}
+                      disabled={submittingReview}
+                      className="w-full py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 text-white font-bold rounded-2xl shadow-xl disabled:opacity-70"
+                    >
+                      {submittingReview ? "সেভ হচ্ছে..." : "রিভিউ সাবমিট করুন"}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

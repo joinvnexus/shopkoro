@@ -136,6 +136,81 @@ router.get(
   })
 );
 
+router.get(
+  "/:id/reviews",
+  asyncHandler(async (req: Request, res: Response) => {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      res.status(404);
+      throw new Error("Product not found");
+    }
+
+    res.status(200).json({
+      success: true,
+      data: product.reviewsList || [],
+    });
+  })
+);
+
+router.post(
+  "/:id/reviews",
+  protect,
+  asyncHandler(async (req: Request, res: Response) => {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      res.status(404);
+      throw new Error("Product not found");
+    }
+
+    const rating = Number(req.body?.rating);
+    const comment = String(req.body?.comment || "").trim();
+
+    if (!Number.isFinite(rating) || rating < 1 || rating > 5) {
+      res.status(400);
+      throw new Error("Rating must be between 1 and 5");
+    }
+
+    if (!comment || comment.length > 1000) {
+      res.status(400);
+      throw new Error("Comment is required and must be 1000 characters or less");
+    }
+
+    const reviewsList = (product.reviewsList || []) as any[];
+    const existingIndex = reviewsList.findIndex(
+      (r) => String(r.user) === String(req.user!._id)
+    );
+
+    if (existingIndex >= 0) {
+      reviewsList[existingIndex].rating = rating;
+      reviewsList[existingIndex].comment = comment;
+      reviewsList[existingIndex].name = req.user!.name;
+      reviewsList[existingIndex].updatedAt = new Date();
+    } else {
+      reviewsList.push({
+        user: req.user!._id,
+        name: req.user!.name,
+        rating,
+        comment,
+      });
+    }
+
+    product.reviewsList = reviewsList as any;
+    product.reviews = reviewsList.length;
+    product.rating =
+      reviewsList.reduce((sum, r) => sum + (Number(r.rating) || 0), 0) /
+      Math.max(reviewsList.length, 1);
+
+    const updated = await product.save();
+
+    res.status(200).json({
+      success: true,
+      data: updated,
+    });
+  })
+);
+
 /**
  * @route   GET /api/products/:id
  * @desc    Get single product by ID

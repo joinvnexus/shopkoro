@@ -17,6 +17,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const price = product.price ?? 0;
   const originalPrice = product.originalPrice ?? null;
   const productId = product._id || product.name || String(index);
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
   const fallbackImage =
     "data:image/svg+xml;utf8," +
     encodeURIComponent(
@@ -78,15 +79,37 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 
           {/* Wishlist Button - appears on hover */}
           <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 1, scale: 0.8 }}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const wishlistItem = {
+                id: productId,
+                name: product.name,
+                price,
+                image: imageSrc,
+                discount: product.discount,
+                inStock: product.inStock,
+              };
+              
+              if (isInWishlist(productId)) {
+                removeFromWishlist(productId);
+              } else {
+                addToWishlist(wishlistItem);
+              }
+            }}
             className="absolute top-4 right-4 z-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-3 rounded-full shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 border border-white/30"
             aria-label="Add to wishlist"
           >
             <Heart
               size={20}
-              className="text-gray-700 dark:text-gray-300 group-hover:fill-rose-500 group-hover:text-rose-500 transition-all"
+              className={`transition-all ${
+                isInWishlist(productId)
+                  ? "fill-rose-500 text-rose-500"
+                  : "text-gray-700 dark:text-gray-300 group-hover:fill-rose-500 group-hover:text-rose-500"
+              }`}
             />
           </motion.button>
 

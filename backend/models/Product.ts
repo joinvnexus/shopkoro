@@ -3,6 +3,15 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 /**
  * Product Interface
  */
+ export interface IProductReview {
+   user: mongoose.Types.ObjectId;
+   name: string;
+   rating: number;
+   comment: string;
+   createdAt: Date;
+   updatedAt: Date;
+ }
+
 export interface IProduct extends Document {
   name: string;
   nameBn?: string;
@@ -19,6 +28,7 @@ export interface IProduct extends Document {
   stock?: number;
   rating?: number;
   reviews?: number;
+  reviewsList?: IProductReview[];
   isFeatured?: boolean;
   isFlashSale?: boolean;
   isTrending?: boolean;
@@ -30,6 +40,37 @@ export interface IProduct extends Document {
 /**
  * Product Schema
  */
+ const productReviewSchema = new Schema<IProductReview>(
+   {
+     user: {
+       type: Schema.Types.ObjectId,
+       ref: "User",
+       required: true,
+     },
+     name: {
+       type: String,
+       required: true,
+       trim: true,
+     },
+     rating: {
+       type: Number,
+       required: true,
+       min: 1,
+       max: 5,
+     },
+     comment: {
+       type: String,
+       required: true,
+       trim: true,
+       maxlength: 1000,
+     },
+   },
+   {
+     timestamps: true,
+     _id: false,
+   }
+ );
+
 const productSchema = new Schema<IProduct>(
   {
     name: {
@@ -101,6 +142,10 @@ const productSchema = new Schema<IProduct>(
       type: Number,
       min: [0, "Reviews count cannot be negative"],
       default: 0,
+    },
+    reviewsList: {
+      type: [productReviewSchema],
+      default: [],
     },
     isFeatured: {
       type: Boolean,

@@ -7,10 +7,12 @@ import Image from "next/image";
 import useWishlistStore from "@/stores/wishlistStore";
 import { Heart, ShoppingCart, Trash2, HeartHandshake } from "lucide-react";
 import { useRouter } from "next/navigation";
+import useCartStore from "@/stores/cartStore";
 
 export default function WishlistPage() {
   const router = useRouter();
-  const { items, removeItem, clearWishlist, addItem } = useWishlistStore();
+  const { items, removeItem, clearWishlist } = useWishlistStore();
+  const { addItem: addCartItem } = useCartStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -94,7 +96,7 @@ export default function WishlistPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {items.map((item, index) => (
             <motion.div
-              key={item.productId}
+              key={item.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
@@ -120,7 +122,7 @@ export default function WishlistPage() {
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => removeItem(item.productId)}
+                  onClick={() => removeItem(item.id)}
                   className="absolute top-4 right-4 p-3 bg-red-500/90 hover:bg-red-600 text-white rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300"
                   aria-label="Remove from wishlist"
                 >
@@ -142,7 +144,7 @@ export default function WishlistPage() {
                 {/* Action Buttons */}
                 <div className="flex gap-3">
                   <Link
-                    href={`/products/${item.productId}`}
+                    href={`/products/${item.id}`}
                     className="flex-1 text-center py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-purple-500/30 transition-all"
                   >
                     বিস্তারিত দেখুন
@@ -164,7 +166,7 @@ export default function WishlistPage() {
 
                 {/* Added Date */}
                 <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-                  যোগ করা হয়েছে: {new Date(item.addedAt).toLocaleDateString("bn-BD")}
+যোগ করা হয়েছে: {item.addedAt ? new Date(item.addedAt).toLocaleDateString("bn-BD") : "তারিখ পাওয়া যায়নি"}
                 </p>
               </div>
             </motion.div>
