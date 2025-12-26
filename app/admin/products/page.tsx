@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   Plus,
   Search,
@@ -136,13 +137,15 @@ const ProductsPage = () => {
               <div
                 className={`${
                   viewMode === "list" ? "w-32" : "w-full"
-                } h-48 bg-gray-200 dark:bg-gray-700`}
+                } h-48 bg-gray-200 dark:bg-gray-700 relative`}
               >
                 {product.image ? (
-                  <img
+                  <Image
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-gray-400">

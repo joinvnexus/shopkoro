@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { orderApi } from "@/lib/api";
 import LoadingScreen from "@/components/ui/LoadingScreen";
+import NextImage from "next/image";
 
 interface OrderItem {
   productId: string;
@@ -289,11 +290,15 @@ export default function OrderSuccessPage() {
             {order.items.map((item, index) => (
               <div key={index} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
                 {item.image && (
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-16 h-16 object-cover rounded-lg"
-                  />
+                  <div className="relative w-16 h-16 flex-shrink-0">
+                    <NextImage
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      className="object-cover rounded-lg"
+                      sizes="64px"
+                    />
+                  </div>
                 )}
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-800 dark:text-white">{item.name}</h3>

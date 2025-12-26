@@ -5,8 +5,9 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CreditCard, Truck, Shield, ArrowLeft, CheckCircle } from "lucide-react";
-import useCartStore from "@/stores/cartStore";
+import Image from "next/image";
 import useAuthStore from "@/stores/authStore";
+import useCartStore from "@/stores/cartStore";
 import { orderApi, paymentApi } from "@/lib/api";
 
 interface ShippingInfo {
@@ -423,9 +424,15 @@ export default function CheckoutPage() {
               <div className="space-y-4 mb-6">
                 {items.map((item) => (
                   <div key={item.productId} className="flex gap-3">
-                    <div className="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden flex-shrink-0 relative">
                       {item.image ? (
-                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        <Image 
+                          src={item.image || ''} 
+                          alt={item.name || ''} 
+                          fill
+                          className="object-cover w-full h-full"
+                          sizes="48px"
+                        />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-purple-200 to-pink-200 dark:from-purple-800 dark:to-pink-800" />
                       )}

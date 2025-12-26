@@ -10,6 +10,7 @@ import LoadingScreen from "@/components/ui/LoadingScreen";
 import { User, Mail, Shield, LogOut, Settings } from "lucide-react";
 import { ShoppingCart, Heart, Eye, Package, Clock, Calendar, CreditCard } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import NextImage from "next/image";
 interface UserProfile {
   _id: string;
   name: string;
@@ -349,11 +350,15 @@ const ProfilePage = () => {
                           {selectedOrder.items.map((item: any, index: number) => (
                             <div key={index} className="flex items-center gap-4 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                               {item.image && (
-                                <img
-                                  src={item.image}
-                                  alt={item.name}
-                                  className="w-16 h-16 object-cover rounded-lg"
-                                />
+                                <div className="relative w-16 h-16 flex-shrink-0">
+                                  <NextImage
+                                    src={item.image}
+                                    alt={item.name}
+                                    fill
+                                    className="object-cover rounded-lg"
+                                    sizes="64px"
+                                  />
+                                </div>
                               )}
                               <div className="flex-1">
                                 <h5 className="font-medium text-gray-800 dark:text-white">{item.name}</h5>
