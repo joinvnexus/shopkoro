@@ -15,6 +15,7 @@ import {
   Download,
   Filter
 } from "lucide-react";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 interface ReportData {
   totalRevenue: number;
@@ -97,11 +98,7 @@ export default function AdminReportsPage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="w-16 h-16 border-8 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
-      </div>
-    );
+    return <LoadingScreen variant="plain" label="লোড হচ্ছে..." />;
   }
 
   if (!reportData) {

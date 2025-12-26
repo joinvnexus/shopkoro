@@ -6,6 +6,7 @@ import useAuthStore from "@/stores/authStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { userApi, orderApi } from "@/lib/api";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 import { User, Mail, Shield, LogOut, Settings } from "lucide-react";
 import { ShoppingCart, Heart, Eye, Package, Clock, Calendar, CreditCard } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -125,15 +126,7 @@ const ProfilePage = () => {
 
   // Loading State
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 dark:from-gray-950 dark:via-purple-950/40">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-          className="w-16 h-16 border-8 border-purple-200 dark:border-purple-800 border-t-purple-600 dark:border-t-pink-500 rounded-full"
-        />
-      </div>
-    );
+    return <LoadingScreen label="লোড হচ্ছে..." variant="gradient" />;
   }
 
   // Error State

@@ -72,7 +72,7 @@ const Newsletter = () => {
               >
                 {isSubmitting ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     <span>সাবমিট হচ্ছে...</span>
                   </>
                 ) : isSuccess ? (

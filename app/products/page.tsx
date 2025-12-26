@@ -8,6 +8,7 @@ import { productApi } from "@/lib/api";
 import ProductGrid from "@/components/ui/ProductGrid";
 import SortFilter from "@/components/ui/SortFilter";
 import ViewToggle from "@/components/ui/ViewToggle";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 import { Product } from "@/types";
 
 export default function ProductListingPage() {
@@ -59,15 +60,7 @@ export default function ProductListingPage() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-20 h-20 border-8 border-purple-200 rounded-full border-t-purple-600"
-        />
-      </div>
-    );
+    return <LoadingScreen variant="plain" />;
   }
 
   return (

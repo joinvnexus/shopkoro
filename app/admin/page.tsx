@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import useAuthStore from "@/stores/authStore";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 import {
   ShoppingCart,
   Users,
@@ -144,11 +145,7 @@ const AdminDashboard = () => {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-8 border-purple-200 dark:border-purple-800 border-t-purple-600 dark:border-t-pink-500 rounded-full animate-spin"></div>
-      </div>
-    );
+    return <LoadingScreen variant="plain" label="লোড হচ্ছে..." />;
   }
 
   return (

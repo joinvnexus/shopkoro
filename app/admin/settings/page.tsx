@@ -263,94 +263,81 @@ export default function AdminSettingsPage() {
 
   const activeSection = settingSections.find(section => section.id === activeTab);
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">সেটিংস</h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">সিস্টেম কনফিগারেশন এবং প্রেফারেন্স</p>
-        </div>
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
-        >
-          {saving ? (
-            <>
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-              সেভ হচ্ছে...
-            </>
-          ) : (
-            <>
-              <Save size={20} />
-              সেভ করুন
-            </>
-          )}
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Sidebar */}
-        <div className="lg:col-span-1">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-4">
-            <nav className="space-y-2">
-              {settingSections.map((section) => (
-                <button
-                  key={section.id}
-                  onClick={() => setActiveTab(section.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
-                    activeTab === section.id
-                      ? "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  }`}
-                >
-                  <section.icon size={20} />
-                  <span className="font-medium">{section.title}</span>
-                </button>
-              ))}
-            </nav>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="lg:col-span-3">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-6"
-          >
-            {activeSection && (
-              <>
-                <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <activeSection.icon className="text-purple-600" size={24} />
-                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-                      {activeSection.title}
-                    </h2>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {activeSection.description}
-                  </p>
-                </div>
-
-                <div className="space-y-6">
-                  {activeSection.fields.map((field) => (
-                    <div key={field.id}>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        {field.label}
-                      </label>
-                      {renderField(field)}
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-          </motion.div>
-        </div>
+ return (
+  <div className="space-y-6">
+    {/* Header */}
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+          সেটিংস
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-1">
+          সিস্টেম কনফিগারেশন এবং প্রেফারেন্স
+        </p>
       </div>
     </div>
-  );
-}
+
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      {/* Sidebar */}
+      <div className="lg:col-span-1">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-4">
+          <nav className="space-y-2">
+            {settingSections.map((section) => (
+              <button
+                key={section.id}
+                onClick={() => setActiveTab(section.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${
+                  activeTab === section.id
+                    ? "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                }`}
+              >
+                <section.icon size={20} />
+                <span className="font-medium">{section.title}</span>
+              </button>
+            ))}
+          </nav>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="lg:col-span-3">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-6"
+        >
+          {activeSection && (
+            <>
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <activeSection.icon className="text-purple-600" size={24} />
+                  <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+                    {activeSection.title}
+                  </h2>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {activeSection.description}
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                {activeSection.fields.map((field) => (
+                  <div key={field.id}>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      {field.label}
+                    </label>
+                    {renderField(field)}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </motion.div>
+      </div>
+    </div>
+  </div>
+);
+};

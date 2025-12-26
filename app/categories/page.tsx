@@ -6,6 +6,7 @@ import Link from "next/link";
 // import { categoryApi } from "@/lib/api"; // TODO: Add categoryApi to lib/api.ts
 import { Category } from "@/types";
 import { Grid, List, Search, Filter } from "lucide-react";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -46,14 +47,7 @@ export default function CategoriesPage() {
   );
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 dark:from-gray-950 pt-20">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-dark">লোড হচ্ছে...</p>
-        </div>
-      </div>
-    );
+    return <LoadingScreen variant="gradient" />;
   }
 
   return (

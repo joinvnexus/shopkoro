@@ -6,6 +6,7 @@ import { CheckCircle, Package, Truck, Clock } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { orderApi } from "@/lib/api";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 interface OrderItem {
   productId: string;
@@ -72,12 +73,12 @@ export default function OrderSuccessPage() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-950 dark:via-green-950/40 dark:to-emerald-950/30">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-green-200 dark:border-green-800 border-t-green-600 dark:border-t-emerald-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-dark">লোড হচ্ছে...</p>
-        </div>
-      </div>
+      <LoadingScreen
+        label="লোড হচ্ছে..."
+        variant="plain"
+        className="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-950 dark:via-green-950/40 dark:to-emerald-950/30"
+        spinnerClassName="border-green-200 dark:border-green-800 border-t-green-600 dark:border-t-emerald-500"
+      />
     );
   }
 

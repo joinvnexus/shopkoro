@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { ApiClientError, productApi } from "@/lib/api";
 import useCartStore from "@/stores/cartStore";
 import useAuthStore from "@/stores/authStore";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 import { Product, ProductReview } from "@/types";
 
 import {
@@ -188,15 +189,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   // Loading
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-          className="w-20 h-20 border-8 border-purple-200 rounded-full border-t-purple-600"
-        />
-      </div>
-    );
+    return <LoadingScreen label="লোড হচ্ছে..." variant="gradient" />;
   }
 
   if (!product) {

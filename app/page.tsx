@@ -12,6 +12,7 @@ import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import TrendingProducts from "@/components/sections/TrendingProducts";
 import Testimonials from "@/components/sections/Testimonials";
 import Newsletter from "@/components/sections/Newsletter";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 import { Product, Testimonial } from "@/types";
 import { productApi, testimonialApi } from "@/lib/api";
 
@@ -54,14 +55,7 @@ export default function Home() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-dark">লোড হচ্ছে...</p>
-        </div>
-      </div>
-    );
+    return <LoadingScreen variant="plain" />;
   }
 
   return (

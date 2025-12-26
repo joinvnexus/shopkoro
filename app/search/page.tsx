@@ -6,6 +6,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { productApi } from "@/lib/api";
 import ProductCard from "@/components/ui/ProductCard";
+import { LoadingInline } from "@/components/ui/LoadingScreen";
 import { Product } from "@/types";
 import { Search, Filter, X, SlidersHorizontal } from "lucide-react";
 
@@ -218,10 +219,7 @@ export default function SearchPage() {
 
         {/* Loading State */}
         {loading && (
-          <div className="text-center py-12">
-            <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-400">খুঁজছি...</p>
-          </div>
+          <LoadingInline label="খুঁজছি..." />
         )}
 
         {/* Error State */}
