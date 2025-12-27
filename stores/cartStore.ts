@@ -21,6 +21,7 @@ interface CartState {
   clearCart: () => void;
   syncFromServer: () => Promise<void>;
   getTotalPrice: () => number;
+
 }
 
 interface CartApiItem {

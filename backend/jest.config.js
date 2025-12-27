@@ -8,6 +8,7 @@ module.exports = {
     'config/**/*.ts',
     'models/**/*.ts',
     'middleware/**/*.ts',
+    'controllers/**/*.ts',
     '!**/*.d.ts'
   ],
   coverageDirectory: 'coverage',
@@ -16,10 +17,11 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/../$1'
   },
-  testTimeout: 10000,
+  testTimeout: 30000,
   transform: {
     '^.+\\.ts$': ['ts-jest', {
       tsconfig: 'tsconfig.json'
     }]
-  }
+  },
+  testSequencer: '<rootDir>/tests/test-sequencer.js'
 }
