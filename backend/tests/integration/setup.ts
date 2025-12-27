@@ -13,12 +13,12 @@ jest.mock('../../config/database', () => ({
 
 beforeAll(async () => {
   // Set environment variables for testing
-  process.env.NODE_ENV = 'test';
-  process.env.ACCESS_TOKEN_SECRET = 'test_access_secret';
-  process.env.REFRESH_TOKEN_SECRET = 'test_refresh_secret';
-  process.env.ACCESS_TOKEN_EXPIRES_IN = '15m';
-  process.env.REFRESH_TOKEN_EXPIRES_IN = '7d';
-  process.env.REFRESH_COOKIE_NAME = 'shopkoro_refresh_test';
+  (process.env as any).NODE_ENV = 'test';
+  (process.env as any).ACCESS_TOKEN_SECRET = 'test_access_secret';
+  (process.env as any).REFRESH_TOKEN_SECRET = 'test_refresh_secret';
+  (process.env as any).ACCESS_TOKEN_EXPIRES_IN = '15m';
+  (process.env as any).REFRESH_TOKEN_EXPIRES_IN = '7d';
+  (process.env as any).REFRESH_COOKIE_NAME = 'shopkoro_refresh_test';
 
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
