@@ -1,10 +1,8 @@
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Product from "../models/Product";
 import Testimonial from "../models/Testimonial";
 import connectDB from "../config/database";
 
-// Load environment variables
 dotenv.config();
 
 /**
@@ -402,4 +400,3 @@ const seedDatabase = async () => {
 
 // Run seed function
 seedDatabase();
-
