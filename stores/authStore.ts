@@ -1,5 +1,6 @@
-import create from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { create } from "zustand";
+
+import { devtools, persist } from "zustand/middleware";
 
 interface UserInfo {
   _id: string;
@@ -24,16 +25,28 @@ const useAuthStore = create<AuthState>()(
         logout: () => set({ userInfo: null }),
       }),
       {
-        name: 'auth-storage', // name of the item in the storage (must be unique)
-        getStorage: () => localStorage, // specify localStorage
+        name: "auth-storage", // name of the item in the storage (must be unique)
+        storage: {
+          getItem: (name) => {
+            const str = localStorage.getItem(name);
+            if (!str) return null;
+            try {
+              return JSON.parse(str);
+            } catch {
+              return null;
+            }
+          },
+  setItem: (name, value) => localStorage.setItem(name, JSON.stringify(value)),
+          removeItem: (name) => localStorage.removeItem(name),
+        },
       }
     )
   )
 );
 
 // Initialize state from localStorage on load
-if (typeof window !== 'undefined') {
-  const storedState = localStorage.getItem('auth-storage');
+if (typeof window !== "undefined") {
+  const storedState = localStorage.getItem("auth-storage");
   if (storedState) {
     const { state } = JSON.parse(storedState);
     if (state.userInfo) {
@@ -43,4 +56,3 @@ if (typeof window !== 'undefined') {
 }
 
 export default useAuthStore;
-

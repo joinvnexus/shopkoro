@@ -13,7 +13,7 @@ jest.mock('../../config/database', () => ({
 
 beforeAll(async () => {
   // Set environment variables for testing
-  (process.env as any).NODE_ENV = 'test';
+  Object.defineProperty(process.env, 'NODE_ENV', { value: 'test', writable: true });
   (process.env as any).ACCESS_TOKEN_SECRET = 'test_access_secret';
   (process.env as any).REFRESH_TOKEN_SECRET = 'test_refresh_secret';
   (process.env as any).ACCESS_TOKEN_EXPIRES_IN = '15m';

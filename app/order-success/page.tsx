@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle, Package, Truck, Clock } from "lucide-react";
 import Link from "next/link";
@@ -41,13 +41,49 @@ interface Order {
   updatedAt: string;
 }
 
-export default function OrderSuccessPage() {
+function OrderSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get("id");
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  return (
+    <OrderSuccessPageContent
+      orderId={orderId}
+      order={order}
+      loading={loading}
+      error={error}
+      setOrder={setOrder}
+      setLoading={setLoading}
+      setError={setError}
+      router={router}
+    />
+  );
+}
+
+interface OrderSuccessPageContentProps {
+  orderId: string | null;
+  order: Order | null;
+  loading: boolean;
+  error: string | null;
+  setOrder: (order: Order | null) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  router: ReturnType<typeof useRouter>;
+}
+
+function OrderSuccessPageContent({
+  orderId,
+  order,
+  loading,
+  error,
+  setOrder,
+  setLoading,
+  setError,
+  router
+}: OrderSuccessPageContentProps) {
 
   useEffect(() => {
     // Redirect to home if accessed directly without order ID
@@ -376,5 +412,13 @@ export default function OrderSuccessPage() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+export default function OrderSuccessPage() {
+  return (
+    <Suspense fallback={<LoadingScreen label="লোড হচ্ছে..." variant="plain" className="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-950 dark:via-green-950/40 dark:to-emerald-950/30" spinnerClassName="border-green-200 dark:border-green-800 border-t-green-600 dark:border-t-emerald-500" />}>
+      <OrderSuccessContent />
+    </Suspense>
   );
 }
