@@ -199,16 +199,90 @@ Backend will run on `http://localhost:5000`
 ## 🚀 Deployment
 
 ### Frontend (Vercel)
-1. Push code to GitHub
-2. Import project to Vercel
-3. Add environment variables
-4. Deploy!
 
-### Backend (Render/Heroku/Railway)
-1. Push code to GitHub
-2. Create new service
-3. Add environment variables
-4. Deploy!
+1. **Push code to GitHub**
+   ```bash
+   git add .
+   git commit -m "Ready for deployment"
+   git push origin main
+   ```
+
+2. **Import project to Vercel**
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Add New Project"
+   - Import your GitHub repository
+   - Vercel will automatically detect Next.js
+
+3. **Configure Build Settings**
+   - Framework Preset: Next.js
+   - Build Command: `npm run build`
+   - Output Directory: `.next`
+
+4. **Add Environment Variables** (if needed)
+   - NEXT_PUBLIC_API_URL=https://your-backend-domain.onrender.com/api
+
+5. **Deploy!**
+   - Click "Deploy"
+   - Wait for build to complete
+   - Your frontend will be live at `https://your-project.vercel.app`
+
+### Backend (Render)
+
+1. **Push code to GitHub**
+   ```bash
+   git add .
+   git commit -m "Ready for deployment"
+   git push origin main
+   ```
+
+2. **Create new Web Service on Render**
+   - Go to [render.com](https://render.com)
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+
+3. **Configure Build & Runtime Settings**
+   - Root Directory: `backend`
+   - Build Command: `npm run build`
+   - Start Command: `npm start`
+   - Runtime: Node (latest)
+
+4. **Add Environment Variables**
+   Copy all variables from `backend/.env.example` and add them in Render:
+   ```
+   PORT=5000
+   NODE_ENV=production
+   FRONTEND_URL=https://your-frontend-domain.vercel.app
+   BACKEND_URL=https://your-backend-domain.onrender.com
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/dbname
+   ACCESS_TOKEN_SECRET=your-access-secret-here
+   REFRESH_TOKEN_SECRET=your-refresh-secret-here
+   ACCESS_TOKEN_EXPIRES_IN=7d
+   REFRESH_TOKEN_EXPIRES_IN=7d
+   REFRESH_COOKIE_NAME=shopkoro_refresh
+   ADMIN_EMAIL=admin@shopkoro.com
+   ADMIN_PASSWORD=ChangeMe123!
+   STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key_here
+   STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
+   SSLCOMMERZ_STORE_ID=your_store_id_here
+   SSLCOMMERZ_STORE_PASSWORD=your_store_password_here
+   ```
+
+5. **Deploy!**
+   - Click "Create Web Service"
+   - Wait for build to complete
+   - Your backend will be live at `https://your-service-name.onrender.com`
+
+### Important Notes
+
+1. **Update URLs**: After deploying both frontend and backend, update the `FRONTEND_URL` and `BACKEND_URL` in both services' environment variables.
+
+2. **MongoDB Atlas**: For production, use MongoDB Atlas instead of local MongoDB. Create a free account at [mongodb.com/atlas](https://www.mongodb.com/atlas).
+
+3. **Payment Gateways**:
+   - For SSLCommerz: Get credentials from [sslcommerz.com](https://sslcommerz.com)
+   - For Stripe: Get API keys from [stripe.com](https://stripe.com)
+
+4. **Security**: Never commit `.env` files to GitHub. Use `.env.example` as a template and add actual values in deployment platforms.
 
 ## 📄 License
 
