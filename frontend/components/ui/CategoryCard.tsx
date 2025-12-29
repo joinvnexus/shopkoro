@@ -11,7 +11,11 @@ interface CategoryCardProps {
   index?: number;
 }
 
-const CategoryCard = ({ category, icon: Icon, index = 0 }: CategoryCardProps) => {
+const CategoryCard = ({
+  category,
+  icon: Icon,
+  index = 0,
+}: CategoryCardProps) => {
   return (
     <Link href={`/category/${category.slug}`}>
       <motion.div

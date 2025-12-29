@@ -378,3 +378,11 @@ function OrderSuccessContent() {
     </div>
   );
 }
+
+export default function OrderSuccessPage() {
+  return (
+    <Suspense fallback={<LoadingScreen label="লোড হচ্ছে..." variant="plain" />}>
+      <OrderSuccessContent />
+    </Suspense>
+  );
+}

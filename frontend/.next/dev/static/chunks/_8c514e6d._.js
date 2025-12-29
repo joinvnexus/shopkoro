@@ -2,6 +2,7 @@
 "[project]/components/ui/ProductCard.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
+// components/ui/ProductCard.tsx
 __turbopack_context__.s([
     "default",
     ()=>__TURBOPACK__default__export__
@@ -68,7 +69,7 @@ const ProductCard = ({ product, index = 0 })=>{
                             sizes: "(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                         }, void 0, false, {
                             fileName: "[project]/components/ui/ProductCard.tsx",
-                            lineNumber: 45,
+                            lineNumber: 50,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         discountPercentage > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -94,12 +95,12 @@ const ProductCard = ({ product, index = 0 })=>{
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/ui/ProductCard.tsx",
-                                lineNumber: 56,
+                                lineNumber: 61,
                                 columnNumber: 15
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/components/ui/ProductCard.tsx",
-                            lineNumber: 55,
+                            lineNumber: 60,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         product.isFlashSale && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -120,17 +121,17 @@ const ProductCard = ({ product, index = 0 })=>{
                                 children: "Flash"
                             }, void 0, false, {
                                 fileName: "[project]/components/ui/ProductCard.tsx",
-                                lineNumber: 70,
+                                lineNumber: 75,
                                 columnNumber: 15
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/components/ui/ProductCard.tsx",
-                            lineNumber: 69,
+                            lineNumber: 74,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].button, {
                             initial: {
-                                opacity: 1,
+                                opacity: 0,
                                 scale: 0.8
                             },
                             whileHover: {
@@ -163,30 +164,30 @@ const ProductCard = ({ product, index = 0 })=>{
                                 className: `transition-all ${isInWishlist(productId) ? "fill-rose-500 text-rose-500" : "text-gray-700 dark:text-gray-300 group-hover:fill-rose-500 group-hover:text-rose-500"}`
                             }, void 0, false, {
                                 fileName: "[project]/components/ui/ProductCard.tsx",
-                                lineNumber: 106,
+                                lineNumber: 112,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/components/ui/ProductCard.tsx",
-                            lineNumber: 81,
+                            lineNumber: 86,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                         }, void 0, false, {
                             fileName: "[project]/components/ui/ProductCard.tsx",
-                            lineNumber: 117,
+                            lineNumber: 123,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/components/ui/ProductCard.tsx",
-                    lineNumber: 44,
+                    lineNumber: 49,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/components/ui/ProductCard.tsx",
-                lineNumber: 42,
+                lineNumber: 47,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -199,12 +200,12 @@ const ProductCard = ({ product, index = 0 })=>{
                             children: product.name
                         }, void 0, false, {
                             fileName: "[project]/components/ui/ProductCard.tsx",
-                            lineNumber: 124,
+                            lineNumber: 130,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/components/ui/ProductCard.tsx",
-                        lineNumber: 123,
+                        lineNumber: 129,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     product.rating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -219,12 +220,12 @@ const ProductCard = ({ product, index = 0 })=>{
                                         className: i < Math.floor(product.rating || 0) ? "fill-amber-500 text-amber-500" : "text-gray-300 dark:text-gray-600"
                                     }, i, false, {
                                         fileName: "[project]/components/ui/ProductCard.tsx",
-                                        lineNumber: 134,
+                                        lineNumber: 140,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0)))
                             }, void 0, false, {
                                 fileName: "[project]/components/ui/ProductCard.tsx",
-                                lineNumber: 132,
+                                lineNumber: 138,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -236,13 +237,13 @@ const ProductCard = ({ product, index = 0 })=>{
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/ui/ProductCard.tsx",
-                                lineNumber: 145,
+                                lineNumber: 151,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/ui/ProductCard.tsx",
-                        lineNumber: 131,
+                        lineNumber: 137,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -256,7 +257,7 @@ const ProductCard = ({ product, index = 0 })=>{
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/ui/ProductCard.tsx",
-                                lineNumber: 153,
+                                lineNumber: 159,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             originalPrice !== null && originalPrice > price && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -267,27 +268,18 @@ const ProductCard = ({ product, index = 0 })=>{
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/ui/ProductCard.tsx",
-                                lineNumber: 157,
+                                lineNumber: 163,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/ui/ProductCard.tsx",
-                        lineNumber: 152,
+                        lineNumber: 158,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex gap-3 mt-4",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                href: `/products/${productId}`,
-                                className: "flex-1 text-center py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300",
-                                children: "বিস্তারিত দেখুন"
-                            }, void 0, false, {
-                                fileName: "[project]/components/ui/ProductCard.tsx",
-                                lineNumber: 165,
-                                columnNumber: 11
-                            }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].button, {
                                 onClick: (e)=>{
                                     e.preventDefault();
@@ -297,8 +289,9 @@ const ProductCard = ({ product, index = 0 })=>{
                                         productId,
                                         name: product.name,
                                         price,
-                                        image: imageSrc,
-                                        quantity: 1
+                                        quantity: 1,
+                                        // image যদি তোমার CartItem টাইপে না থাকে তাহলে এটা সরাও
+                                        image: imageSrc
                                     });
                                 },
                                 whileHover: {
@@ -307,23 +300,64 @@ const ProductCard = ({ product, index = 0 })=>{
                                 whileTap: {
                                     scale: 0.95
                                 },
-                                className: "px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shopping$2d$cart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShoppingCart$3e$__["ShoppingCart"], {
-                                    size: 20
+                                className: "flex-1 bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shopping$2d$cart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShoppingCart$3e$__["ShoppingCart"], {
+                                        size: 20
+                                    }, void 0, false, {
+                                        fileName: "[project]/components/ui/ProductCard.tsx",
+                                        lineNumber: 190,
+                                        columnNumber: 13
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    "কার্টে যোগ"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/components/ui/ProductCard.tsx",
+                                lineNumber: 172,
+                                columnNumber: 11
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].button, {
+                                onClick: (e)=>{
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    const wishlistItem = {
+                                        id: productId,
+                                        name: product.name,
+                                        price,
+                                        image: imageSrc,
+                                        discount: product.discount,
+                                        inStock: product.inStock
+                                    };
+                                    if (isInWishlist(productId)) {
+                                        removeFromWishlist(productId);
+                                    } else {
+                                        addToWishlist(wishlistItem);
+                                    }
+                                },
+                                whileHover: {
+                                    scale: 1.1
+                                },
+                                whileTap: {
+                                    scale: 0.9
+                                },
+                                className: "p-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-xl transition-all border border-white/30",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$heart$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Heart$3e$__["Heart"], {
+                                    size: 22,
+                                    className: `transition-all ${isInWishlist(productId) ? "fill-rose-500 text-rose-500" : "text-gray-700 dark:text-gray-300"}`
                                 }, void 0, false, {
                                     fileName: "[project]/components/ui/ProductCard.tsx",
-                                    lineNumber: 189,
+                                    lineNumber: 218,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/components/ui/ProductCard.tsx",
-                                lineNumber: 172,
+                                lineNumber: 195,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/ui/ProductCard.tsx",
-                        lineNumber: 164,
+                        lineNumber: 170,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     product.stock !== undefined && product.stock < 10 && product.stock > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -335,7 +369,7 @@ const ProductCard = ({ product, index = 0 })=>{
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/ui/ProductCard.tsx",
-                        lineNumber: 196,
+                        lineNumber: 233,
                         columnNumber: 13
                     }, ("TURBOPACK compile-time value", void 0)),
                     !product.inStock && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -345,31 +379,31 @@ const ProductCard = ({ product, index = 0 })=>{
                             children: "স্টক আউট"
                         }, void 0, false, {
                             fileName: "[project]/components/ui/ProductCard.tsx",
-                            lineNumber: 202,
+                            lineNumber: 239,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/components/ui/ProductCard.tsx",
-                        lineNumber: 201,
+                        lineNumber: 238,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/ui/ProductCard.tsx",
-                lineNumber: 122,
+                lineNumber: 128,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "pointer-events-none absolute -inset-1 rounded-3xl bg-gradient-to-r from-rose-600/20 to-pink-600/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 -z-10"
             }, void 0, false, {
                 fileName: "[project]/components/ui/ProductCard.tsx",
-                lineNumber: 210,
+                lineNumber: 247,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/components/ui/ProductCard.tsx",
-        lineNumber: 34,
+        lineNumber: 39,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

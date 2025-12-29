@@ -1,3 +1,5 @@
+// components/ui/ProductCard.tsx
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -17,13 +19,16 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const price = product.price ?? 0;
   const originalPrice = product.originalPrice ?? null;
   const productId = product._id || product.name || String(index);
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
+  const { addToWishlist, removeFromWishlist, isInWishlist } =
+    useWishlistStore();
+
   const fallbackImage =
     "data:image/svg+xml;utf8," +
     encodeURIComponent(
       `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%' height='100%' fill='%23f4f4f5'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%239ca3af' font-family='Arial' font-size='28'>ShopKoro</text></svg>`
     );
   const imageSrc = product.image || product.images?.[0] || fallbackImage;
+
   const discountPercentage = product.originalPrice
     ? Math.round(
         ((product.originalPrice - price) / product.originalPrice) * 100
@@ -79,7 +84,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 
           {/* Wishlist Button - appears on hover */}
           <motion.button
-            initial={{ opacity: 1, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.8 }}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
             onClick={(e) => {
@@ -94,6 +99,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
                 inStock: product.inStock,
               };
               
+
               if (isInWishlist(productId)) {
                 removeFromWishlist(productId);
               } else {
@@ -160,15 +166,9 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           )}
         </div>
 
-        {/* Add to Cart Button */}
+        {/* Cart + Wishlist Buttons (পাশাপাশি) */}
         <div className="flex gap-3 mt-4">
-          <Link
-            href={`/products/${productId}`}
-            className="flex-1 text-center py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
-          >
-            বিস্তারিত দেখুন
-          </Link>
-
+          {/* Cart Button */}
           <motion.button
             onClick={(e) => {
               e.preventDefault();
@@ -178,17 +178,54 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
                 productId,
                 name: product.name,
                 price,
-                image: imageSrc,
                 quantity: 1,
+                // image যদি তোমার CartItem টাইপে না থাকে তাহলে এটা সরাও
+                image: imageSrc,
               });
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl flex items-center justify-center gap-2 transition-all"
+            className="flex-1 bg-gradient-to-r from-orange-600 to-red-600 text-white py-3 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all"
           >
             <ShoppingCart size={20} />
+            কার্টে যোগ
+          </motion.button>
+
+          {/* Wishlist Button (নিচে পাশে) */}
+          <motion.button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const wishlistItem = {
+                id: productId,
+                name: product.name,
+                price,
+                image: imageSrc,
+                discount: product.discount,
+                inStock: product.inStock,
+              };
+
+              if (isInWishlist(productId)) {
+                removeFromWishlist(productId);
+              } else {
+                addToWishlist(wishlistItem);
+              }
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="p-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-xl transition-all border border-white/30"
+          >
+            <Heart
+              size={22}
+              className={`transition-all ${
+                isInWishlist(productId)
+                  ? "fill-rose-500 text-rose-500"
+                  : "text-gray-700 dark:text-gray-300"
+              }`}
+            />
           </motion.button>
         </div>
+
         {/* Low Stock Alert */}
         {product.stock !== undefined &&
           product.stock < 10 &&

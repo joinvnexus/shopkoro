@@ -45,9 +45,7 @@
       "path": "/_next/image",
       "loader": "default",
       "loaderFile": "",
-      "domains": [
-        "images.unsplash.com"
-      ],
+      "domains": [],
       "disableStaticImages": false,
       "minimumCacheTTL": 14400,
       "formats": [
@@ -64,7 +62,12 @@
           "search": ""
         }
       ],
-      "remotePatterns": [],
+      "remotePatterns": [
+        {
+          "protocol": "https",
+          "hostname": "images.unsplash.com"
+        }
+      ],
       "qualities": [
         75
       ],
@@ -101,7 +104,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "E:\\webdevlopment-learn\\New folder\\shopkoro",
+    "outputFileTracingRoot": "E:\\webdevlopment-learn\\New folder\\shopkoro\\frontend",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -291,12 +294,12 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.ts",
     "turbopack": {
-      "root": "E:\\webdevlopment-learn\\New folder\\shopkoro"
+      "root": "E:\\webdevlopment-learn\\New folder\\shopkoro\\frontend"
     },
     "distDirRoot": ".next"
   },
   "appDir": "E:\\webdevlopment-learn\\New folder\\shopkoro\\frontend",
-  "relativeAppDir": "frontend",
+  "relativeAppDir": "",
   "files": [
     ".next\\routes-manifest.json",
     ".next\\server\\pages-manifest.json",

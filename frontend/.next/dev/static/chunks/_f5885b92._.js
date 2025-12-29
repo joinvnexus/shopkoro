@@ -95,7 +95,9 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 __turbopack_context__.s([
     "default",
-    ()=>__TURBOPACK__default__export__
+    ()=>__TURBOPACK__default__export__,
+    "dynamic",
+    ()=>dynamic
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
@@ -114,10 +116,12 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/eye.js [app-client] (ecmascript) <export default as Eye>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Package$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/package.js [app-client] (ecmascript) <export default as Package>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$credit$2d$card$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CreditCard$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/credit-card.js [app-client] (ecmascript) <export default as CreditCard>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$dollar$2d$sign$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__DollarSign$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/dollar-sign.js [app-client] (ecmascript) <export default as DollarSign>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
+const dynamic = 'force-dynamic';
 ;
 ;
 ;
@@ -129,7 +133,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-const ProfilePage = ()=>{
+const ProfileContent = ()=>{
     _s();
     const { userInfo, logout } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$stores$2f$authStore$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
@@ -142,13 +146,13 @@ const ProfilePage = ()=>{
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("orders");
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "ProfilePage.useEffect": ()=>{
+        "ProfileContent.useEffect": ()=>{
             if (!userInfo) {
                 router.push("/login");
                 return;
             }
             const fetchUserData = {
-                "ProfilePage.useEffect.fetchUserData": async ()=>{
+                "ProfileContent.useEffect.fetchUserData": async ()=>{
                     try {
                         // Fetch user profile
                         const userData = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["userApi"].getProfile();
@@ -172,10 +176,10 @@ const ProfilePage = ()=>{
                         setLoading(false);
                     }
                 }
-            }["ProfilePage.useEffect.fetchUserData"];
+            }["ProfileContent.useEffect.fetchUserData"];
             fetchUserData();
         }
-    }["ProfilePage.useEffect"], [
+    }["ProfileContent.useEffect"], [
         userInfo,
         router,
         orderId
@@ -237,7 +241,7 @@ const ProfilePage = ()=>{
             variant: "gradient"
         }, void 0, false, {
             fileName: "[project]/app/profile/page.tsx",
-            lineNumber: 130,
+            lineNumber: 132,
             columnNumber: 12
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -263,12 +267,12 @@ const ProfilePage = ()=>{
                             children: "Warning"
                         }, void 0, false, {
                             fileName: "[project]/app/profile/page.tsx",
-                            lineNumber: 143,
+                            lineNumber: 145,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/app/profile/page.tsx",
-                        lineNumber: 142,
+                        lineNumber: 144,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -276,18 +280,18 @@ const ProfilePage = ()=>{
                         children: error
                     }, void 0, false, {
                         fileName: "[project]/app/profile/page.tsx",
-                        lineNumber: 145,
+                        lineNumber: 147,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/profile/page.tsx",
-                lineNumber: 137,
+                lineNumber: 139,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/app/profile/page.tsx",
-            lineNumber: 136,
+            lineNumber: 138,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -324,12 +328,12 @@ const ProfilePage = ()=>{
                                         children: user?.name.charAt(0).toUpperCase()
                                     }, void 0, false, {
                                         fileName: "[project]/app/profile/page.tsx",
-                                        lineNumber: 166,
+                                        lineNumber: 168,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0))
                                 }, void 0, false, {
                                     fileName: "[project]/app/profile/page.tsx",
-                                    lineNumber: 165,
+                                    lineNumber: 167,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -337,7 +341,7 @@ const ProfilePage = ()=>{
                                     children: user?.name
                                 }, void 0, false, {
                                     fileName: "[project]/app/profile/page.tsx",
-                                    lineNumber: 171,
+                                    lineNumber: 173,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -345,7 +349,7 @@ const ProfilePage = ()=>{
                                     children: user?.email
                                 }, void 0, false, {
                                     fileName: "[project]/app/profile/page.tsx",
-                                    lineNumber: 174,
+                                    lineNumber: 176,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 user?.isAdmin && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -355,20 +359,20 @@ const ProfilePage = ()=>{
                                             size: 20
                                         }, void 0, false, {
                                             fileName: "[project]/app/profile/page.tsx",
-                                            lineNumber: 180,
+                                            lineNumber: 182,
                                             columnNumber: 19
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             children: "অ্যাডমিন"
                                         }, void 0, false, {
                                             fileName: "[project]/app/profile/page.tsx",
-                                            lineNumber: 181,
+                                            lineNumber: 183,
                                             columnNumber: 19
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/profile/page.tsx",
-                                    lineNumber: 179,
+                                    lineNumber: 181,
                                     columnNumber: 17
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -388,14 +392,14 @@ const ProfilePage = ()=>{
                                                     className: "inline mr-2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/profile/page.tsx",
-                                                    lineNumber: 191,
+                                                    lineNumber: 193,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 "প্রোফাইল সেটিংস"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/profile/page.tsx",
-                                            lineNumber: 186,
+                                            lineNumber: 188,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].button, {
@@ -413,31 +417,31 @@ const ProfilePage = ()=>{
                                                     className: "inline mr-2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/profile/page.tsx",
-                                                    lineNumber: 201,
+                                                    lineNumber: 203,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 "লগআউট করুন"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/profile/page.tsx",
-                                            lineNumber: 195,
+                                            lineNumber: 197,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/profile/page.tsx",
-                                    lineNumber: 185,
+                                    lineNumber: 187,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/profile/page.tsx",
-                            lineNumber: 164,
+                            lineNumber: 166,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/app/profile/page.tsx",
-                        lineNumber: 163,
+                        lineNumber: 165,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -468,7 +472,7 @@ const ProfilePage = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/profile/page.tsx",
-                                            lineNumber: 218,
+                                            lineNumber: 220,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -476,18 +480,18 @@ const ProfilePage = ()=>{
                                             children: "আপনার অর্ডার, উইশলিস্ট ও সেটিংস এখানে পাবেন"
                                         }, void 0, false, {
                                             fileName: "[project]/app/profile/page.tsx",
-                                            lineNumber: 221,
+                                            lineNumber: 223,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/profile/page.tsx",
-                                    lineNumber: 217,
+                                    lineNumber: 219,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/app/profile/page.tsx",
-                                lineNumber: 211,
+                                lineNumber: 213,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -514,7 +518,7 @@ const ProfilePage = ()=>{
                                     {
                                         label: "সেভ করেছেন",
                                         value: "৳৮,৪৫০",
-                                        icon: "Savings",
+                                        icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$dollar$2d$sign$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__DollarSign$3e$__["DollarSign"],
                                         color: "from-green-500 to-emerald-600"
                                     }
                                 ].map((stat, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -541,12 +545,12 @@ const ProfilePage = ()=>{
                                                     className: "w-8 h-8 text-white"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/profile/page.tsx",
-                                                    lineNumber: 266,
+                                                    lineNumber: 268,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/app/profile/page.tsx",
-                                                lineNumber: 263,
+                                                lineNumber: 265,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -554,7 +558,7 @@ const ProfilePage = ()=>{
                                                 children: stat.value
                                             }, void 0, false, {
                                                 fileName: "[project]/app/profile/page.tsx",
-                                                lineNumber: 268,
+                                                lineNumber: 270,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -562,18 +566,18 @@ const ProfilePage = ()=>{
                                                 children: stat.label
                                             }, void 0, false, {
                                                 fileName: "[project]/app/profile/page.tsx",
-                                                lineNumber: 271,
+                                                lineNumber: 273,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, i, true, {
                                         fileName: "[project]/app/profile/page.tsx",
-                                        lineNumber: 255,
+                                        lineNumber: 257,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0)))
                             }, void 0, false, {
                                 fileName: "[project]/app/profile/page.tsx",
-                                lineNumber: 228,
+                                lineNumber: 230,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -610,25 +614,25 @@ const ProfilePage = ()=>{
                                                         size: 18
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 296,
+                                                        lineNumber: 298,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: tab.label
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 297,
+                                                        lineNumber: 299,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, tab.id, true, {
                                                 fileName: "[project]/app/profile/page.tsx",
-                                                lineNumber: 287,
+                                                lineNumber: 289,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)))
                                     }, void 0, false, {
                                         fileName: "[project]/app/profile/page.tsx",
-                                        lineNumber: 280,
+                                        lineNumber: 282,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -651,7 +655,7 @@ const ProfilePage = ()=>{
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                    lineNumber: 310,
+                                                                    lineNumber: 312,
                                                                     columnNumber: 27
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -660,13 +664,13 @@ const ProfilePage = ()=>{
                                                                     children: "← সব অর্ডার দেখুন"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                    lineNumber: 311,
+                                                                    lineNumber: 313,
                                                                     columnNumber: 27
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/profile/page.tsx",
-                                                            lineNumber: 309,
+                                                            lineNumber: 311,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -680,7 +684,7 @@ const ProfilePage = ()=>{
                                                                             children: "অর্ডার তারিখ"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 321,
+                                                                            lineNumber: 323,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -688,13 +692,13 @@ const ProfilePage = ()=>{
                                                                             children: formatDate(selectedOrder.createdAt)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 322,
+                                                                            lineNumber: 324,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                    lineNumber: 320,
+                                                                    lineNumber: 322,
                                                                     columnNumber: 27
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -705,7 +709,7 @@ const ProfilePage = ()=>{
                                                                             children: "পেমেন্ট মেথড"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 325,
+                                                                            lineNumber: 327,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -713,13 +717,13 @@ const ProfilePage = ()=>{
                                                                             children: selectedOrder.paymentMethod === "sslcommerz" ? "এসএসএল কমার্জ" : "স্ট্রাইপ"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 326,
+                                                                            lineNumber: 328,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                    lineNumber: 324,
+                                                                    lineNumber: 326,
                                                                     columnNumber: 27
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -730,7 +734,7 @@ const ProfilePage = ()=>{
                                                                             children: "অর্ডার স্ট্যাটাস"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 329,
+                                                                            lineNumber: 331,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -738,13 +742,13 @@ const ProfilePage = ()=>{
                                                                             children: getOrderStatusText(selectedOrder.orderStatus)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 330,
+                                                                            lineNumber: 332,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                    lineNumber: 328,
+                                                                    lineNumber: 330,
                                                                     columnNumber: 27
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -755,7 +759,7 @@ const ProfilePage = ()=>{
                                                                             children: "পেমেন্ট স্ট্যাটাস"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 335,
+                                                                            lineNumber: 337,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -763,19 +767,19 @@ const ProfilePage = ()=>{
                                                                             children: selectedOrder.paymentStatus === "paid" ? "পেমেন্ট সম্পন্ন" : selectedOrder.paymentStatus === "pending" ? "পেমেন্ট পেন্ডিং" : "পেমেন্ট ব্যর্থ"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 336,
+                                                                            lineNumber: 338,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                    lineNumber: 334,
+                                                                    lineNumber: 336,
                                                                     columnNumber: 27
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/profile/page.tsx",
-                                                            lineNumber: 319,
+                                                            lineNumber: 321,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -786,7 +790,7 @@ const ProfilePage = ()=>{
                                                                     children: "অর্ডারকৃত পণ্য"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                    lineNumber: 349,
+                                                                    lineNumber: 351,
                                                                     columnNumber: 27
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 selectedOrder.items.map((item, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -802,12 +806,12 @@ const ProfilePage = ()=>{
                                                                                     sizes: "64px"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                                    lineNumber: 354,
+                                                                                    lineNumber: 356,
                                                                                     columnNumber: 35
                                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                                lineNumber: 353,
+                                                                                lineNumber: 355,
                                                                                 columnNumber: 33
                                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -818,7 +822,7 @@ const ProfilePage = ()=>{
                                                                                         children: item.name
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/app/profile/page.tsx",
-                                                                                        lineNumber: 364,
+                                                                                        lineNumber: 366,
                                                                                         columnNumber: 33
                                                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -830,13 +834,13 @@ const ProfilePage = ()=>{
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/app/profile/page.tsx",
-                                                                                        lineNumber: 365,
+                                                                                        lineNumber: 367,
                                                                                         columnNumber: 33
                                                                                     }, ("TURBOPACK compile-time value", void 0))
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                                lineNumber: 363,
+                                                                                lineNumber: 365,
                                                                                 columnNumber: 31
                                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -846,24 +850,24 @@ const ProfilePage = ()=>{
                                                                                     children: formatPrice(item.price * item.quantity)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                                    lineNumber: 370,
+                                                                                    lineNumber: 372,
                                                                                     columnNumber: 33
                                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                                lineNumber: 369,
+                                                                                lineNumber: 371,
                                                                                 columnNumber: 31
                                                                             }, ("TURBOPACK compile-time value", void 0))
                                                                         ]
                                                                     }, index, true, {
                                                                         fileName: "[project]/app/profile/page.tsx",
-                                                                        lineNumber: 351,
+                                                                        lineNumber: 353,
                                                                         columnNumber: 29
                                                                     }, ("TURBOPACK compile-time value", void 0)))
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/profile/page.tsx",
-                                                            lineNumber: 348,
+                                                            lineNumber: 350,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -876,20 +880,20 @@ const ProfilePage = ()=>{
                                                                             children: "সাবটোটাল"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 380,
+                                                                            lineNumber: 382,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                             children: formatPrice(selectedOrder.subtotal)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 381,
+                                                                            lineNumber: 383,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                    lineNumber: 379,
+                                                                    lineNumber: 381,
                                                                     columnNumber: 27
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -899,20 +903,20 @@ const ProfilePage = ()=>{
                                                                             children: "ডেলিভারি চার্জ"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 384,
+                                                                            lineNumber: 386,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                             children: formatPrice(selectedOrder.shipping)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 385,
+                                                                            lineNumber: 387,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                    lineNumber: 383,
+                                                                    lineNumber: 385,
                                                                     columnNumber: 27
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -922,32 +926,32 @@ const ProfilePage = ()=>{
                                                                             children: "মোট"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 388,
+                                                                            lineNumber: 390,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                             children: formatPrice(selectedOrder.total)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/profile/page.tsx",
-                                                                            lineNumber: 389,
+                                                                            lineNumber: 391,
                                                                             columnNumber: 29
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/profile/page.tsx",
-                                                                    lineNumber: 387,
+                                                                    lineNumber: 389,
                                                                     columnNumber: 27
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/profile/page.tsx",
-                                                            lineNumber: 378,
+                                                            lineNumber: 380,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/profile/page.tsx",
-                                                    lineNumber: 308,
+                                                    lineNumber: 310,
                                                     columnNumber: 23
                                                 }, ("TURBOPACK compile-time value", void 0)) : // Order List
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -959,7 +963,7 @@ const ProfilePage = ()=>{
                                                                 size: 48
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                lineNumber: 398,
+                                                                lineNumber: 400,
                                                                 columnNumber: 29
                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -967,7 +971,7 @@ const ProfilePage = ()=>{
                                                                 children: "আপনার কোনো অর্ডার নেই"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                lineNumber: 399,
+                                                                lineNumber: 401,
                                                                 columnNumber: 29
                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -976,13 +980,13 @@ const ProfilePage = ()=>{
                                                                 children: "শপিং করুন"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                lineNumber: 400,
+                                                                lineNumber: 402,
                                                                 columnNumber: 29
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 397,
+                                                        lineNumber: 399,
                                                         columnNumber: 27
                                                     }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "space-y-4",
@@ -1003,7 +1007,7 @@ const ProfilePage = ()=>{
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/app/profile/page.tsx",
-                                                                                        lineNumber: 417,
+                                                                                        lineNumber: 419,
                                                                                         columnNumber: 37
                                                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1011,13 +1015,13 @@ const ProfilePage = ()=>{
                                                                                         children: formatDate(order.createdAt)
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/app/profile/page.tsx",
-                                                                                        lineNumber: 418,
+                                                                                        lineNumber: 420,
                                                                                         columnNumber: 37
                                                                                     }, ("TURBOPACK compile-time value", void 0))
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                                lineNumber: 416,
+                                                                                lineNumber: 418,
                                                                                 columnNumber: 35
                                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1025,13 +1029,13 @@ const ProfilePage = ()=>{
                                                                                 children: getOrderStatusText(order.orderStatus)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                                lineNumber: 420,
+                                                                                lineNumber: 422,
                                                                                 columnNumber: 35
                                                                             }, ("TURBOPACK compile-time value", void 0))
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/app/profile/page.tsx",
-                                                                        lineNumber: 415,
+                                                                        lineNumber: 417,
                                                                         columnNumber: 33
                                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1046,7 +1050,7 @@ const ProfilePage = ()=>{
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                                lineNumber: 425,
+                                                                                lineNumber: 427,
                                                                                 columnNumber: 35
                                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1054,30 +1058,30 @@ const ProfilePage = ()=>{
                                                                                 children: formatPrice(order.total)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                                lineNumber: 428,
+                                                                                lineNumber: 430,
                                                                                 columnNumber: 35
                                                                             }, ("TURBOPACK compile-time value", void 0))
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/app/profile/page.tsx",
-                                                                        lineNumber: 424,
+                                                                        lineNumber: 426,
                                                                         columnNumber: 33
                                                                     }, ("TURBOPACK compile-time value", void 0))
                                                                 ]
                                                             }, order._id, true, {
                                                                 fileName: "[project]/app/profile/page.tsx",
-                                                                lineNumber: 410,
+                                                                lineNumber: 412,
                                                                 columnNumber: 31
                                                             }, ("TURBOPACK compile-time value", void 0)))
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 408,
+                                                        lineNumber: 410,
                                                         columnNumber: 27
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 }, void 0, false)
                                             }, void 0, false, {
                                                 fileName: "[project]/app/profile/page.tsx",
-                                                lineNumber: 305,
+                                                lineNumber: 307,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             activeTab === "wishlist" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1088,7 +1092,7 @@ const ProfilePage = ()=>{
                                                         size: 48
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 441,
+                                                        lineNumber: 443,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1096,7 +1100,7 @@ const ProfilePage = ()=>{
                                                         children: "আপনার উইশলিস্ট খালি"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 442,
+                                                        lineNumber: 444,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1105,13 +1109,13 @@ const ProfilePage = ()=>{
                                                         children: "পণ্য দেখুন"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 443,
+                                                        lineNumber: 445,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/profile/page.tsx",
-                                                lineNumber: 440,
+                                                lineNumber: 442,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             activeTab === "address" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1122,7 +1126,7 @@ const ProfilePage = ()=>{
                                                         size: 48
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 454,
+                                                        lineNumber: 456,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1130,7 +1134,7 @@ const ProfilePage = ()=>{
                                                         children: "আপনার কোনো সেভ করা ঠিকানা নেই"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 455,
+                                                        lineNumber: 457,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1138,13 +1142,13 @@ const ProfilePage = ()=>{
                                                         children: "ঠিকানা যোগ করুন"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 456,
+                                                        lineNumber: 458,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/profile/page.tsx",
-                                                lineNumber: 453,
+                                                lineNumber: 455,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             activeTab === "payment" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1153,31 +1157,31 @@ const ProfilePage = ()=>{
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$credit$2d$card$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CreditCard$3e$__["CreditCard"], {
                                                         className: "mx-auto text-gray-400 mb-4",
                                                         size: 48
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 464,
-                                                        columnNumber: 21
-                                                    }, ("TURBOPACK compile-time value", void 0)),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "text-gray-600 dark:text-gray-400 mb-4",
-                                                        children: "আপনার কোনো সেভ করা পেমেন্ট মেথড নেই"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 465,
-                                                        columnNumber: 21
-                                                    }, ("TURBOPACK compile-time value", void 0)),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                        className: "px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors",
-                                                        children: "পেমেন্ট মেথড যোগ করুন"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
                                                         lineNumber: 466,
                                                         columnNumber: 21
+                                                    }, ("TURBOPACK compile-time value", void 0)),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                        className: "text-gray-600 dark:text-gray-400 mb-4",
+                                                        children: "আপনার কোনো সেভ করা পেমেন্ট মেথড নেই"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/app/profile/page.tsx",
+                                                        lineNumber: 467,
+                                                        columnNumber: 21
+                                                    }, ("TURBOPACK compile-time value", void 0)),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                        className: "px-6 py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-colors",
+                                                        children: "পেমেন্ট মেথড যোগ করুন"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/app/profile/page.tsx",
+                                                        lineNumber: 468,
+                                                        columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/profile/page.tsx",
-                                                lineNumber: 463,
+                                                lineNumber: 465,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             activeTab === "payment" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1188,7 +1192,7 @@ const ProfilePage = ()=>{
                                                         size: 48
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 476,
+                                                        lineNumber: 478,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1196,7 +1200,7 @@ const ProfilePage = ()=>{
                                                         children: "আপনার কোনো সেভ করা পেমেন্ট মেথড নেই"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 477,
+                                                        lineNumber: 479,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1204,61 +1208,84 @@ const ProfilePage = ()=>{
                                                         children: "পেমেন্ট মেথড যোগ করুন"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/profile/page.tsx",
-                                                        lineNumber: 478,
+                                                        lineNumber: 480,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/profile/page.tsx",
-                                                lineNumber: 475,
+                                                lineNumber: 477,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/profile/page.tsx",
-                                        lineNumber: 303,
+                                        lineNumber: 305,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/profile/page.tsx",
-                                lineNumber: 279,
+                                lineNumber: 281,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/profile/page.tsx",
-                        lineNumber: 209,
+                        lineNumber: 211,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/profile/page.tsx",
-                lineNumber: 156,
+                lineNumber: 158,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/app/profile/page.tsx",
-            lineNumber: 155,
+            lineNumber: 157,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0))
     }, void 0, false, {
         fileName: "[project]/app/profile/page.tsx",
-        lineNumber: 154,
+        lineNumber: 156,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
-_s(ProfilePage, "RBWlk1qmQdrCy5ikfmGvonGfGkw=", false, function() {
+_s(ProfileContent, "RBWlk1qmQdrCy5ikfmGvonGfGkw=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$stores$2f$authStore$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"]
     ];
 });
-_c = ProfilePage;
+_c = ProfileContent;
+const ProfilePage = ()=>{
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Suspense"], {
+        fallback: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$LoadingScreen$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+            label: "লোড হচ্ছে...",
+            variant: "gradient"
+        }, void 0, false, {
+            fileName: "[project]/app/profile/page.tsx",
+            lineNumber: 496,
+            columnNumber: 25
+        }, void 0),
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ProfileContent, {}, void 0, false, {
+            fileName: "[project]/app/profile/page.tsx",
+            lineNumber: 497,
+            columnNumber: 7
+        }, ("TURBOPACK compile-time value", void 0))
+    }, void 0, false, {
+        fileName: "[project]/app/profile/page.tsx",
+        lineNumber: 496,
+        columnNumber: 5
+    }, ("TURBOPACK compile-time value", void 0));
+};
+_c1 = ProfilePage;
 const __TURBOPACK__default__export__ = ProfilePage;
-var _c;
-__turbopack_context__.k.register(_c, "ProfilePage");
+var _c, _c1;
+__turbopack_context__.k.register(_c, "ProfileContent");
+__turbopack_context__.k.register(_c1, "ProfilePage");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
