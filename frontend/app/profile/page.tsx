@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { userApi, orderApi } from "@/lib/api";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import { User, Mail, Shield, LogOut, Settings } from "lucide-react";
-import { ShoppingCart, Heart, Eye, Package, Clock, Calendar, CreditCard } from "lucide-react";
+import { ShoppingCart, Heart, Eye, Package, Clock, Calendar, CreditCard, DollarSign } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import NextImage from "next/image";
 interface UserProfile {
@@ -248,7 +248,7 @@ const ProfilePage = () => {
                 {
                   label: "সেভ করেছেন",
                   value: "৳৮,৪৫০",
-                  icon: "Savings",
+                  icon: DollarSign,
                   color: "from-green-500 to-emerald-600",
                 },
               ].map((stat, i) => (
