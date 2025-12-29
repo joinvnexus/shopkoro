@@ -109,7 +109,7 @@ const normalizeAxiosError = (error, fallbackLabel)=>{
     });
 };
 const resolveApiBaseUrl = ()=>{
-    let envUrl = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL;
+    let envUrl = ("TURBOPACK compile-time value", "https://shopkoro.onrender.com");
     if (envUrl && envUrl.includes(":3000")) {
         console.warn("⚠️ NEXT_PUBLIC_API_URL is set to port 3000, but backend runs on port 5000. Using port 5000 instead.");
         envUrl = envUrl.replace(":3000", ":5000");

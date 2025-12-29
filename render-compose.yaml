@@ -1,0 +1,68 @@
+# Render.yaml configuration for ShopKoro Full Stack
+# This file configures both frontend and backend services on Render
+
+services:
+  # MongoDB Database Service
+  - type: web
+    name: shopkoro-mongo
+    env: docker
+    region: oregon
+    plan: free
+    repo: https://github.com/yourusername/shopkoro.git
+    branch: main
+    rootDir: backend
+    dockerfilePath: ./backend/Dockerfile
+    envVars:
+      - key: MONGO_INITDB_ROOT_USERNAME
+        generateValue: true
+      - key: MONGO_INITDB_ROOT_PASSWORD
+        generateValue: true
+      - key: MONGO_INITDB_DATABASE
+        value: shopkoro
+
+  # Backend API Service
+  - type: web
+    name: shopkoro-backend
+    env: node
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        fromService:
+          type: mongo
+          name: shopkoro-mongo
+          property: url
+      - key: JWT_SECRET
+        generateValue: true
+      - key: STRIPE_SECRET_KEY
+        generateValue: true
+      - key: SSLCOMMERZ_STORE_ID
+        generateValue: true
+      - key: SSLCOMMERZ_STORE_PASSWORD
+        generateValue: true
+      - key: FRONTEND_URL
+        value: "https://shopkoro.onrender.com"
+    repo: https://github.com/yourusername/shopkoro.git
+    branch: main
+    rootDir: backend
+
+  # Frontend Web App Service
+  - type: web
+    name: shopkoro-frontend
+    env: node
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        value: "https://shopkoro.onrender.com/api"
+      - key: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+        generateValue: true
+    repo: https://github.com/yourusername/shopkoro.git
+    branch: main
+    rootDir: frontend

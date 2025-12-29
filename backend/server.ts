@@ -29,7 +29,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: process.env.FRONTEND_URL || "https://shopkoro.vercel.app",
     credentials: true,
   })
 );

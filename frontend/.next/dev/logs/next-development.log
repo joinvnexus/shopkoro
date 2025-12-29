@@ -1,88 +1,15 @@
-[00:00:02.283] Server  LOG      ✓ Ready in 1499ms
-[00:18:31.907] Server  LOG      ○ Compiling / ...
-[00:18:44.721] Browser LOG     Auth token added to request: /products
-[00:18:44.721] Browser LOG     Auth token added to request: /testimonials
-[00:23:58.194] Server  LOG      ✓ Compiled in 2.4s
-[00:25:17.562] Browser LOG     Auth token added to request: /products
-[00:25:17.564] Browser LOG     Auth token added to request: /testimonials
-[00:26:54.307] Server  LOG      ✓ Compiled in 369ms
-[00:27:14.051] Browser LOG     Auth token added to request: /products
-[00:27:14.051] Browser LOG     Auth token added to request: /testimonials
-[00:27:28.232] Server  LOG      ○ Compiling /products ...
-[00:27:28.901] Browser LOG     Auth token added to request: /products
-[00:27:28.901] Browser LOG     Auth token added to request: /products
-[00:27:41.856] Browser LOG     Auth token added to request: /products
-[00:27:41.856] Browser LOG     Auth token added to request: /testimonials
-[00:27:41.856] Browser LOG     Auth token added to request: /products
-[00:27:41.856] Browser LOG     Auth token added to request: /testimonials
-[00:29:49.399] Server  LOG      ✓ Compiled in 330ms
-[00:30:30.962] Browser LOG     Auth token added to request: /products
-[00:30:30.962] Browser LOG     Auth token added to request: /testimonials
-[00:30:42.115] Browser LOG     Auth token added to request: /products/695224ce9d39a6c70ba138b2
-[00:30:42.116] Browser LOG     Auth token added to request: /products/695224ce9d39a6c70ba138b2
-[00:30:42.373] Browser LOG     Auth token added to request: /products/695224ce9d39a6c70ba138b2/reviews
-[00:30:43.295] Browser WARN    Image with src "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:30:49.606] Browser LOG     Auth token added to request: /products
-[00:30:49.606] Browser LOG     Auth token added to request: /testimonials
-[00:30:49.606] Browser LOG     Auth token added to request: /products
-[00:30:49.606] Browser LOG     Auth token added to request: /testimonials
-[00:31:39.658] Server  LOG      ✓ Compiled in 418ms
-[00:32:24.417] Server  LOG      ✓ Compiled in 302ms
-[00:33:54.875] Server  LOG      ✓ Compiled in 564ms
-[00:34:32.336] Server  LOG      ✓ Compiled in 810ms
-[00:34:33.765] Browser ERROR   uncaughtError: ReferenceError: handleAddToCart is not defined
-[00:34:35.685] Server  LOG      ✓ Compiled in 269ms
-[00:34:35.729] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:34:41.398] Browser LOG     Auth token added to request: /products
-[00:34:41.398] Browser LOG     Auth token added to request: /testimonials
-[00:36:30.571] Server  LOG      ✓ Compiled in 1516ms
-[00:36:51.622] Browser LOG     Auth token added to request: /products
-[00:36:51.622] Browser LOG     Auth token added to request: /testimonials
-[00:36:58.823] Browser LOG     Attempting to add to cart, checking auth...
-[00:36:58.823] Browser LOG     Auth state: Logged in
-[00:36:58.823] Browser LOG     Auth token added to request: /cart
-[00:36:59.854] Browser LOG     Attempting to add to cart, checking auth...
-[00:36:59.854] Browser LOG     Auth state: Logged in
-[00:36:59.854] Browser LOG     Auth token added to request: /cart
-[00:36:59.854] Browser LOG     Auth token added to request: /cart
-[00:37:00.424] Browser LOG     Auth token added to request: /cart
-[00:37:00.942] Browser LOG     Attempting to add to cart, checking auth...
-[00:37:00.943] Browser LOG     Auth state: Logged in
-[00:37:00.943] Browser LOG     Auth token added to request: /cart
-[00:37:01.518] Browser LOG     Auth token added to request: /cart
-[00:37:05.288] Server  LOG      ○ Compiling /cart ...
-[00:37:06.189] Browser LOG     Auth token added to request: /cart
-[00:37:06.189] Browser LOG     Auth token added to request: /cart
-[00:37:06.189] Browser WARN    Image with src "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:37:06.738] Browser WARN    Image with src "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:37:06.738] Browser WARN    Image with src "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=500" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:37:11.328] Browser LOG     Auth token added to request: /products
-[00:37:11.328] Browser LOG     Auth token added to request: /testimonials
-[00:37:11.328] Browser LOG     Auth token added to request: /products
-[00:37:11.328] Browser LOG     Auth token added to request: /testimonials
-[00:37:23.277] Server  LOG      ✓ Compiled in 342ms
-[00:37:23.699] Browser ERROR   uncaughtError: ReferenceError: handleAddToCart is not defined
-[00:37:38.346] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:37:38.352] Server  LOG      ✓ Compiled in 191ms
-[00:37:42.706] Browser LOG     Auth token added to request: /products
-[00:37:42.706] Browser LOG     Auth token added to request: /testimonials
-[00:37:49.375] Server  LOG      ✓ Compiled in 117ms
-[00:37:51.622] Server  LOG      ✓ Compiled in 100ms
-[00:39:35.073] Server  LOG      ✓ Compiled in 726ms
-[00:39:45.115] Server  LOG      ✓ Compiled in 99ms
-[00:39:57.309] Browser LOG     Auth token added to request: /products
-[00:39:57.309] Browser LOG     Auth token added to request: /testimonials
-[00:40:52.725] Browser LOG     Auth token added to request: /products
-[00:40:52.726] Browser LOG     Auth token added to request: /products
-[00:41:01.724] Browser LOG     Auth token added to request: /cart
-[00:41:01.724] Browser LOG     Auth token added to request: /cart
-[00:41:02.440] Browser WARN    Image with src "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:41:02.440] Browser WARN    Image with src "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:41:02.440] Browser WARN    Image with src "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=500" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:41:05.788] Browser LOG     Auth token added to request: /users/profile
-[00:41:05.788] Browser LOG     Auth token added to request: /users/profile
-[00:41:06.087] Browser LOG     Auth token added to request: /orders/myorders
-[00:41:06.263] Browser LOG     Auth token added to request: /orders/myorders
-[00:44:09.036] Server  LOG      ✓ Compiled in 1282ms
-[00:45:14.289] Server  LOG      ✓ Compiled in 316ms
-[00:47:21.343] Server  LOG      ✓ Compiled in 517ms
+[00:00:02.869] Server  LOG      ✓ Ready in 1948ms
+[00:00:12.801] Server  LOG      ○ Compiling / ...
+[00:00:20.570] Browser LOG     Auth token added to request: /products
+[00:00:20.570] Browser LOG     Auth token added to request: /testimonials
+[00:00:22.674] Browser ERROR   Error fetching products: {"code":"NETWORK_ERROR","details":{"label":"products"},"name":"ApiClientError"}
+[00:00:22.674] Browser ERROR   Error fetching testimonials: {"code":"NETWORK_ERROR","details":{"label":"testimonials"},"name":"ApiClientError"}
+[01:17:16.422] Server  LOG        Reload env: .env.local
+[01:17:26.416] Server  LOG        Reload env: .env.local
+[01:17:27.374] Server  LOG      ✓ Compiled in 885ms
+[01:18:33.180] Server  LOG        Reload env: .env.local
+[01:18:33.301] Server  LOG      ✓ Compiled in 25ms
+[01:33:59.668] Browser LOG     Auth token added to request: /products
+[01:33:59.668] Browser LOG     Auth token added to request: /testimonials
+[01:34:00.049] Browser ERROR   Error fetching testimonials: {"code":"NETWORK_ERROR","details":{"label":"testimonials"},"name":"ApiClientError"}
+[01:34:00.575] Browser ERROR   Error fetching products: {"code":"NETWORK_ERROR","details":{"label":"products"},"name":"ApiClientError"}

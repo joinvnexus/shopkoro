@@ -12,6 +12,21 @@ services:
         value: production
       - key: PORT
         value: 10000
+      - key: MONGO_URI
+        fromService:
+          type: mongo
+          name: shopkoro-mongo
+          property: url
+      - key: JWT_SECRET
+        generateValue: true
+      - key: STRIPE_SECRET_KEY
+        generateValue: true
+      - key: SSLCOMMERZ_STORE_ID
+        generateValue: true
+      - key: SSLCOMMERZ_STORE_PASSWORD
+        generateValue: true
+      - key: FRONTEND_URL
+        value: "https://shopkoro.vercel.app"
     repo: https://github.com/yourusername/shopkoro.git
     branch: main
     rootDir: backend

@@ -1,0 +1,19 @@
+# Render.yaml configuration for ShopKoro Frontend
+# This file configures your service on Render
+
+services:
+  - type: web
+    name: shopkoro-frontend
+    env: node
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        value: "https://shopkoro.onrender.com/api"
+      - key: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+        generateValue: true
+    repo: https://github.com/yourusername/shopkoro.git
+    branch: main
+    rootDir: frontend
