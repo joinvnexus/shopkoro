@@ -1,0 +1,17 @@
+[00:00:02.151] Server  LOG      ✓ Ready in 1533ms
+[00:00:08.093] Server  LOG      ○ Compiling / ...
+[00:00:10.819] Server  WARN    [DEPRECATED] Default export is deprecated. Instead use `import { create } from 'zustand'`.
+[00:00:10.821] Server  WARN    [DEPRECATED] `getStorage`, `serialize` and `deserialize` options are deprecated. Use `storage` option instead.
+[00:00:10.846] Server  WARN    [DEPRECATED] Default export is deprecated. Instead use `import { create } from 'zustand'`.
+[00:00:10.847] Server  WARN    [DEPRECATED] `getStorage`, `serialize` and `deserialize` options are deprecated. Use `storage` option instead.
+[00:00:11.467] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:11.467] Browser WARN    [DEPRECATED] Default export is deprecated. Instead use `import { create } from 'zustand'`.
+[00:00:11.467] Browser WARN    [DEPRECATED] `getStorage`, `serialize` and `deserialize` options are deprecated. Use `storage` option instead.
+[00:00:11.708] Browser WARN    [DEPRECATED] Default export is deprecated. Instead use `import { create } from 'zustand'`.
+[00:00:11.708] Browser WARN    [DEPRECATED] `getStorage`, `serialize` and `deserialize` options are deprecated. Use `storage` option instead.
+[00:00:11.708] Browser LOG     Auth token added to request: /products
+[00:00:11.708] Browser LOG     Auth token added to request: /testimonials
+[00:00:12.602] Server  WARN     ⚠ The "images.domains" configuration is deprecated. Please use "images.remotePatterns" configuration instead.
+[00:06:30.338] Server  LOG      ○ Compiling /profile ...
+[00:06:31.878] Browser WARN    [DEPRECATED] Default export is deprecated. Instead use `import { create } from 'zustand'`.
+[00:06:31.878] Browser WARN    [DEPRECATED] `getStorage`, `serialize` and `deserialize` options are deprecated. Use `storage` option instead.
