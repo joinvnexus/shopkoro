@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+export const dynamic = 'force-dynamic';
+
+import { useEffect, useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import useAuthStore from "@/stores/authStore";
 import Link from "next/link";
@@ -18,7 +20,7 @@ interface UserProfile {
   isAdmin: boolean;
 }
 
-const ProfilePage = () => {
+const ProfileContent = () => {
   const { userInfo, logout } = useAuthStore();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -486,6 +488,14 @@ const ProfilePage = () => {
         </motion.div>
       </div>
     </div>
+  );
+};
+
+const ProfilePage = () => {
+  return (
+    <Suspense fallback={<LoadingScreen label="লোড হচ্ছে..." variant="gradient" />}>
+      <ProfileContent />
+    </Suspense>
   );
 };
 

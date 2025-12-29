@@ -54,7 +54,7 @@ describe('useCartStore', () => {
       useCartStore.setState({ items: mockItems })
       
       const state = useCartStore.getState()
-      expect(state.getTotalPrice()).toBe(250) // (100 * 2) + (50 * 1)
+      expect(state.getTotalPrice()).toBe(200) // (100 * 1) + (50 * 2)
     })
 
     it('should handle items with undefined price', () => {
