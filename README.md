@@ -27,20 +27,25 @@
 
 ```
 shopkoro/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── globals.css
-├── components/
-│   ├── sections/           # Page sections
-│   └── ui/                 # Reusable components
-├── lib/                    # Utilities
-├── types/                  # TypeScript types
-└── backend/                # Backend API
-    ├── config/
-    ├── models/
-    ├── routes/
-    └── scripts/
+├── frontend/               # Next.js frontend application
+│   ├── app/                # Next.js App Router
+│   ├── components/         # Reusable components
+│   ├── lib/                # Utilities
+│   ├── stores/             # Zustand state management
+│   ├── types/              # TypeScript types
+│   └── public/             # Static assets
+├── backend/                # Node.js/Express backend API
+│   ├── config/             # Database configuration
+│   ├── controllers/        # Route controllers
+│   ├── models/             # Mongoose models
+│   ├── routes/             # API routes
+│   ├── middleware/         # Express middleware
+│   ├── utils/              # Utilities
+│   └── scripts/            # Database scripts
+├── .gitignore
+├── PROJECT_STRUCTURE.md
+├── README.md
+└── .vscode/
 ```
 
 ## 🛠️ Installation & Setup
