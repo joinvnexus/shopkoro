@@ -1,0 +1,17 @@
+# Render.yaml configuration for ShopKoro Backend
+# This file configures your service on Render
+
+services:
+  - type: web
+    name: shopkoro-backend
+    env: node
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    repo: https://github.com/yourusername/shopkoro.git
+    branch: main
+    rootDir: backend
