@@ -1,5 +1,5 @@
-import create from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { create } from 'zustand';
+import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 
 interface UserInfo {
   _id: string;
@@ -25,7 +25,7 @@ const useAuthStore = create<AuthState>()(
       }),
       {
         name: 'auth-storage', // name of the item in the storage (must be unique)
-        getStorage: () => localStorage, // specify localStorage
+        storage: createJSONStorage(() => localStorage), // specify localStorage
       }
     )
   )

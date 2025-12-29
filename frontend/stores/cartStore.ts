@@ -1,6 +1,6 @@
 "use client";
 
-import create from "zustand";
+import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { cartApi } from "@/lib/api";
 
