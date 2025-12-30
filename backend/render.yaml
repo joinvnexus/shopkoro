@@ -13,10 +13,7 @@ services:
       - key: PORT
         value: 10000
       - key: MONGODB_URI
-        fromService:
-          type: mongo
-          name: shopkoro-mongo
-          property: url
+        value: "mongodb+srv://projoynaidudev_db_user:ecommerce-admin@ecommerce-admin.ie2bays.mongodb.net/?appName=ecommerce-admin"
       - key: ACCESS_TOKEN_SECRET
         generateValue: true
       - key: REFRESH_TOKEN_SECRET
