@@ -39,8 +39,8 @@ export const signRefreshToken = (userId: string): string => {
 
 export const cookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "lax" as const,
+  secure: true, // Must be true for SameSite="none" to work cross-origin
+  sameSite: "none" as const, // Allow cross-origin (Vercel ↔ Render)
   path: "/",
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };

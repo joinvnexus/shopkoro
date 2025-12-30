@@ -29,8 +29,43 @@ connectDB();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "https://shopkoro.vercel.app",
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      // Development environment - more permissive
+      if (process.env.NODE_ENV === "development") {
+        // Allow localhost development servers
+        if (origin === "http://localhost:3000" || origin.startsWith("http://localhost:") || origin === "http://127.0.0.1:3000") {
+          return callback(null, true);
+        }
+      }
+      
+      // Production environment - more restrictive
+      const allowedProductionOrigins = [
+        process.env.FRONTEND_URL,
+        "https://shopkoro.vercel.app",
+        "https://shopkoro.onrender.com" // Add your Render frontend URL if you have one
+      ].filter(Boolean); // Filter out any undefined values
+      
+      // Check if the origin is in the allowed list
+      if (allowedProductionOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      
+      // Log blocked requests for debugging (only in development)
+      if (process.env.NODE_ENV === "development") {
+        console.log(`Blocked CORS request from: ${origin}`);
+      }
+      
+      // Block the request
+      return callback(new Error(`Not allowed by CORS: ${origin}`));
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin", "Cache-Control"],
+    exposedHeaders: ["Content-Range", "X-Content-Range"],
+    maxAge: 600 // 10 minutes
   })
 );
 app.use(helmet());
