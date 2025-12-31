@@ -1,15 +1,24 @@
 import jwt, { SignOptions, Algorithm } from "jsonwebtoken";
+import { environment } from "../config";
 
-// Load secrets
-const accessSecret = process.env.ACCESS_TOKEN_SECRET!;
-const refreshSecret = process.env.REFRESH_TOKEN_SECRET!;
-
-if (!accessSecret || !refreshSecret) {
+// Validate required secrets
+if (!environment.accessTokenSecret || !environment.refreshTokenSecret) {
   throw new Error("FATAL: JWT secrets are not defined in the environment.");
 }
 
-const accessTtl = process.env.ACCESS_TOKEN_EXPIRES_IN || "15m";
-const refreshTtl = process.env.REFRESH_TOKEN_EXPIRES_IN || "7d";
+// Cookie options for secure cookies
+export const cookieOptions = {
+  httpOnly: true,
+  secure: !environment.isDevelopment, // Must be true for SameSite="none" to work cross-origin
+  sameSite: environment.isDevelopment ? "lax" as const : "none" as const, // Restrict in production
+  path: "/",
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+};
+
+// Cookie name for refresh token
+export const COOKIE_NAMES = {
+  refresh: environment.refreshCookieName,
+};
 
 export interface TokenPayload {
   userId: string;
@@ -19,36 +28,26 @@ export const generateAccessToken = (userId: string): string => {
   const payload: TokenPayload = { userId };
 
   const options: SignOptions = {
-    expiresIn: accessTtl as any,
+    expiresIn: environment.accessTokenExpiresIn as any,
     algorithm: "HS256" as Algorithm,
   };
 
-  return jwt.sign(payload, accessSecret, options);
+  return jwt.sign(payload, environment.accessTokenSecret, options);
 };
 
 export const signRefreshToken = (userId: string): string => {
   const payload: TokenPayload = { userId };
 
   const options: SignOptions = {
-    expiresIn: refreshTtl as any,
+    expiresIn: environment.refreshTokenExpiresIn as any,
     algorithm: "HS256" as Algorithm,
   };
 
-  return jwt.sign(payload, refreshSecret, options);
+  return jwt.sign(payload, environment.refreshTokenSecret, options);
 };
 
-export const cookieOptions = {
-  httpOnly: true,
-  secure: true, // Must be true for SameSite="none" to work cross-origin
-  sameSite: "none" as const, // Allow cross-origin (Vercel ↔ Render)
-  path: "/",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-};
 
-export const COOKIE_NAMES = {
-  refresh: process.env.REFRESH_COOKIE_NAME || "shopkoro_refresh",
-};
 
 export const verifyRefreshToken = (token: string): TokenPayload => {
-  return jwt.verify(token, refreshSecret) as TokenPayload;
+  return jwt.verify(token, environment.refreshTokenSecret) as TokenPayload;
 };
