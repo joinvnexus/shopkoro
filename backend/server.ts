@@ -30,33 +30,37 @@ connectDB();
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or curl requests)
+      // Allow requests with no origin (like mobile apps, curl requests, or server-side requests)
       if (!origin) return callback(null, true);
       
       // Development environment - more permissive
       if (process.env.NODE_ENV === "development") {
-        // Allow localhost development servers
-        if (origin === "http://localhost:3000" || origin.startsWith("http://localhost:") || origin === "http://127.0.0.1:3000") {
+        // Allow all localhost development servers
+        if (origin.startsWith("http://localhost:") || origin.startsWith("http://127.0.0.1:") || origin.startsWith("http://192.168.")) {
           return callback(null, true);
         }
       }
       
-      // Production environment - more restrictive
+      // Production environment - allow specific domains
       const allowedProductionOrigins = [
         process.env.FRONTEND_URL,
         "https://shopkoro.vercel.app",
-        "https://shopkoro.onrender.com" // Add your Render frontend URL if you have one
+        "https://shopkoro.onrender.com" // Backend URL (for potential frontend deployment on Render)
       ].filter(Boolean); // Filter out any undefined values
       
-      // Check if the origin is in the allowed list
-      if (allowedProductionOrigins.includes(origin)) {
+      // Check if the origin is in the allowed list or is a subdomain of allowed domains
+      const isAllowed = allowedProductionOrigins.some(allowedOrigin => {
+        if (!allowedOrigin) return false;
+        return origin === allowedOrigin || 
+               origin.startsWith(allowedOrigin.replace('https://', 'https://www.')); // Allow www subdomain
+      });
+      
+      if (isAllowed) {
         return callback(null, true);
       }
       
-      // Log blocked requests for debugging (only in development)
-      if (process.env.NODE_ENV === "development") {
-        console.log(`Blocked CORS request from: ${origin}`);
-      }
+      // Log blocked requests for security monitoring
+      console.warn(`🔒 Blocked CORS request from: ${origin} in ${process.env.NODE_ENV} environment`);
       
       // Block the request
       return callback(new Error(`Not allowed by CORS: ${origin}`));

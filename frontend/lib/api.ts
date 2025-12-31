@@ -83,15 +83,26 @@ export const normalizeAxiosError = (error: any, fallbackLabel: string) => {
 };
 
 const resolveApiBaseUrl = () => {
-  let envUrl = process.env.NEXT_PUBLIC_API_URL;
-
+  // Always use the environment variable if available
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  
+  // Safety check for development environment inconsistencies
   if (envUrl && envUrl.includes(":3000")) {
     console.warn(
       "⚠️ NEXT_PUBLIC_API_URL is set to port 3000, but backend runs on port 5000. Using port 5000 instead."
     );
-    envUrl = envUrl.replace(":3000", ":5000");
+    return envUrl.replace(":3000", ":5000");
   }
-
+  
+  // For production, NEVER fallback to localhost
+  if (process.env.NODE_ENV === 'production') {
+    if (!envUrl) {
+      throw new Error('NEXT_PUBLIC_API_URL is required in production environment');
+    }
+    return envUrl;
+  }
+  
+  // Development fallback
   return envUrl || "http://localhost:5000/api";
 };
 

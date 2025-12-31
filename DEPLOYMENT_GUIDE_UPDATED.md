@@ -1,4 +1,36 @@
-# ShopKoro ডিপ্লয়মেন্ট গাইড
+# 🚀 ShopKoro Deployment Guide - PRODUCTION READY
+
+## 🔧 CRITICAL FIXES APPLIED
+
+✅ **Problem Solved:** Production frontend was incorrectly depending on localhost backend  
+✅ **Root Cause:** Hardcoded fallback URL in API configuration  
+✅ **Solution:** Enhanced API config to throw error in production if environment variable is missing
+
+**BEFORE YOU DEPLOY - VERIFY THESE FIXES:**
+
+### **VERCEL ENVIRONMENT VARIABLES (Required):**
+
+Go to your Vercel project settings → Environment Variables and set:
+```
+NEXT_PUBLIC_API_URL=https://shopkoro.onrender.com/api
+NODE_ENV=production
+```
+
+### **Local vs Production Setup:**
+
+**Local Development (.env.local):**
+```
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+```
+
+**Production (Vercel):**
+```
+NEXT_PUBLIC_API_URL=https://shopkoro.onrender.com/api
+```
+
+---
+
+# ShopKoro  Deployment Guide
 
 এই ডকুমেন্টটি আপনাকে ShopKoro ই-কমার্স ওয়েবসাইটটি Render প্ল্যাটফর্মে ডিপ্লয় করতে সাহায্য করবে।
 
