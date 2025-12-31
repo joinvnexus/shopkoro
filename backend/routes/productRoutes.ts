@@ -99,6 +99,25 @@ router.get(
 );
 
 /**
+ * @route   GET /api/products/offers
+ * @desc    Get offer products (products with discount)
+ * @access  Public
+ */
+router.get(
+  "/offers",
+  asyncHandler(async (_req: Request, res: Response) => {
+    const products = await Product.find({ discount: { $gt: 0 }, inStock: true })
+      .sort({ discount: -1, createdAt: -1 })
+      .limit(20);
+
+    res.status(200).json({
+      success: true,
+      data: products,
+    });
+  })
+);
+
+/**
  * @route   GET /api/products/flash-sale
  * @desc    Get flash sale products
  * @access  Public

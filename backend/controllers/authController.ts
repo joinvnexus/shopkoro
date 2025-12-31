@@ -72,7 +72,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
 // @desc    Refresh access token
 // @route   POST /api/auth/refresh
 // @access  Public (uses refresh cookie)
-const refreshToken = asyncHandler(async (req: Request, res: Response) => {
+const refreshAccessToken = asyncHandler(async (req: Request, res: Response) => {
   const token = req.cookies?.[COOKIE_NAMES.refresh];
   if (!token) {
     res.status(401);
@@ -103,4 +103,4 @@ const logoutUser = asyncHandler(async (_req: Request, res: Response) => {
     .json({ success: true });
 });
 
-export { registerUser, loginUser, refreshToken, logoutUser };
+export { registerUser, loginUser, refreshAccessToken, logoutUser };
