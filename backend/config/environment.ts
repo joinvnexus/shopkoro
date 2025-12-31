@@ -4,16 +4,20 @@ import path from 'path';
 // Load environment variables
 const env = process.env.NODE_ENV || 'development';
 
-// Load the appropriate .env file based on environment
-const envPath = path.resolve(process.cwd(), `.env.${env}`);
+// Load the appropriate .env file based on environment if it exists
+let envPath = path.resolve(process.cwd(), `.env.${env}`);
 const result = dotenv.config({ path: envPath });
 
-// Handle dotenv errors
-if (result.error) {
+// Handle dotenv errors only if the file exists but couldn't be loaded
+if (result.error && !result.error.message.includes('ENOENT')) {
   console.error(`❌ Failed to load environment file: ${envPath}`);
   console.error(result.error);
   process.exit(1);
+} else if (result.error && result.error.message.includes('ENOENT')) {
+  console.log(`ℹ️ Environment file not found: ${envPath}. Using environment variables only.`);
 }
+
+// In production, if the .env file doesn't exist, we rely on Render environment variables
 
 // Validate required environment variables
 const requiredEnvVars = [

@@ -11,7 +11,8 @@
     "seed:admin": "ts-node scripts/seedAdmin.ts",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",

@@ -32,6 +32,12 @@ services:
         generateValue: true
       - key: FRONTEND_URL
         value: "https://shopkoro.vercel.app"
+      - key: BACKEND_URL
+        value: "https://shopkoro.onrender.com"
+      - key: ADMIN_EMAIL
+        value: "admin@shopkoro.com"
+      - key: ADMIN_PASSWORD
+        value: "ChangeMe123!"
     repo: https://github.com/joinvnexus/shopkoro.git
     branch: main
     rootDir: backend
