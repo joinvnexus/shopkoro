@@ -96,8 +96,8 @@ describe('Token Utils', () => {
   describe('cookieOptions', () => {
     it('should have correct default options', () => {
       expect(cookieOptions.httpOnly).toBe(true);
-      expect(cookieOptions.secure).toBe(false); // NODE_ENV is 'test'
-      expect(cookieOptions.sameSite).toBe('lax');
+      expect(cookieOptions.secure).toBe(true); // NODE_ENV is 'test', so !isDevelopment = true
+      expect(cookieOptions.sameSite).toBe('none');
       expect(cookieOptions.path).toBe('/');
       expect(cookieOptions.maxAge).toBe(7 * 24 * 60 * 60 * 1000); // 7 days
     });

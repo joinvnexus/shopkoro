@@ -9,6 +9,7 @@ import cors from 'cors';
 
 // Import routes
 import productRoutes from "./routes/productRoutes";
+import categoryRoutes from "./routes/categoryRoutes";
 import testimonialRoutes from "./routes/testimonialRoutes";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
@@ -46,6 +47,7 @@ app.get("/", (_req: Request, res: Response) => {
 
 // API routes
 app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);

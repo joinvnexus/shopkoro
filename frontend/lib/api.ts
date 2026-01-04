@@ -5,6 +5,7 @@ import {
   ApiResponse,
   ApiErrorCode,
   ApiErrorPayload,
+  Category,
   Product,
   ProductReview,
   Testimonial,
@@ -185,8 +186,24 @@ export const userApi = {
 
 // Product API
 export const productApi = {
-  getAll: (): Promise<Product[]> =>
-    safeRequest(() => api.get("/products"), [], "products"),
+  getAll: (params?: Record<string, any>): Promise<Product[]> =>
+    safeRequest(() => api.get("/products", { params }), [], "products"),
+
+  getAllWithMeta: async (params?: Record<string, any>) => {
+    try {
+      const response = await api.get("/products", { params });
+      return {
+        products: response.data.data || [],
+        pagination: response.data.pagination || { total: 0, page: 1, limit: 20, pages: 0 }
+      };
+    } catch (error) {
+      console.error(`Error fetching products with meta:`, normalizeAxiosError(error, "products"));
+      return {
+        products: [],
+        pagination: { total: 0, page: 1, limit: 20, pages: 0 }
+      };
+    }
+  },
 
   getFeatured: (): Promise<Product[]> =>
     safeRequest(() => api.get("/products/featured"), [], "featured products"),
@@ -223,6 +240,12 @@ export const productApi = {
       () => api.post(`/products/${id}/reviews`, payload),
       `submit review for ${id}`
     ),
+};
+
+// Category API
+export const categoryApi = {
+  getAll: (): Promise<Category[]> =>
+    safeRequest(() => api.get("/categories"), [], "categories"),
 };
 
 // Testimonial API

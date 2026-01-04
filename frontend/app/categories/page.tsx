@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-// import { categoryApi } from "@/lib/api"; // TODO: Add categoryApi to lib/api.ts
+import { categoryApi } from "@/lib/api";
 import { Category } from "@/types";
 import { Grid, List, Search, Filter } from "lucide-react";
 import LoadingScreen from "@/components/ui/LoadingScreen";
@@ -18,16 +18,7 @@ export default function CategoriesPage() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        // TODO: Replace with actual API call when categoryApi is implemented
-        const mockCategories: Category[] = [
-          { _id: "1", name: "Electronics", nameBn: "ইলেকট্রনিক্স", icon: "📱", slug: "electronics", productCount: 45 },
-          { _id: "2", name: "Fashion", nameBn: "ফ্যাশন", icon: "👕", slug: "fashion", productCount: 32 },
-          { _id: "3", name: "Beauty", nameBn: "বিউটি", icon: "💄", slug: "beauty", productCount: 28 },
-          { _id: "4", name: "Home & Living", nameBn: "হোম & লাইফস্টাইল", icon: "🏠", slug: "home", productCount: 19 },
-          { _id: "5", name: "Sports", nameBn: "স্পোর্টস", icon: "⚽", slug: "sports", productCount: 15 },
-          { _id: "6", name: "Books", nameBn: "বই", icon: "📚", slug: "books", productCount: 12 },
-        ];
-        const data = mockCategories;
+        const data = await categoryApi.getAll();
         setCategories(data || []);
         setError(null);
       } catch (err) {
