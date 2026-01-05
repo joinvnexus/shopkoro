@@ -1,8 +1,0 @@
-{
-    "CodeGPT.apiKey": "CodeGPT Plus Beta",
-    "Codegeex.GenerationPreference": "automatic",
-    "Codegeex.SidebarUI.LanguagePreference": "English",
-    "Codegeex.RepoIndex": true,
-    "Codegeex.Chat.LanguagePreference": "English",
-    "Codegeex.Comment.LanguagePreference": "English"
-}

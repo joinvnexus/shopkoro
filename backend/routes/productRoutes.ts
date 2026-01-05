@@ -12,11 +12,14 @@ const parseFilters = (req: Request) => {
     maxPrice,
     inStock,
     search,
-    limit = 50,
+    sort = 'createdAt',
+    order = 'desc',
+    limit = 20,
     page = 1,
   } = req.query;
 
   const query: Record<string, any> = {};
+  const sortOptions: Record<string, 1 | -1> = {};
 
   if (category) query.category = category;
 
@@ -34,12 +37,18 @@ const parseFilters = (req: Request) => {
     query.$text = { $search: search as string };
   }
 
+  // Sorting
+  const validSortFields = ['price', 'rating', 'name', 'createdAt', 'discount'];
+  const sortField = validSortFields.includes(sort as string) ? sort as string : 'createdAt';
+  const sortOrder = (order === 'asc') ? 1 : -1;
+  sortOptions[sortField] = sortOrder;
+
   const pagination = {
-    limit: Math.min(Number(limit) || 50, 100),
+    limit: Math.min(Number(limit) || 20, 100),
     page: Math.max(Number(page) || 1, 1),
   };
 
-  return { query, pagination };
+  return { query, sortOptions, pagination };
 };
 
 const requireProductPayload = (body: any) => {
@@ -58,11 +67,11 @@ const requireProductPayload = (body: any) => {
 router.get(
   "/",
   asyncHandler(async (req: Request, res: Response) => {
-    const { query, pagination } = parseFilters(req);
+    const { query, sortOptions, pagination } = parseFilters(req);
     const skip = (pagination.page - 1) * pagination.limit;
 
     const [products, total] = await Promise.all([
-      Product.find(query).sort({ createdAt: -1 }).limit(pagination.limit).skip(skip),
+      Product.find(query).sort(sortOptions).limit(pagination.limit).skip(skip),
       Product.countDocuments(query),
     ]);
 

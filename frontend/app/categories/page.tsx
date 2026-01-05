@@ -113,8 +113,7 @@ export default function CategoriesPage() {
             <p className="text-gray-500 mt-2">আপনার সার্চ টার্ম পরিবর্তন করে দেখুন।</p>
           </div>
         ) : (
-          <motion.div
-            layout
+          <div
             className={
               viewMode === "grid"
                 ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
@@ -127,7 +126,6 @@ export default function CategoriesPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                layout
               >
                 <Link href={`/products?category=${category.slug}`}>
                   <div className={`bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/30 dark:border-gray-800 overflow-hidden group ${
@@ -164,7 +162,7 @@ export default function CategoriesPage() {
                 </Link>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         )}
 
         {/* Stats Footer */}

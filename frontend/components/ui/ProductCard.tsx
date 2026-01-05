@@ -169,7 +169,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
         {/* Cart + Wishlist Buttons (পাশাপাশি) */}
         <div className="flex gap-3 mt-4">
           {/* Cart Button */}
-          <motion.button
+          <motion.button key="cart-button"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -192,7 +192,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           </motion.button>
 
           {/* Wishlist Button (নিচে পাশে) */}
-          <motion.button
+          <motion.button key="wishlist-button"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
