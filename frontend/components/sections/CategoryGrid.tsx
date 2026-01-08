@@ -1,6 +1,8 @@
+//app/components/sections/CategoryGrid.tsx
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import {
   Smartphone,
   Laptop,
@@ -18,22 +20,8 @@ import {
 } from "lucide-react";
 import CategoryCard from "@/components/ui/CategoryCard";
 import { Category } from "@/types";
+import { categoryApi } from "@/lib/api";
 import Link from "next/link";
-
-const categories: Category[] = [
-  { name: "Smartphones", nameBn: "স্মার্টফোন", slug: "smartphones", icon: "smartphone", productCount: 1240 },
-  { name: "Laptops", nameBn: "ল্যাপটপ", slug: "laptops", icon: "laptop", productCount: 890 },
-  { name: "Fashion", nameBn: "ফ্যাশন", slug: "fashion", icon: "shirt", productCount: 5420 },
-  { name: "Watches", nameBn: "ঘড়ি", slug: "watches", icon: "watch", productCount: 680 },
-  { name: "Beauty", nameBn: "বিউটি", slug: "beauty", icon: "heart", productCount: 3210 },
-  { name: "Home", nameBn: "হোম", slug: "home", icon: "home", productCount: 1890 },
-  { name: "Camera", nameBn: "ক্যামেরা", slug: "camera", icon: "camera", productCount: 420 },
-  { name: "Gaming", nameBn: "গেমিং", slug: "gaming", icon: "gamepad", productCount: 980 },
-  { name: "Audio", nameBn: "অডিও", slug: "audio", icon: "headphones", productCount: 1560 },
-  { name: "Accessories", nameBn: "অ্যাকসেসরিজ", slug: "accessories", icon: "shopping-bag", productCount: 2890 },
-  { name: "Baby", nameBn: "বেবি", slug: "baby", icon: "baby", productCount: 1120 },
-  { name: "Sports", nameBn: "স্পোর্টস", slug: "sports", icon: "dumbbell", productCount: 920 },
-];
 
 const iconMap: Record<string, any> = {
   smartphone: Smartphone,
@@ -51,6 +39,23 @@ const iconMap: Record<string, any> = {
 };
 
 const CategoryGrid = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const fetchedCategories = await categoryApi.getAll();
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+        // Fallback to empty array
+        setCategories([]);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50/50 to-white dark:from-gray-950 dark:to-gray-900">
       <div className="container mx-auto px-4">
@@ -77,7 +82,7 @@ const CategoryGrid = () => {
             সবকিছু এক জায়গায়
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 mt-4">
-            ১২+ ক্যাটেগরি • লক্ষাধিক প্রোডাক্ট
+            {categories.length > 0 ? `${categories.length}+ ক্যাটেগরি • লক্ষাধিক প্রোডাক্ট` : "ক্যাটেগরি লোড হচ্ছে..."}
           </p>
         </motion.div>
 

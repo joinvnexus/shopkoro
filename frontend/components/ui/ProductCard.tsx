@@ -13,9 +13,10 @@ import useWishlistStore from "@/stores/wishlistStore";
 interface ProductCardProps {
   product: Product;
   index?: number;
+  viewMode?: "grid" | "list";
 }
 
-const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
+const ProductCard = ({ product, index = 0, viewMode = "grid" }: ProductCardProps) => {
   const price = product.price ?? 0;
   const originalPrice = product.originalPrice ?? null;
   const productId = product._id || product.name || String(index);
@@ -41,12 +42,16 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      whileHover={{ y: -10, scale: 1.03 }}
-      className="group relative bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-800"
+      whileHover={viewMode === "grid" ? { y: -10, scale: 1.03 } : { x: 5 }}
+      className={`group relative bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 dark:border-gray-800 ${
+        viewMode === "list" ? "flex items-center gap-6 p-6" : ""
+      }`}
     >
       <Link href={`/products/${productId}`}>
         {/* Image Section */}
-        <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+        <div className={`relative bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden ${
+          viewMode === "list" ? "w-32 h-32 flex-shrink-0" : "aspect-square"
+        }`}>
           <Image
             src={imageSrc}
             alt={product.name}
@@ -125,7 +130,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       </Link>
 
       {/* Content */}
-      <div className="p-5 space-y-3">
+      <div className={`space-y-3 ${viewMode === "list" ? "flex-1" : "p-5"}`}>
         <Link href={`/products/${productId}`}>
           <h3 className="font-bold text-lg text-gray-800 dark:text-white line-clamp-2 group-hover:text-rose-600 dark:group-hover:text-pink-500 transition-colors duration-300">
             {product.name}

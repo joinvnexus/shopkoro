@@ -1,3 +1,4 @@
+//app/components/ui/CategoryCard.tsx
 "use client";
 
 import { motion } from "framer-motion";
@@ -17,7 +18,7 @@ const CategoryCard = ({
   index = 0,
 }: CategoryCardProps) => {
   return (
-    <Link href={`/category/${category.slug}`}>
+    <Link href={`/products?category=${category.slug}`}>
       <motion.div
         initial={{ opacity: 0, scale: 0.85 }}
         whileInView={{ opacity: 1, scale: 1 }}

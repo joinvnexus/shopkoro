@@ -1,3 +1,4 @@
+//frontend/app/categories/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,8 +6,42 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { categoryApi } from "@/lib/api";
 import { Category } from "@/types";
-import { Grid, List, Search, Filter } from "lucide-react";
 import LoadingScreen from "@/components/ui/LoadingScreen";
+import {
+  Smartphone,
+  Laptop,
+  Shirt,
+  Watch,
+  Heart,
+  Home,
+  Camera,
+  Gamepad2,
+  Headphones,
+  ShoppingBag,
+  Baby,
+  Dumbbell,
+  Sparkles,
+  Grid,
+  List,
+  Search,
+  Filter,
+} from "lucide-react";
+
+const iconMap: Record<string, any> = {
+  smartphone: Smartphone,
+  laptop: Laptop,
+  shirt: Shirt,
+  watch: Watch,
+  heart: Heart,
+  home: Home,
+  camera: Camera,
+  gamepad2: Gamepad2,
+  headphones: Headphones,
+  shopping_bag: ShoppingBag,
+  baby: Baby,
+  dumbbell: Dumbbell,
+  sparkles: Sparkles,
+};
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -32,9 +67,10 @@ export default function CategoriesPage() {
     fetchCategories();
   }, []);
 
-  const filteredCategories = categories.filter(category =>
-    category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    category.nameBn?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCategories = categories.filter(
+    (category) =>
+      category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      category.nameBn?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (loading) {
@@ -61,7 +97,10 @@ export default function CategoriesPage() {
         {/* Search and Filters */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={20}
+            />
             <input
               type="text"
               placeholder="ক্যাটেগরি খুঁজুন..."
@@ -110,7 +149,9 @@ export default function CategoriesPage() {
             <p className="text-2xl font-bold text-gray-700 dark:text-gray-200">
               কোনো ক্যাটেগরি পাওয়া যায়নি
             </p>
-            <p className="text-gray-500 mt-2">আপনার সার্চ টার্ম পরিবর্তন করে দেখুন।</p>
+            <p className="text-gray-500 mt-2">
+              আপনার সার্চ টার্ম পরিবর্তন করে দেখুন।
+            </p>
           </div>
         ) : (
           <div
@@ -128,19 +169,28 @@ export default function CategoriesPage() {
                 transition={{ delay: index * 0.1 }}
               >
                 <Link href={`/products?category=${category.slug}`}>
-                  <div className={`bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/30 dark:border-gray-800 overflow-hidden group ${
-                    viewMode === "list" ? "flex items-center gap-6 p-6" : "p-6 text-center"
-                  }`}>
-                    {/* Category Icon/Image */}
-                    <div className={`${
+                  <div
+                    className={`bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/30 dark:border-gray-800 overflow-hidden group ${
                       viewMode === "list"
-                        ? "w-16 h-16 flex-shrink-0"
-                        : "w-20 h-20 mx-auto mb-4"
-                    } bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                      {category.icon ? (
-                        <span className="text-3xl">{category.icon}</span>
+                        ? "flex items-center gap-6 p-6"
+                        : "p-6 text-center"
+                    }`}
+                  >
+                    {/* Category Icon/Image */}
+                    <div
+                      className={`${
+                        viewMode === "list"
+                          ? "w-16 h-16 flex-shrink-0"
+                          : "w-20 h-20 mx-auto mb-4"
+                      } bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
+                    >
+                      {category.icon && iconMap[category.icon] ? (
+                        (() => {
+                          const Icon = iconMap[category.icon];
+                          return <Icon size={32} className="text-purple-600" />;
+                        })()
                       ) : (
-                        <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg"></div>
+                        <Sparkles size={32} className="text-purple-600" />
                       )}
                     </div>
 
@@ -174,15 +224,24 @@ export default function CategoriesPage() {
         >
           <div className="inline-flex items-center gap-6 bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl rounded-2xl px-8 py-4 border border-white/30 dark:border-gray-800">
             <div className="text-center">
-              <p className="text-2xl font-black text-purple-600">{categories.length}</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">মোট ক্যাটেগরি</p>
+              <p className="text-2xl font-black text-purple-600">
+                {categories.length}
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                মোট ক্যাটেগরি
+              </p>
             </div>
             <div className="w-px h-12 bg-gray-300 dark:bg-gray-700"></div>
             <div className="text-center">
               <p className="text-2xl font-black text-pink-600">
-                {categories.reduce((sum, cat) => sum + (cat.productCount || 0), 0)}
+                {categories.reduce(
+                  (sum, cat) => sum + (cat.productCount || 0),
+                  0
+                )}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">মোট প্রোডাক্ট</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                মোট প্রোডাক্ট
+              </p>
             </div>
           </div>
         </motion.div>

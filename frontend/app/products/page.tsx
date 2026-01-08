@@ -9,6 +9,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { productApi, categoryApi } from "@/lib/api";
 import ProductCard from "@/components/ui/ProductCard";
+import ViewToggle from "@/components/ui/ViewToggle";
 import { Filter, X, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 function ProductListingPage() {
@@ -29,7 +30,9 @@ function ProductListingPage() {
   const [maxPrice, setMaxPrice] = useState<number | "">("");
   const [inStock, setInStock] = useState<boolean | undefined>(undefined);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategoryName, setSelectedCategoryName] = useState("");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   // Initialize from URL
   useEffect(() => {
@@ -42,10 +45,26 @@ function ProductListingPage() {
     setPage(params.page ? Number(params.page) : 1);
   }, [searchParams]);
 
+  // Update selected category name
+  useEffect(() => {
+    if (selectedCategory && categories.length > 0) {
+      const cat = categories.find(c => c.slug === selectedCategory);
+      setSelectedCategoryName(cat ? (cat.nameBn || cat.name) : "");
+    } else {
+      setSelectedCategoryName("");
+    }
+  }, [selectedCategory, categories]);
+
   // Update URL
   const updateURL = useCallback((newParams: Record<string, any>) => {
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(newParams).forEach(([key, value]) => {
+      // Preserve category parameter even if it's empty string
+      if (key === "category") {
+        params.set(key, String(value));
+        return;
+      }
+      
       if (value === "" || value === undefined || value === null || value === false) {
         params.delete(key);
       } else {
@@ -107,7 +126,13 @@ function ProductListingPage() {
     setInStock(undefined);
     setSelectedCategory("");
     setPage(1);
-    router.push("/products");
+    
+    // Create a clean URL with only category if it exists
+    const params = new URLSearchParams();
+    if (selectedCategory) {
+      params.set("category", selectedCategory);
+    }
+    router.push(`/products${params.toString() ? `?${params.toString()}` : ""}`, { scroll: false });
   };
 
   return (
@@ -116,11 +141,14 @@ function ProductListingPage() {
         {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent">
-            সব প্রোডাক্ট
+            {selectedCategoryName || "সব প্রোডাক্ট"}
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 mt-3">
             {totalCount} টি পাওয়া গেছে
           </p>
+          <div className="flex justify-center mt-6">
+            <ViewToggle viewMode={viewMode} setViewMode={setViewMode} />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -164,8 +192,8 @@ function ProductListingPage() {
                   {categories.map((cat) => (
                     <button
                       key={cat._id}
-                      onClick={() => updateURL({ category: cat.slug || cat._id })}
-                      className={`w-full text-left px-4 py-3 rounded-xl transition-all ${selectedCategory === (cat.slug || cat._id) ? "bg-purple-100 dark:bg-purple-900/30 font-bold" : "hover:bg-gray-100 dark:hover:bg-gray-800"}`}
+                      onClick={() => updateURL({ category: cat.slug })}
+                      className={`w-full text-left px-4 py-3 rounded-xl transition-all ${selectedCategory === cat.slug ? "bg-purple-100 dark:bg-purple-900/30 font-bold" : "hover:bg-gray-100 dark:hover:bg-gray-800"}`}
                     >
                       {cat.nameBn || cat.name}
                     </button>
@@ -236,9 +264,9 @@ function ProductListingPage() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className={viewMode === "grid" ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" : "space-y-4"}>
                 {products.map((p, i) => (
-                  <ProductCard key={p._id} product={p} index={i} />
+                  <ProductCard key={p._id} product={p} index={i} viewMode={viewMode} />
                 ))}
               </div>
             )}

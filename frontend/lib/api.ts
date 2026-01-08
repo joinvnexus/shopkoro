@@ -246,6 +246,8 @@ export const productApi = {
 export const categoryApi = {
   getAll: (): Promise<Category[]> =>
     safeRequest(() => api.get("/categories"), [], "categories"),
+
+  
 };
 
 // Testimonial API
