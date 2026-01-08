@@ -52,6 +52,8 @@ shopkoro/
 │   │   │   └── page.tsx       # Contact form
 │   │   ├── faq/               # FAQ page
 │   │   │   └── page.tsx       # Frequently asked questions
+│   │   ├── offers/            # Offers page
+│   │   │   └── page.tsx       # Offers listing with discounts
 │   │   ├── shipping/          # Shipping information
 │   │   │   └── page.tsx       # Shipping policies
 │   │   └── return-policy/     # Return policy
@@ -125,12 +127,15 @@ shopkoro/
 │   │   ├── cartController.ts
 │   │   ├── orderController.ts
 │   │   ├── paymentController.ts
+│   │   ├── productController.ts
 │   │   └── userController.ts
 │   ├── middleware/             # Express middleware
 │   │   ├── authMiddleware.ts
-│   │   └── errorMiddleware.ts
+│   │   ├── errorMiddleware.ts
+│   │   └── validationMiddleware.ts
 │   ├── models/                 # Mongoose models
 │   │   ├── Cart.ts
+│   │   ├── Category.ts
 │   │   ├── Order.ts
 │   │   ├── Product.ts
 │   │   ├── Testimonial.ts
@@ -138,6 +143,7 @@ shopkoro/
 │   ├── routes/                 # API routes
 │   │   ├── authRoutes.ts
 │   │   ├── cartRoutes.ts
+│   │   ├── categoryRoutes.ts
 │   │   ├── orderRoutes.ts
 │   │   ├── paymentRoutes.ts
 │   │   ├── productRoutes.ts

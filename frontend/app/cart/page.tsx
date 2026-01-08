@@ -7,7 +7,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 
+/**
+ * CartPage component displays the shopping cart with items, controls, and order summary
+ * It handles displaying empty cart state, cart items with quantity controls, and checkout options
+ */
+/**
+ * CartPage component that displays the shopping cart items and summary
+ * Features responsive design, animations, and cart management functionality
+ */
 export default function CartPage() {
+  // Destructure cart-related functions and state from the cart store
   const {
     items,
     syncFromServer,
@@ -17,6 +26,7 @@ export default function CartPage() {
     getTotalPrice,
   } = useCartStore();
 
+  // Sync cart data with server on component mount
   useEffect(() => {
     syncFromServer();
   }, [syncFromServer]);
@@ -86,7 +96,10 @@ export default function CartPage() {
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-purple-200 to-pink-200 dark:from-purple-800 dark:to-pink-800 flex items-center justify-center">
-                          <ShoppingBag size={32} className="text-white/70 sm:w-10 sm:h-10" />
+                          <ShoppingBag
+                            size={32}
+                            className="text-white/70 sm:w-10 sm:h-10"
+                          />
                         </div>
                       )}
                     </div>

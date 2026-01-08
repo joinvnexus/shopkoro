@@ -8,13 +8,9 @@
 
 **BEFORE YOU DEPLOY - VERIFY THESE FIXES:**
 
-### **VERCEL ENVIRONMENT VARIABLES (Required):**
+### **RENDER ENVIRONMENT VARIABLES (Required for render-compose.yaml):**
 
-Go to your Vercel project settings → Environment Variables and set:
-```
-NEXT_PUBLIC_API_URL=https://shopkoro.onrender.com/api
-NODE_ENV=production
-```
+The render-compose.yaml file handles most environment variables automatically, but verify these are set correctly in your Render dashboard after deployment.
 
 ### **Local vs Production Setup:**
 
@@ -23,7 +19,7 @@ NODE_ENV=production
 NEXT_PUBLIC_API_URL=http://localhost:5000/api
 ```
 
-**Production (Vercel):**
+**Production (Render):**
 ```
 NEXT_PUBLIC_API_URL=https://shopkoro.onrender.com/api
 ```
@@ -44,24 +40,44 @@ NEXT_PUBLIC_API_URL=https://shopkoro.onrender.com/api
 
 ## ডিপ্লয়মেন্ট প্রক্রিয়া
 
-### ধাপ ১: MongoDB ডাটাবেস সেটআপ
+### পদ্ধতি ১: Render Compose ব্যবহার করে (সুপারিশকৃত)
+
+ShopKoro প্রকল্পে `render-compose.yaml` ফাইলটি ব্যবহার করে সকল সার্ভিস একসাথে ডিপ্লয় করুন। এটি স্বয়ংক্রিয়ভাবে MongoDB, Backend এবং Frontend কনফিগার করে।
 
 1. Render.com এ লগইন করুন
-2. "New +" বোতামে ক্লিক করুন
-3. "Web Service" নির্বাচন করুন
-4. নিচের তথ্যগুলি পূরণ করুন:
+2. "New +" বোতামে ক্লিক করুন এবং "Blueprint" নির্বাচন করুন
+3. আপনার GitHub রিপোজিটরি কানেক্ট করুন
+4. `render-compose.yaml` ফাইলটি সিলেক্ট করুন
+5. "Create Blueprint" বোতামে ক্লিক করুন
+
+Render স্বয়ংক্রিয়ভাবে তিনটি সার্ভিস তৈরি করবে:
+- `shopkoro-mongo` (MongoDB ডাটাবেস)
+- `shopkoro-backend` (API সার্ভার)
+- `shopkoro-frontend` (ওয়েব অ্যাপ)
+
+**নোট:** যদি আপনি আলাদা কনফিগারেশন চান, তাহলে `backend/render.yaml` এবং `frontend/render.yaml` ফাইলগুলি ব্যবহার করে আলাদা আলাদা ডিপ্লয় করতে পারেন।
+
+### পদ্ধতি ২: ম্যানুয়াল ডিপ্লয়মেন্ট (বিকল্প)
+
+যদি আপনি আলাদা আলাদা সার্ভিস ম্যানেজ করতে চান, তাহলে নিচের ধাপগুলি অনুসরণ করুন:
+
+#### ধাপ ১: MongoDB ডাটাবেস সেটআপ
+
+1. Render.com এ "New +" বোতামে ক্লিক করুন
+2. "Web Service" নির্বাচন করুন
+3. নিচের তথ্যগুলি পূরণ করুন:
    - Name: `shopkoro-mongo`
    - Region: `oregon` (আপনার পছন্দের অঞ্চল)
    - Branch: `main`
    - Root Directory: `backend`
    - অন্যান্য ডিফল্ট অপশন রাখুন
-5. এনভায়রনমেন্ট ভেরিয়েবল সেকশনে:
+4. এনভায়রনমেন্ট ভেরিয়েবল সেকশনে:
    - `MONGO_INITDB_ROOT_USERNAME` - একটি ইউজারনেম তৈরি করুন
    - `MONGO_INITDB_ROOT_PASSWORD` - একটি শক্তিশালী পাসওয়ার্ড তৈরি করুন
    - `MONGO_INITDB_DATABASE` - `shopkoro` লিখুন
-6. "Create Web Service" বোতামে ক্লিক করুন
+5. "Create Web Service" বোতামে ক্লিক করুন
 
-### ধাপ ২: ব্যাকএন্ড API ডিপ্লয় করুন
+#### ধাপ ২: ব্যাকএন্ড API ডিপ্লয় করুন
 
 1. Render.com এ "New +" বোতামে ক্লিক করুন
 2. "Web Service" নির্বাচন করুন
@@ -84,7 +100,7 @@ NEXT_PUBLIC_API_URL=https://shopkoro.onrender.com/api
    - `FRONTEND_URL` - `https://shopkoro.onrender.com` লিখুন
 5. "Create Web Service" বোতামে ক্লিক করুন
 
-### ধাপ ৩: ফ্রন্টএন্ড অ্যাপ্লিকেশন ডিপ্লয় করুন
+#### ধাপ ৩: ফ্রন্টএন্ড অ্যাপ্লিকেশন ডিপ্লয় করুন
 
 1. Render.com এ "New +" বোতামে ক্লিক করুন
 2. "Web Service" নির্বাচন করুন
