@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import toast from "react-hot-toast";
 import { Product } from "@/types";
 import useCartStore from "@/stores/cartStore";
 import useWishlistStore from "@/stores/wishlistStore";
@@ -103,7 +104,7 @@ const ProductCard = ({ product, index = 0, viewMode = "grid" }: ProductCardProps
                 discount: product.discount,
                 inStock: product.inStock,
               };
-              
+
 
               if (isInWishlist(productId)) {
                 removeFromWishlist(productId);
@@ -187,6 +188,7 @@ const ProductCard = ({ product, index = 0, viewMode = "grid" }: ProductCardProps
                 // image যদি তোমার CartItem টাইপে না থাকে তাহলে এটা সরাও
                 image: imageSrc,
               });
+              toast.success("কার্টে যোগ হয়েছে!");
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

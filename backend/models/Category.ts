@@ -53,7 +53,6 @@ const categorySchema = new Schema<ICategory>(
 );
 
 // Indexes for better query performance
-categorySchema.index({ slug: 1 });
 categorySchema.index({ name: "text", nameBn: "text" }); // Text search index
 
 /**

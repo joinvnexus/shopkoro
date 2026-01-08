@@ -8,12 +8,14 @@ import useWishlistStore from "@/stores/wishlistStore";
 import { Heart, ShoppingCart, Trash2, HeartHandshake } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useCartStore from "@/stores/cartStore";
+import toast from "react-hot-toast";
 
 export default function WishlistPage() {
   const router = useRouter();
   const { items, removeItem, clearWishlist } = useWishlistStore();
   const { addItem: addCartItem } = useCartStore();
   const [mounted, setMounted] = useState(false);
+  const [addingToCart, setAddingToCart] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -155,12 +157,30 @@ export default function WishlistPage() {
                     whileTap={{ scale: 0.95 }}
                     onClick={() => {
                       // Add to cart logic would go here
-                      // For now, just show a toast or something
-                      alert("কার্টে যোগ করা হয়েছে!");
+                      setAddingToCart(item.id);
+                      try {
+                        addCartItem({
+                          productId: item.id,
+                          name: item.name,
+                          price: item.price,
+                          image: item.image,
+                          quantity: 1,
+                        });
+                        toast.success("কার্টে যোগ হয়েছে!");
+                      } catch (error) {
+                        toast.error("কার্টে যোগ করা যায়নি!");
+                      } finally {
+                        setTimeout(() => setAddingToCart(null), 1200);
+                      }
                     }}
-                    className="px-4 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                    disabled={addingToCart === item.id}
+                    className="px-4 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <ShoppingCart size={20} />
+                    {addingToCart === item.id ? (
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    ) : (
+                      <ShoppingCart size={20} />
+                    )}
                   </motion.button>
                 </div>
 
