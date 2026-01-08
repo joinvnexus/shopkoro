@@ -23,6 +23,11 @@ export const metadata: Metadata = {
   keywords: "ই-কমার্স, অনলাইন শপিং, বাংলাদেশ, ইলেকট্রনিক্স, ফ্যাশন, বিউটি",
 };
 
+/**
+ * RootLayout component serves as the main layout wrapper for the application
+ * It sets up the HTML structure with language set to Bengali (bn)
+ * and includes global components like Navbar, Footer, and Toaster
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,7 +43,7 @@ export default function RootLayout({
         <Navbar />
 
         {/* 🔹 Page Content */}
-        <main className="flex-1 pt-16">{children}</main>
+        <main className="flex-1 pt-0">{children}</main>
 
         {/* 🔹 Global Footer */}
         <Footer />
