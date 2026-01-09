@@ -169,12 +169,20 @@ describe('Auth Endpoints Integration Tests', () => {
       refreshToken = cookies?.find((cookie: string) => 
         cookie.startsWith('shopkoro_refresh_test=')
       )?.split(';')[0]?.split('=')[1] || '';
-    });
+
+      // pick up xsrf token cookie
+      const xsrfCookie = cookies?.find((cookie: string) =>
+        cookie.startsWith('XSRF-TOKEN=')
+      )?.split(';')[0]?.split('=')[1] || '';
+
+      // store for use
+      (global as any).testXsrf = xsrfCookie;    });
 
     it('should refresh access token successfully', async () => {
       const response = await request(app)
         .post('/api/auth/refresh')
-        .set('Cookie', `shopkoro_refresh_test=${refreshToken}`)
+        .set('Cookie', `shopkoro_refresh_test=${refreshToken}; XSRF-TOKEN=${(global as any).testXsrf}`)
+        .set('x-xsrf-token', (global as any).testXsrf)
         .expect(200);
 
       expect(response.body).toHaveProperty('token');
@@ -195,10 +203,46 @@ describe('Auth Endpoints Integration Tests', () => {
     it('should reject invalid refresh token', async () => {
       const response = await request(app)
         .post('/api/auth/refresh')
-        .set('Cookie', 'shopkoro_refresh_test=invalid_token')
+        .set('Cookie', 'shopkoro_refresh_test=invalid_token; XSRF-TOKEN=invalid')
+        .set('x-xsrf-token', 'invalid')
         .expect(401);
 
       expect(response.body).toHaveProperty('message');
+    });
+
+    it('should rotate refresh token and invalidate the old one', async () => {
+      // first refresh -> rotates
+      const firstResponse = await request(app)
+        .post('/api/auth/refresh')
+        .set('Cookie', `shopkoro_refresh_test=${refreshToken}; XSRF-TOKEN=${(global as any).testXsrf}`)
+        .set('x-xsrf-token', (global as any).testXsrf)
+        .expect(200);
+
+      // new refresh cookie should be present
+      const cookies = (firstResponse.headers['set-cookie'] as unknown) as string[];
+      const newRefreshToken = cookies?.find((cookie: string) => 
+        cookie.startsWith('shopkoro_refresh_test=')
+      )?.split(';')[0]?.split('=')[1] || '';
+
+      expect(newRefreshToken).toBeTruthy();
+
+      // Using old token should now fail
+      const secondResponse = await request(app)
+        .post('/api/auth/refresh')
+        .set('Cookie', `shopkoro_refresh_test=${refreshToken}; XSRF-TOKEN=${(global as any).testXsrf}`)
+        .set('x-xsrf-token', (global as any).testXsrf)
+        .expect(401);
+
+      expect(secondResponse.body).toHaveProperty('message');
+
+      // Using new token should succeed
+      const thirdResponse = await request(app)
+        .post('/api/auth/refresh')
+        .set('Cookie', `shopkoro_refresh_test=${newRefreshToken}; XSRF-TOKEN=${(global as any).testXsrf}`)
+        .set('x-xsrf-token', (global as any).testXsrf)
+        .expect(200);
+
+      expect(thirdResponse.body).toHaveProperty('token');
     });
   });
 

@@ -49,6 +49,42 @@ function OrderSuccessContent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  return (
+    <OrderSuccessPageContent
+      orderId={orderId}
+      order={order}
+      loading={loading}
+      error={error}
+      setOrder={setOrder}
+      setLoading={setLoading}
+      setError={setError}
+      router={router}
+    />
+  );
+}
+
+interface OrderSuccessPageContentProps {
+  orderId: string | null;
+  order: Order | null;
+  loading: boolean;
+  error: string | null;
+  setOrder: (order: Order | null) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  router: ReturnType<typeof useRouter>;
+}
+
+function OrderSuccessPageContent({
+  orderId,
+  order,
+  loading,
+  error,
+  setOrder,
+  setLoading,
+  setError,
+  router
+}: OrderSuccessPageContentProps) {
+
   useEffect(() => {
     // Redirect to home if accessed directly without order ID
     if (!orderId) {
@@ -376,13 +412,5 @@ function OrderSuccessContent() {
         </motion.div>
       </div>
     </div>
-  );
-}
-
-export default function OrderSuccessPage() {
-  return (
-    <Suspense fallback={<LoadingScreen label="লোড হচ্ছে..." variant="plain" />}>
-      <OrderSuccessContent />
-    </Suspense>
   );
 }

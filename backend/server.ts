@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 import { connectDB, corsOptions, rateLimiter, cookieOptions, environment } from "./config";
 import { notFound, errorHandler } from "./middleware/errorMiddleware";
 import cors from 'cors';
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
 
 // Import routes
 import productRoutes from "./routes/productRoutes";
@@ -27,8 +30,11 @@ app.set("trust proxy", 1);
 connectDB();
 
 // Security middleware
+app.use(helmet());
 app.use(cors(corsOptions));
 app.use(rateLimiter);
+app.use(mongoSanitize());
+app.use(xss());
 
 // Body parsing middleware
 app.use(express.json());

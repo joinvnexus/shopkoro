@@ -15,7 +15,7 @@ global.console = {
 };
 
 // Mock process.env for consistent testing
-process.env.NODE_ENV = 'test';
+Object.defineProperty(process.env, 'NODE_ENV', { value: 'test', writable: true });
 process.env.MONGODB_URI = 'mongodb://localhost:27017/shopkoro_test';
 process.env.ACCESS_TOKEN_SECRET = 'test_access_secret';
 process.env.REFRESH_TOKEN_SECRET = 'test_refresh_secret';

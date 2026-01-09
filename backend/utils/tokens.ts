@@ -1,5 +1,8 @@
 import jwt, { SignOptions, Algorithm } from "jsonwebtoken";
 import { environment } from "../config";
+import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
+import RefreshToken from '../models/RefreshToken';
 
 // Validate required secrets
 if (!environment.accessTokenSecret || !environment.refreshTokenSecret) {
@@ -22,6 +25,7 @@ export const COOKIE_NAMES = {
 
 export interface TokenPayload {
   userId: string;
+  jti?: string;
 }
 
 export const generateAccessToken = (userId: string): string => {
@@ -35,19 +39,86 @@ export const generateAccessToken = (userId: string): string => {
   return jwt.sign(payload, environment.accessTokenSecret, options);
 };
 
-export const signRefreshToken = (userId: string): string => {
-  const payload: TokenPayload = { userId };
+const hashToken = (tokenId: string) => {
+  return crypto.createHash('sha256').update(tokenId).digest('hex');
+};
+
+/**
+ * Create and persist a refresh token tied to the user. The token returned is an opaque
+ * JWT that includes a unique `jti` which is stored hashed in the database for verification.
+ */
+export const createRefreshToken = async (userId: string): Promise<string> => {
+  const jti = uuidv4();
 
   const options: SignOptions = {
     expiresIn: environment.refreshTokenExpiresIn as any,
     algorithm: "HS256" as Algorithm,
   };
 
-  return jwt.sign(payload, environment.refreshTokenSecret, options);
+  const token = jwt.sign({ userId, jti }, environment.refreshTokenSecret, options);
+
+  const tokenHash = hashToken(jti);
+  const expiresAt = new Date(Date.now() + cookieOptions.maxAge);
+
+  await RefreshToken.create({ tokenHash, user: userId, expiresAt });
+
+  return token;
 };
 
+/**
+ * Verify a refresh token signature and ensure the referenced token exists and is valid (not revoked/expired)
+ */
+export const verifyRefreshToken = async (token: string) => {
+  const payload = jwt.verify(token, environment.refreshTokenSecret) as TokenPayload & { jti?: string };
 
+  if (!payload.jti) {
+    throw new Error('Invalid refresh token: missing id');
+  }
 
-export const verifyRefreshToken = (token: string): TokenPayload => {
-  return jwt.verify(token, environment.refreshTokenSecret) as TokenPayload;
+  const tokenHash = hashToken(payload.jti);
+  const tokenDoc = await RefreshToken.findOne({ tokenHash });
+
+  if (!tokenDoc || tokenDoc.revoked) {
+    throw new Error('Refresh token revoked or not found');
+  }
+
+  if (tokenDoc.expiresAt < new Date()) {
+    throw new Error('Refresh token expired');
+  }
+
+  return { payload, tokenDoc };
+};
+
+/**
+ * Revoke a refresh token by its jti (mark revoked and set revokedAt)
+ */
+export const revokeRefreshTokenByJti = async (jti: string) => {
+  const tokenHash = hashToken(jti);
+  const tokenDoc = await RefreshToken.findOne({ tokenHash });
+  if (!tokenDoc) return;
+  tokenDoc.revoked = true;
+  tokenDoc.revokedAt = new Date();
+  await tokenDoc.save();
+};
+
+/**
+ * Rotate tokens: revoke old token and create a new one
+ */
+export const rotateRefreshToken = async (oldJti: string, userId: string): Promise<string> => {
+  const oldHash = hashToken(oldJti);
+  const oldToken = await RefreshToken.findOne({ tokenHash: oldHash });
+  if (oldToken) {
+    oldToken.revoked = true;
+    oldToken.revokedAt = new Date();
+    await oldToken.save();
+  }
+
+  const newToken = await createRefreshToken(userId);
+  const newPayload = jwt.verify(newToken, environment.refreshTokenSecret) as any;
+  if (oldToken) {
+    oldToken.replacedByToken = hashToken(newPayload.jti);
+    await oldToken.save();
+  }
+
+  return newToken;
 };

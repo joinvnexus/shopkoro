@@ -223,29 +223,17 @@ Backend will run on `http://localhost:5000`
 
 ## 🚀 Deployment
 
-### Recommended: Render (Full Stack)
-1. Push code to GitHub
-2. Go to Render.com and select "Blueprint" from New+
-3. Connect your GitHub repo
-4. Select `render-compose.yaml` file
-5. Render will automatically deploy MongoDB, Backend, and Frontend services
-6. Add any required environment variables (most are auto-configured)
-
-### Alternative Deployments
-
-#### Frontend (Vercel)
+### Frontend (Vercel)
 1. Push code to GitHub
 2. Import project to Vercel
 3. Add environment variables
 4. Deploy!
 
-#### Backend (Render/Heroku/Railway)
+### Backend (Render/Heroku/Railway)
 1. Push code to GitHub
 2. Create new service
 3. Add environment variables
 4. Deploy!
-
-See `DEPLOYMENT_GUIDE_UPDATED.md` for detailed Render deployment instructions.
 
 ## 📄 License
 
