@@ -26,6 +26,25 @@ export const rateLimiter = rateLimit({
   },
 });
 
+// More strict rate limiter for auth endpoints (login/register)
+export const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: environment.isDevelopment ? 20 : 5,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  handler: (_req, res) => {
+    res.status(429).json({
+      success: false,
+      data: null,
+      message: "Too many auth attempts",
+      error: {
+        code: "AUTH_RATE_LIMITED",
+        message: "Too many authentication attempts. Try again later.",
+      },
+    });
+  },
+});
+
 /**
  * Cookie options for secure cookies
  */
