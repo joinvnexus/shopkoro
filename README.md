@@ -27,20 +27,25 @@
 
 ```
 shopkoro/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── globals.css
-├── components/
-│   ├── sections/           # Page sections
-│   └── ui/                 # Reusable components
-├── lib/                    # Utilities
-├── types/                  # TypeScript types
-└── backend/                # Backend API
-    ├── config/
-    ├── models/
-    ├── routes/
-    └── scripts/
+├── frontend/               # Next.js frontend application
+│   ├── app/                # Next.js App Router
+│   ├── components/         # Reusable components
+│   ├── lib/                # Utilities
+│   ├── stores/             # Zustand state management
+│   ├── types/              # TypeScript types
+│   └── public/             # Static assets
+├── backend/                # Node.js/Express backend API
+│   ├── config/             # Database configuration
+│   ├── controllers/        # Route controllers
+│   ├── models/             # Mongoose models
+│   ├── routes/             # API routes
+│   ├── middleware/         # Express middleware
+│   ├── utils/              # Utilities
+│   └── scripts/            # Database scripts
+├── .gitignore
+├── PROJECT_STRUCTURE.md
+├── README.md
+└── .vscode/
 ```
 
 ## 🛠️ Installation & Setup
@@ -88,20 +93,25 @@ npm install
 
 3. Create `.env` file:
 ```env
-PORT=5000
 NODE_ENV=development
+PORT=5000
 MONGODB_URI=mongodb://localhost:27017/shopkoro
 # Or use MongoDB Atlas:
 # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/shopkoro?retryWrites=true&w=majority
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-JWT_EXPIRE=7d
+ACCESS_TOKEN_SECRET=your-access-token-secret
+REFRESH_TOKEN_SECRET=your-refresh-token-secret
+ACCESS_TOKEN_EXPIRES_IN=15m
+REFRESH_TOKEN_EXPIRES_IN=7d
+REFRESH_COOKIE_NAME=shopkoro_refresh
 FRONTEND_URL=http://localhost:3000
+BACKEND_URL=http://localhost:5000
+ADMIN_EMAIL=admin@shopkoro.com
+ADMIN_PASSWORD=ChangeMe123!
 
 # Payment Gateway Keys (for production)
 SSLCOMMERZ_STORE_ID=your_store_id
 SSLCOMMERZ_STORE_PASSWORD=your_store_password
 STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
-STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
 ```
 
 4. Seed the database with dummy data:
@@ -127,16 +137,19 @@ Backend will run on `http://localhost:5000`
 6. ✅ Trending Products Grid
 7. ✅ Testimonials Slider
 8. ✅ Newsletter Signup
-9. ✅ Responsive Navbar
-10. ✅ Footer
+9. ✅ Offers Page (Discounted products)
+10. ✅ Responsive Navbar
+11. ✅ Footer
 
 ### E-commerce Features
 11. ✅ **User Authentication** - Login/Register/Profile management
 12. ✅ **Shopping Cart** - Add, update, remove items with Zustand state
 13. ✅ **Product Catalog** - Browse products with filtering and search
-14. ✅ **Checkout System** - Complete order flow with shipping details
-15. ✅ **Payment Integration** - SSLCommerz (BDT) + Stripe (USD)
-16. ✅ **Order Management** - Order history and status tracking
+14. ✅ **Wishlist** - Save and manage favorite products
+15. ✅ **Offers & Discounts** - Special deals and discounted products
+16. ✅ **Checkout System** - Complete order flow with shipping details
+17. ✅ **Payment Integration** - SSLCommerz (BDT) + Stripe (USD)
+18. ✅ **Order Management** - Order history and status tracking
 
 ### Backend API Routes
 
@@ -156,12 +169,24 @@ Backend will run on `http://localhost:5000`
 - `PUT /api/products/:id` - Update product (Admin)
 - `DELETE /api/products/:id` - Delete product (Admin)
 
+#### Categories
+- `GET /api/categories` - Get all categories
+- `GET /api/categories/:id` - Get single category
+- `POST /api/categories` - Create category (Admin)
+- `PUT /api/categories/:id` - Update category (Admin)
+- `DELETE /api/categories/:id` - Delete category (Admin)
+
 #### Cart Management
 - `GET /api/cart` - Get user's cart
 - `POST /api/cart` - Add item to cart
 - `PUT /api/cart/:itemId` - Update cart item
 - `DELETE /api/cart/:itemId` - Remove item from cart
 - `DELETE /api/cart` - Clear cart
+
+#### Wishlist Management
+- `GET /api/wishlist` - Get user's wishlist
+- `POST /api/wishlist` - Add product to wishlist
+- `DELETE /api/wishlist/:productId` - Remove product from wishlist
 
 #### Orders & Checkout
 - `POST /api/orders` - Create new order
@@ -199,90 +224,16 @@ Backend will run on `http://localhost:5000`
 ## 🚀 Deployment
 
 ### Frontend (Vercel)
+1. Push code to GitHub
+2. Import project to Vercel
+3. Add environment variables
+4. Deploy!
 
-1. **Push code to GitHub**
-   ```bash
-   git add .
-   git commit -m "Ready for deployment"
-   git push origin main
-   ```
-
-2. **Import project to Vercel**
-   - Go to [vercel.com](https://vercel.com)
-   - Click "Add New Project"
-   - Import your GitHub repository
-   - Vercel will automatically detect Next.js
-
-3. **Configure Build Settings**
-   - Framework Preset: Next.js
-   - Build Command: `npm run build`
-   - Output Directory: `.next`
-
-4. **Add Environment Variables** (if needed)
-   - NEXT_PUBLIC_API_URL=https://your-backend-domain.onrender.com/api
-
-5. **Deploy!**
-   - Click "Deploy"
-   - Wait for build to complete
-   - Your frontend will be live at `https://your-project.vercel.app`
-
-### Backend (Render)
-
-1. **Push code to GitHub**
-   ```bash
-   git add .
-   git commit -m "Ready for deployment"
-   git push origin main
-   ```
-
-2. **Create new Web Service on Render**
-   - Go to [render.com](https://render.com)
-   - Click "New +" → "Web Service"
-   - Connect your GitHub repository
-
-3. **Configure Build & Runtime Settings**
-   - Root Directory: `backend`
-   - Build Command: `npm run build`
-   - Start Command: `npm start`
-   - Runtime: Node (latest)
-
-4. **Add Environment Variables**
-   Copy all variables from `backend/.env.example` and add them in Render:
-   ```
-   PORT=5000
-   NODE_ENV=production
-   FRONTEND_URL=https://your-frontend-domain.vercel.app
-   BACKEND_URL=https://your-backend-domain.onrender.com
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/dbname
-   ACCESS_TOKEN_SECRET=your-access-secret-here
-   REFRESH_TOKEN_SECRET=your-refresh-secret-here
-   ACCESS_TOKEN_EXPIRES_IN=7d
-   REFRESH_TOKEN_EXPIRES_IN=7d
-   REFRESH_COOKIE_NAME=shopkoro_refresh
-   ADMIN_EMAIL=admin@shopkoro.com
-   ADMIN_PASSWORD=ChangeMe123!
-   STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key_here
-   STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
-   SSLCOMMERZ_STORE_ID=your_store_id_here
-   SSLCOMMERZ_STORE_PASSWORD=your_store_password_here
-   ```
-
-5. **Deploy!**
-   - Click "Create Web Service"
-   - Wait for build to complete
-   - Your backend will be live at `https://your-service-name.onrender.com`
-
-### Important Notes
-
-1. **Update URLs**: After deploying both frontend and backend, update the `FRONTEND_URL` and `BACKEND_URL` in both services' environment variables.
-
-2. **MongoDB Atlas**: For production, use MongoDB Atlas instead of local MongoDB. Create a free account at [mongodb.com/atlas](https://www.mongodb.com/atlas).
-
-3. **Payment Gateways**:
-   - For SSLCommerz: Get credentials from [sslcommerz.com](https://sslcommerz.com)
-   - For Stripe: Get API keys from [stripe.com](https://stripe.com)
-
-4. **Security**: Never commit `.env` files to GitHub. Use `.env.example` as a template and add actual values in deployment platforms.
+### Backend (Render/Heroku/Railway)
+1. Push code to GitHub
+2. Create new service
+3. Add environment variables
+4. Deploy!
 
 ## 📄 License
 

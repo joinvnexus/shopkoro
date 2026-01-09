@@ -1,6 +1,8 @@
+/// <reference types="jest" />
 import { app, request } from './test-setup';
 import User from '../../models/User';
 import Product from '../../models/Product';
+import Category from '../../models/Category';
 
 describe('Product Endpoints Integration Tests', () => {
   let authToken: string;
@@ -41,12 +43,18 @@ describe('Product Endpoints Integration Tests', () => {
 
     adminToken = adminLoginResponse.body.token;
 
+    // Create test categories
+    await Category.create([
+      { name: 'Electronics', slug: 'electronics', icon: '📱' },
+      { name: 'Books', slug: 'books', icon: '📚' }
+    ]);
+
     // Create a test product
     const product = await Product.create({
       name: 'Test Product',
       description: 'Test Description',
       price: 100,
-      image: 'test.jpg',
+      image: 'https://example.com/test.jpg',
       category: 'electronics'
     });
 
@@ -161,7 +169,7 @@ describe('Product Endpoints Integration Tests', () => {
         name: 'New Product',
         description: 'New Description',
         price: 200,
-        image: 'new.jpg',
+        image: 'https://example.com/new.jpg',
         category: 'books'
       };
 
@@ -181,7 +189,7 @@ describe('Product Endpoints Integration Tests', () => {
         name: 'New Product',
         description: 'New Description',
         price: 200,
-        image: 'new.jpg',
+        image: 'https://example.com/new.jpg',
         category: 'books'
       };
 
@@ -198,7 +206,7 @@ describe('Product Endpoints Integration Tests', () => {
         name: 'New Product',
         description: 'New Description',
         price: 200,
-        image: 'new.jpg',
+        image: 'https://example.com/new.jpg',
         category: 'books'
       };
 
@@ -218,7 +226,7 @@ describe('Product Endpoints Integration Tests', () => {
         .send({
           name: 'Incomplete Product'
         })
-        .expect(500);
+        .expect(400);
 
       expect(response.body).toHaveProperty('message');
     });
@@ -228,7 +236,7 @@ describe('Product Endpoints Integration Tests', () => {
         name: 'Invalid Product',
         description: 'Description',
         price: -10,
-        image: 'test.jpg',
+        image: 'https://example.com/test.jpg',
         category: 'electronics'
       };
 
@@ -353,7 +361,7 @@ describe('Product Endpoints Integration Tests', () => {
           name: 'Laptop',
           description: 'High performance laptop',
           price: 1000,
-          image: 'laptop.jpg',
+          image: 'https://example.com/laptop.jpg',
           category: 'electronics',
           inStock: true
         },
@@ -361,7 +369,7 @@ describe('Product Endpoints Integration Tests', () => {
           name: 'Book',
           description: 'Interesting book',
           price: 25,
-          image: 'book.jpg',
+          image: 'https://example.com/book.jpg',
           category: 'books',
           inStock: false
         },
@@ -369,7 +377,7 @@ describe('Product Endpoints Integration Tests', () => {
           name: 'Smartphone',
           description: 'Latest smartphone',
           price: 500,
-          image: 'phone.jpg',
+          image: 'https://example.com/phone.jpg',
           category: 'electronics',
           inStock: true
         }

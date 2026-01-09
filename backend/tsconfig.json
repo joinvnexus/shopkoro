@@ -11,10 +11,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "moduleResolution": "node",
     "types": ["node"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "backend", "dist"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }
 

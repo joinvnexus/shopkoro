@@ -1,72 +1,59 @@
-// server.ts - এই ভার্সনটা ব্যবহার করুন (পুরোটা রিপ্লেস করুন)
+// server.ts - Bootstrap file for the ShopKoro API
+// This file should remain minimal with only essential setup logic
 
 import express, { Application, Request, Response } from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import helmet from "helmet";
-import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
+import { connectDB, corsOptions, rateLimiter, cookieOptions, environment } from "./config";
+import { notFound, errorHandler } from "./middleware/errorMiddleware";
+import cors from 'cors';
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
+import xss from 'xss-clean';
 
-// 🔑 এই দুই লাইন সব import এর আগে – এটা সবচেয়ে গুরুত্বপূর্ণ!
-dotenv.config();  // .env লোড হয়ে যাবে
-import "./utils/tokens";  // এখন tokens.ts নিরাপদে চেক করবে, কোনো এরর হবে না
-
-// এখন বাকি সব import করুন (এগুলো এখন safe)
-import connectDB from "./config/database";
+// Import routes
 import productRoutes from "./routes/productRoutes";
+import categoryRoutes from "./routes/categoryRoutes";
 import testimonialRoutes from "./routes/testimonialRoutes";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import cartRoutes from "./routes/cartRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import paymentRoutes from "./routes/paymentRoutes";
-import { notFound, errorHandler } from "./middleware/errorMiddleware";
 
+// Initialize Express app
 const app: Application = express();
 
+// Trust proxy headers (for environments like Render)
 app.set("trust proxy", 1);
+
+// Connect to database
 connectDB();
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
-    credentials: true,
-  })
-);
+// Security middleware
 app.use(helmet());
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    limit: 200,
-    standardHeaders: "draft-7",
-    legacyHeaders: false,
-    handler: (_req, res) => {
-      res.status(429).json({
-        success: false,
-        data: null,
-        message: "Too many requests",
-        error: {
-          code: "RATE_LIMITED",
-          message: "Too many requests",
-        },
-        stack: process.env.NODE_ENV === "production" ? null : undefined,
-      });
-    },
-  })
-);
+app.use(cors(corsOptions));
+app.use(rateLimiter);
+app.use(mongoSanitize());
+app.use(xss());
+
+// Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Health check endpoint
 app.get("/", (_req: Request, res: Response) => {
   res.json({
     success: true,
     message: "ShopKoro API is running!",
     version: "1.0.0",
+    environment: environment.nodeEnv,
   });
 });
 
+// API routes
 app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -74,14 +61,16 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payment", paymentRoutes);
 
+// Error handling middleware
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+// Start server
+const PORT = environment.port;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);
-  console.log(`📡 Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log(`📡 Environment: ${environment.nodeEnv}`);
 });
 
 export default app;

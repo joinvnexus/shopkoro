@@ -1,0 +1,43 @@
+# Render.yaml configuration for ShopKoro Backend
+# This file configures your service on Render
+
+services:
+  - type: web
+    name: shopkoro-backend
+    env: node
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        value: "mongodb+srv://projoynaidudev_db_user:ecommerce-admin@ecommerce-admin.ie2bays.mongodb.net/shopkoro?retryWrites=true&w=majority&appName=ecommerce-admin"
+      - key: ACCESS_TOKEN_SECRET
+        generateValue: true
+      - key: REFRESH_TOKEN_SECRET
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRES_IN
+        value: 15m
+      - key: REFRESH_TOKEN_EXPIRES_IN
+        value: 7d
+      - key: REFRESH_COOKIE_NAME
+        value: shopkoro_refresh
+      - key: STRIPE_SECRET_KEY
+        generateValue: true
+      - key: SSLCOMMERZ_STORE_ID
+        generateValue: true
+      - key: SSLCOMMERZ_STORE_PASSWORD
+        generateValue: true
+      - key: FRONTEND_URL
+        value: "https://shopkoro.vercel.app"
+      - key: BACKEND_URL
+        value: "https://shopkoro.onrender.com"
+      - key: ADMIN_EMAIL
+        value: "admin@shopkoro.com"
+      - key: ADMIN_PASSWORD
+        value: "ChangeMe123!"
+    repo: https://github.com/joinvnexus/shopkoro.git
+    branch: main
+    rootDir: backend
