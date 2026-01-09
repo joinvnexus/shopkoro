@@ -67,7 +67,11 @@ const useCartStore = create<CartState>()(
           await cartApi.addToCart(item.productId, item.quantity);
           // sync back server state to be safe
           const payload = await cartApi.getCart();
-          const cart = payload.data;
+          const cart = payload?.data;
+          if (!cart) {
+            console.warn("cartApi.getCart returned no data; skipping sync");
+            return;
+          }
           const items = (cart.items || [])
             .filter((it: CartApiItem) => it.product)
             .map((it: CartApiItem) => ({
@@ -123,7 +127,11 @@ const useCartStore = create<CartState>()(
       try {
         // Attempt to fetch cart from API and set items via cartApi
         const payload = await cartApi.getCart();
-        const cart = payload.data;
+        const cart = payload?.data;
+        if (!cart) {
+          console.warn("cartApi.getCart returned no data during syncFromServer; skipping");
+          return;
+        }
         const items = (cart.items || [])
           .filter((it: CartApiItem) => it.product)
           .map((it: CartApiItem) => ({

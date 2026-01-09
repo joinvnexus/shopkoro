@@ -53,11 +53,19 @@ export class ProductService {
   static async getProducts(query: any) {
     const { query: filterQuery, sortOptions, pagination } = this.parseFilters(query);
 
-    // Validate category exists if provided
+    // Validate category exists if provided - if not, return empty results
     if (filterQuery.category) {
       const categoryExists = await Category.findOne({ slug: filterQuery.category });
       if (!categoryExists) {
-        throw new Error('Invalid category slug');
+        return {
+          products: [],
+          pagination: {
+            page: pagination.page,
+            limit: pagination.limit,
+            total: 0,
+            pages: 0,
+          },
+        };
       }
     }
 

@@ -26,7 +26,20 @@ jest.mock('../../lib/api', () => ({
 
 describe('useCartStore', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    // Reset mocks explicitly (avoid relying on global jest.clearAllMocks())
+    (cartApi.addToCart as jest.Mock).mockReset();
+    (cartApi.getCart as jest.Mock).mockReset();
+    (cartApi.updateItem as jest.Mock).mockReset();
+    (cartApi.removeItem as jest.Mock).mockReset();
+    (cartApi.clear as jest.Mock).mockReset();
+
+    // Default API mock return values to match actual API shape
+    (cartApi.addToCart as jest.Mock).mockResolvedValue({});
+    (cartApi.getCart as jest.Mock).mockResolvedValue({ data: { items: [] } });
+    (cartApi.updateItem as jest.Mock).mockResolvedValue({});
+    (cartApi.removeItem as jest.Mock).mockResolvedValue({});
+    (cartApi.clear as jest.Mock).mockResolvedValue({});
+
     // Reset store state
     useCartStore.setState({ items: [] })
   })
@@ -235,6 +248,22 @@ describe('useCartStore', () => {
       
       const state = useCartStore.getState()
       expect(state.items).toEqual(mockItems)
+    })
+  })
+
+  describe('robustness', () => {
+    it('should not throw when cartApi.getCart returns undefined', async () => {
+      // Make getCart return undefined to simulate malformed API response
+      (cartApi.getCart as jest.Mock).mockResolvedValue(undefined)
+
+      // Call syncFromServer and ensure it resolves without throwing and leaves items unchanged
+      const stateBefore = useCartStore.getState()
+      expect(stateBefore.items).toEqual([])
+
+      await expect(useCartStore.getState().syncFromServer()).resolves.toBeUndefined()
+
+      const stateAfter = useCartStore.getState()
+      expect(stateAfter.items).toEqual([])
     })
   })
 })
