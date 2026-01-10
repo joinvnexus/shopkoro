@@ -8,6 +8,12 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import dotenv from 'dotenv';
 
+// Mock authLimiter for tests
+jest.mock('../../config/security', () => ({
+  authLimiter: (_req: any, _res: any, next: any) => next(),
+  rateLimiter: (_req: any, _res: any, next: any) => next(),
+}));
+
 // Import routes and middleware
 import productRoutes from '../../routes/productRoutes';
 import testimonialRoutes from '../../routes/testimonialRoutes';
@@ -60,26 +66,27 @@ beforeAll(async () => {
     })
   );
   app.use(helmet());
-  app.use(
-    rateLimit({
-      windowMs: 15 * 60 * 1000,
-      limit: 200,
-      standardHeaders: "draft-7",
-      legacyHeaders: false,
-      handler: (_req, res) => {
-        res.status(429).json({
-          success: false,
-          data: null,
-          message: "Too many requests",
-          error: {
-            code: "RATE_LIMITED",
-            message: "Too many requests",
-          },
-          stack: process.env.NODE_ENV === "production" ? null : undefined,
-        });
-      },
-    })
-  );
+  // Disabled rate limiting for tests
+  // app.use(
+  //   rateLimit({
+  //     windowMs: 15 * 60 * 1000,
+  //     limit: 200,
+  //     standardHeaders: "draft-7",
+  //     legacyHeaders: false,
+  //     handler: (_req, res) => {
+  //       res.status(429).json({
+  //         success: false,
+  //         data: null,
+  //         message: "Too many requests",
+  //         error: {
+  //           code: "RATE_LIMITED",
+  //           message: "Too many requests",
+  //         },
+  //         stack: process.env.NODE_ENV === "production" ? null : undefined,
+  //       });
+  //     },
+  //   })
+  // );
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());

@@ -18,6 +18,7 @@ const errorHandler = (
   if (err?.name === 'CastError') statusCode = 400;
   if (err?.name === 'JsonWebTokenError') statusCode = 401;
   if (err?.name === 'TokenExpiredError') statusCode = 401;
+  if (err?.name === 'UnauthorizedError') statusCode = 401;
   if (err?.code === 11000) statusCode = 409;
 
   const code = (() => {

@@ -72,18 +72,24 @@ export const verifyRefreshToken = async (token: string) => {
   const payload = jwt.verify(token, environment.refreshTokenSecret) as TokenPayload & { jti?: string };
 
   if (!payload.jti) {
-    throw new Error('Invalid refresh token: missing id');
+    const error = new Error('Invalid refresh token: missing id');
+    (error as any).name = 'UnauthorizedError';
+    throw error;
   }
 
   const tokenHash = hashToken(payload.jti);
   const tokenDoc = await RefreshToken.findOne({ tokenHash });
 
   if (!tokenDoc || tokenDoc.revoked) {
-    throw new Error('Refresh token revoked or not found');
+    const error = new Error('Refresh token revoked or not found');
+    (error as any).name = 'UnauthorizedError';
+    throw error;
   }
 
   if (tokenDoc.expiresAt < new Date()) {
-    throw new Error('Refresh token expired');
+    const error = new Error('Refresh token expired');
+    (error as any).name = 'UnauthorizedError';
+    throw error;
   }
 
   return { payload, tokenDoc };
