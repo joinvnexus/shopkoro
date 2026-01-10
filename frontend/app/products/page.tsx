@@ -11,6 +11,8 @@ import { productApi, categoryApi } from "@/lib/api";
 import ProductCard from "@/components/ui/ProductCard";
 import ViewToggle from "@/components/ui/ViewToggle";
 import { Filter, X, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import FilterSidebar from "@/components/ui/FilterSidebar";
+import ProductSkeleton from "@/components/ui/ProductSkeleton";
 
 function ProductListingPage() {
   const searchParams = useSearchParams();
@@ -155,95 +157,23 @@ function ProductListingPage() {
           {/* Sidebar */}
           <aside className={`${showSidebar ? "fixed inset-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl" : "hidden lg:block"} lg:relative lg:col-span-1`}>
             <div className="lg:sticky lg:top-24 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl shadow-2xl p-6 h-full">
-              <div className="flex items-center justify-between mb-8">
-                <h3 className="text-2xl font-black flex items-center gap-3">
-                  <Filter size={28} />
-                  ফিল্টার
-                </h3>
-                <button onClick={() => setShowSidebar(false)} className="lg:hidden">
-                  <X size={28} />
-                </button>
-              </div>
-
-              {/* Search */}
-              <div className="relative mb-6">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={22} />
-                <input
-                  type="text"
-                  placeholder="খুঁজুন..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && updateURL({ search: searchTerm })}
-                  className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 rounded-2xl focus:outline-none focus:ring-4 focus:ring-purple-500/30 transition"
-                />
-              </div>
-
-              {/* Category */}
-              <div className="mb-6">
-                <h4 className="font-bold mb-4">ক্যাটেগরি</h4>
-                <div className="space-y-2">
-                  <button
-                    key="all-categories"
-                    onClick={() => updateURL({ category: "" })}
-                    className={`w-full text-left px-4 py-3 rounded-xl transition-all ${selectedCategory === "" ? "bg-purple-100 dark:bg-purple-900/30 font-bold" : "hover:bg-gray-100 dark:hover:bg-gray-800"}`}
-                  >
-                    সব ক্যাটেগরি
-                  </button>
-                  {categories.map((cat) => (
-                    <button
-                      key={cat._id}
-                      onClick={() => updateURL({ category: cat.slug })}
-                      className={`w-full text-left px-4 py-3 rounded-xl transition-all ${selectedCategory === cat.slug ? "bg-purple-100 dark:bg-purple-900/30 font-bold" : "hover:bg-gray-100 dark:hover:bg-gray-800"}`}
-                    >
-                      {cat.nameBn || cat.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Price Range */}
-              <div className="mb-6">
-                <h4 className="font-bold mb-4">মূল্য পরিসর</h4>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="number"
-                    placeholder="মিন"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value ? Number(e.target.value) : "")}
-                    onBlur={() => updateURL({ minPrice: minPrice || undefined })}
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/30"
-                  />
-                  <span className="text-gray-500">-</span>
-                  <input
-                    type="number"
-                    placeholder="ম্যাক্স"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value ? Number(e.target.value) : "")}
-                    onBlur={() => updateURL({ maxPrice: maxPrice || undefined })}
-                    className="w-full px-4 py-3 bg-white dark:bg-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/30"
-                  />
-                </div>
-              </div>
-
-              {/* Stock */}
-              <label className="flex items-center gap-3 cursor-pointer mb-8">
-                <input
-                  type="checkbox"
-                  checked={inStock === true}
-                  onChange={(e) => updateURL({ inStock: e.target.checked })}
-                  className="w-6 h-6 rounded accent-purple-600"
-                />
-                <span className="font-medium text-lg">শুধু স্টকে থাকা</span>
-              </label>
-
-              {/* Clear */}
-              <button
-                onClick={handleClear}
-                className="w-full py-4 bg-gradient-to-r from-red-500 to-pink-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all"
-              >
-                সব ক্লিয়ার করুন
-              </button>
-            </div>
+              <FilterSidebar
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                minPrice={minPrice}
+                setMinPrice={setMinPrice}
+                maxPrice={maxPrice}
+                setMaxPrice={setMaxPrice}
+                inStock={inStock}
+                setInStock={setInStock}
+                categories={categories}
+                onClear={handleClear}
+                onClose={() => setShowSidebar(false)}
+                updateURL={updateURL}
+              />
+            </div> 
           </aside>
 
           {/* Products */}
@@ -254,7 +184,13 @@ function ProductListingPage() {
               </div>
             )}
 
-            {products.length === 0 && !loading ? (
+            {loading ? (
+              <div className={viewMode === "grid" ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" : "space-y-4"}>
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <ProductSkeleton key={i} viewMode={viewMode} />
+                ))}
+              </div>
+            ) : products.length === 0 ? (
               <div className="text-center py-24 bg-white/70 dark:bg-gray-900/50 rounded-3xl shadow-lg">
                 <p className="text-3xl font-black text-gray-700 dark:text-gray-200 mb-4">
                   কোনো প্রোডাক্ট পাওয়া যায়নি
