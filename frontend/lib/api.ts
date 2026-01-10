@@ -205,6 +205,10 @@ export const productApi = {
     }
   },
 
+/**
+ * Fetches featured products from the backend.
+ * @returns A promise that resolves with an array of Product objects.
+ */
   getFeatured: (): Promise<Product[]> =>
     safeRequest(() => api.get("/products/featured"), [], "featured products"),
 
@@ -213,6 +217,25 @@ export const productApi = {
       () => api.get("/products/flash-sale"),
       [],
       "flash sale products"
+    ),
+
+  // Offers endpoint (backend: GET /api/products/offers)
+  getOffers: (): Promise<Product[]> =>
+    safeRequest(() => api.get("/products/offers"), [], "offer products"),
+
+  // Convenience helpers that use query params on /products
+  getNewArrivals: (): Promise<Product[]> =>
+    safeRequest(
+      () => api.get("/products", { params: { sort: "createdAt", order: "desc", limit: 40 } }),
+      [],
+      "new arrivals"
+    ),
+
+  getBestSellers: (): Promise<Product[]> =>
+    safeRequest(
+      () => api.get("/products", { params: { sort: "rating", order: "desc", limit: 40 } }),
+      [],
+      "best sellers"
     ),
 
   getTrending: (): Promise<Product[]> =>

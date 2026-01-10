@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { productApi } from "@/lib/api";
 import ProductCard from "@/components/ui/ProductCard";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 import { Flame, Timer, Zap } from "lucide-react";
 
 function OffersPage() {
@@ -19,10 +20,9 @@ function OffersPage() {
       setLoading(true);
       setError(null);
       try {
-        // Get all products first, then filter
-        const allProducts = await productApi.getAll();
-        const offers = allProducts.filter((p: any) => p.discount > 0 || p.isFlashSale);
-        setProducts(offers);
+        // Use dedicated offers endpoint
+        const offers = await productApi.getOffers();
+        setProducts(offers || []);
       } catch (err) {
         setError("অফার প্রোডাক্ট লোড করতে সমস্যা হয়েছে");
         setProducts([]);
@@ -75,6 +75,11 @@ function OffersPage() {
           </p>
         </div>
 
+        {/* Loading */}
+        {loading && (
+          <LoadingScreen variant="plain" label="অফার প্রোডাক্ট লোড হচ্ছে..." />
+        )}
+
         {error && (
           <div className="text-center py-12 bg-red-50 dark:bg-red-900/20 rounded-3xl mb-8">
             <p className="text-red-600 dark:text-red-400 text-xl font-bold">{error}</p>
@@ -101,7 +106,7 @@ function OffersPage() {
               >
                 <ProductCard product={p} index={i} />
                 {/* Offer Badge */}
-                {(p.discount > 0 || p.isFlashSale) && (
+                {/* {(p.discount > 0 || p.isFlashSale) && (
                   <motion.div
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 2, repeat: Infinity }}
@@ -112,7 +117,7 @@ function OffersPage() {
                       <span>{p.discount > 0 ? `-${p.discount}%` : "ফ্ল্যাশ"}</span>
                     </div>
                   </motion.div>
-                )}
+                )} */}
               </motion.div>
             ))}
           </div>
