@@ -15,6 +15,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const login = useAuthStore((state) => state.login);
+  const grantDashboardAccess = useAuthStore((state) => state.grantDashboardAccess);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,8 +32,11 @@ const LoginPage = () => {
     try {
       const userInfo = await authApi.login({ email, password });
       login(userInfo);
-      // Redirect to admin profile if user is admin, otherwise to user profile
-      router.push(userInfo.isAdmin ? '/admin-profile' : '/profile');
+      if (userInfo.isAdmin) {
+        grantDashboardAccess();
+      }
+      // Redirect to admin dashboard if user is admin, otherwise to user profile
+      router.push(userInfo.isAdmin ? '/admin' : '/profile');
     } catch (err: any) {
       setError(err.response?.data?.message || 'লগইন করতে সমস্যা হয়েছে');
     } finally {
