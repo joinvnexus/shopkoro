@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { userApi } from "@/lib/api";
 import LoadingScreen from "@/components/ui/LoadingScreen";
+import useAuthStore from "@/stores/authStore";
 
 interface User {
   _id: string;
@@ -40,6 +41,7 @@ interface User {
 }
 
 const UsersPage = () => {
+  const { userInfo } = useAuthStore();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,20 +64,22 @@ const UsersPage = () => {
   }, []);
 
   const filteredUsers = users.filter((user) => {
-    const matchesSearch = 
+    const matchesSearch =
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.phone.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesRole = selectedRole === "all" || 
-      (selectedRole === "admin" && user.isAdmin) || 
+    const matchesRole = selectedRole === "all" ||
+      (selectedRole === "admin" && user.isAdmin) ||
       (selectedRole === "customer" && !user.isAdmin);
 
-    const matchesStatus = selectedStatus === "all" || 
-      (selectedStatus === "active" && user.isActive) || 
+    const matchesStatus = selectedStatus === "all" ||
+      (selectedStatus === "active" && user.isActive) ||
       (selectedStatus === "inactive" && !user.isActive);
 
-    return matchesSearch && matchesRole && matchesStatus;
+    const notCurrentAdmin = user._id !== userInfo?._id;
+
+    return matchesSearch && matchesRole && matchesStatus && notCurrentAdmin;
   });
 
   const formatDate = (dateString: string) => {
