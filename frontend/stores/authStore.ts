@@ -11,8 +11,11 @@ interface UserInfo {
 
 interface AuthState {
   userInfo: UserInfo | null;
+  dashboardAccessGranted: boolean;
   login: (userInfo: UserInfo) => void;
   logout: () => void;
+  grantDashboardAccess: () => void;
+  revokeDashboardAccess: () => void;
 }
 
 const useAuthStore = create<AuthState>()(
@@ -20,8 +23,11 @@ const useAuthStore = create<AuthState>()(
     persist(
       (set) => ({
         userInfo: null,
-        login: (userInfo) => set({ userInfo }),
-        logout: () => set({ userInfo: null }),
+        dashboardAccessGranted: false,
+        login: (userInfo) => set({ userInfo, dashboardAccessGranted: false }),
+        logout: () => set({ userInfo: null, dashboardAccessGranted: false }),
+        grantDashboardAccess: () => set({ dashboardAccessGranted: true }),
+        revokeDashboardAccess: () => set({ dashboardAccessGranted: false }),
       }),
       {
         name: 'auth-storage', // name of the item in the storage (must be unique)

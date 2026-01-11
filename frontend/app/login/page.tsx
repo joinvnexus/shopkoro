@@ -31,8 +31,8 @@ const LoginPage = () => {
     try {
       const userInfo = await authApi.login({ email, password });
       login(userInfo);
-      // Redirect to admin dashboard if user is admin, otherwise to home page
-      router.push(userInfo.isAdmin ? '/admin' : '/');
+      // Redirect to admin profile if user is admin, otherwise to user profile
+      router.push(userInfo.isAdmin ? '/admin-profile' : '/profile');
     } catch (err: any) {
       setError(err.response?.data?.message || 'লগইন করতে সমস্যা হয়েছে');
     } finally {

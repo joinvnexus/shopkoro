@@ -18,6 +18,7 @@ import {
   Tag,
   Truck,
   FileText,
+  User,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -26,7 +27,7 @@ interface AdminLayoutProps {
 }
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
-  const { userInfo, logout } = useAuthStore();
+  const { userInfo, logout, dashboardAccessGranted } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -37,11 +38,18 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       router.push("/login");
       return;
     }
-    
+
     if (!userInfo.isAdmin) {
       router.push("/");
+      return;
     }
-  }, [userInfo, router]);
+
+    // Enforce profile-first access for dashboard
+    if (pathname === '/admin' && !dashboardAccessGranted) {
+      router.push("/admin/profile");
+      return;
+    }
+  }, [userInfo, router, pathname, dashboardAccessGranted]);
 
   const handleLogout = () => {
     logout();
@@ -54,6 +62,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       icon: Home,
       href: "/admin",
     },
+
     {
       title: "পণ্য সমূহ",
       icon: Package,

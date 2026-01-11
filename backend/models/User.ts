@@ -6,6 +6,8 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   isAdmin: boolean;
+  createdAt: Date;
+  updatedAt: Date;
   matchPassword(password: string): Promise<boolean>;
 }
 

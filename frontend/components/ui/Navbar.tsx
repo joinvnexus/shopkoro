@@ -18,7 +18,7 @@ import Link from "next/link";
 import useAuthStore from "@/stores/authStore";
 import useCartStore from "@/stores/cartStore";
 import useWishlistStore from "@/stores/wishlistStore";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -194,21 +194,42 @@ const Navbar = () => {
                         className="absolute right-0 top-16 w-56 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200/50 dark:border-gray-700"
                       >
                         <Link
-                          href="/profile"
+                          href={userInfo?.isAdmin ? "/admin-profile" : "/profile"}
                           onClick={() => setIsUserMenuOpen(false)}
                           className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all"
                         >
                           <User size={18} />
                           <span>প্রোফাইল</span>
                         </Link>
-                        <Link
-                          href="/orders"
-                          onClick={() => setIsUserMenuOpen(false)}
-                          className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all"
-                        >
-                          <Package size={18} />
-                          <span>অর্ডার</span>
-                        </Link>
+                        {userInfo?.isAdmin ? (
+                          <>
+                            <Link
+                              href="/admin/products"
+                              onClick={() => setIsUserMenuOpen(false)}
+                              className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all"
+                            >
+                              <Package size={18} />
+                              <span>পণ্য</span>
+                            </Link>
+                            <Link
+                              href="/admin/orders"
+                              onClick={() => setIsUserMenuOpen(false)}
+                              className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all"
+                            >
+                              <Package size={18} />
+                              <span>অর্ডার</span>
+                            </Link>
+                          </>
+                        ) : (
+                          <Link
+                            href="/orders"
+                            onClick={() => setIsUserMenuOpen(false)}
+                            className="flex items-center gap-3 px-5 py-4 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all"
+                          >
+                            <Package size={18} />
+                            <span>অর্ডার</span>
+                          </Link>
+                        )}
                         <button
                           onClick={handleLogout}
                           className="w-full flex items-center gap-3 px-5 py-4 hover:bg-red-50 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 transition-all text-left"

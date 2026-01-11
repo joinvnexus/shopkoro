@@ -184,6 +184,14 @@ export const userApi = {
   },
 };
 
+// Admin API
+export const adminApi = {
+  getProfile: async () => {
+    const { data } = await api.get("/admin/profile");
+    return data;
+  },
+};
+
 // Product API
 export const productApi = {
   getAll: (params?: Record<string, any>): Promise<Product[]> =>

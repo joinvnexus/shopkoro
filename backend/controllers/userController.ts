@@ -49,4 +49,12 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-export { getUserProfile, updateUserProfile };
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private/Admin
+const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
+  const users = await User.find({}).select('-password');
+  res.json(users);
+});
+
+export { getUserProfile, updateUserProfile, getAllUsers };
